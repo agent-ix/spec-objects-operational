@@ -1,0 +1,154 @@
+manifest_version: 1.0.0
+name: spec-objects-operational
+version: 0.1.0
+description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)'
+archetypes: []
+grammars: []
+artifact_types: []
+lint_rules: []
+object_types:
+- name: configuration
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: &id001
+          from: frontmatter_field
+          path:
+          - id
+          required: false
+        title: &id002
+          from: frontmatter_field
+          path:
+          - title
+          required: false
+        artifact_type: &id003
+          from: frontmatter_field
+          path:
+          - artifact_type
+          required: false
+        parameters:
+          from: section_body
+          after_heading: Parameters
+          required: false
+        settings:
+          from: section_body
+          after_heading: Settings
+          required: false
+        behavior:
+          from: section_body
+          after_heading: Behavior
+          required: false
+- name: migration
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id001
+        title: *id002
+        artifact_type: *id003
+        sql:
+          from: code_block
+          after_heading: Migration
+          required: false
+          language: sql
+- name: sli
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: &id004
+          from: frontmatter_field
+          path:
+          - id
+          required: false
+        title: &id005
+          from: frontmatter_field
+          path:
+          - title
+          required: false
+        artifact_type: &id006
+          from: frontmatter_field
+          path:
+          - artifact_type
+          required: false
+        query:
+          from: code_block
+          after_heading: Query
+          required: false
+- name: slo
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        artifact_type: *id006
+        target:
+          from: frontmatter_field
+          path:
+          - target
+          required: false
+        window:
+          from: frontmatter_field
+          path:
+          - window
+          required: false
+- name: alert
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        artifact_type: *id006
+        flow:
+          from: code_block
+          after_heading: Flow
+          required: false
+          language: mermaid
+- name: runbook
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        artifact_type: *id006
+        steps:
+          from: section_body
+          after_heading: Steps
+          required: false
+- name: incident
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        artifact_type: *id006
+        timeline:
+          from: section_body
+          after_heading: Timeline
+          required: false
+- name: deployment
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        artifact_type: *id006
+        topology:
+          from: code_block
+          after_heading: Topology
+          required: false
+          language: mermaid
