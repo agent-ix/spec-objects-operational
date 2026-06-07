@@ -2,6 +2,12 @@ manifest_version: 1.0.0
 name: spec-objects-operational
 version: 0.1.0
 description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)'
+nav:
+  category:
+    slug: operational
+    label: Operational
+    icon: Activity
+    order: 53
 archetypes: []
 grammars: []
 artifact_types: []
