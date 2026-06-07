@@ -8,6 +8,9 @@ version = "0.1.0"  # Placeholder, dynamically replaced
 description = "Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)"
 authors = ["Agent IX <agents@agent-ix.dev>"]
 packages = [{ include = "spec_objects_operational" }]
+include = [
+    { path = "spec_objects_operational/manifest.yaml", format = ["sdist", "wheel"] },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.13,<3.14"
