@@ -23,21 +23,21 @@ object_types:
           from: frontmatter_field
           path:
           - id
-          required: false
+          required: true
         title: &id002
           from: frontmatter_field
           path:
           - title
-          required: false
+          required: true
         artifact_type: &id003
           from: frontmatter_field
           path:
           - artifact_type
-          required: false
+          required: true
         parameters:
           from: section_body
           after_heading: Parameters
-          required: false
+          required: true
         settings:
           from: section_body
           after_heading: Settings
@@ -58,7 +58,7 @@ object_types:
         sql:
           from: code_block
           after_heading: Migration
-          required: false
+          required: true
           language: sql
 - name: sli
   data_schema:
@@ -70,21 +70,21 @@ object_types:
           from: frontmatter_field
           path:
           - id
-          required: false
+          required: true
         title: &id005
           from: frontmatter_field
           path:
           - title
-          required: false
+          required: true
         artifact_type: &id006
           from: frontmatter_field
           path:
           - artifact_type
-          required: false
+          required: true
         query:
           from: code_block
           after_heading: Query
-          required: false
+          required: true
 - name: slo
   data_schema:
     type: object
@@ -98,12 +98,12 @@ object_types:
           from: frontmatter_field
           path:
           - target
-          required: false
+          required: true
         window:
           from: frontmatter_field
           path:
           - window
-          required: false
+          required: true
 - name: alert
   data_schema:
     type: object
@@ -116,7 +116,7 @@ object_types:
         flow:
           from: code_block
           after_heading: Flow
-          required: false
+          required: true
           language: mermaid
 - name: runbook
   data_schema:
@@ -130,7 +130,7 @@ object_types:
         steps:
           from: section_body
           after_heading: Steps
-          required: false
+          required: true
 - name: incident
   data_schema:
     type: object
@@ -143,7 +143,7 @@ object_types:
         timeline:
           from: section_body
           after_heading: Timeline
-          required: false
+          required: true
 - name: deployment
   data_schema:
     type: object
@@ -156,5 +156,5 @@ object_types:
         topology:
           from: code_block
           after_heading: Topology
-          required: false
+          required: true
           language: mermaid
