@@ -1,6 +1,6 @@
 manifest_version: 1.0.0
 name: spec-objects-operational
-version: 0.1.0
+version: 0.2.0
 description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)'
 nav:
   category:
@@ -11,7 +11,16 @@ nav:
 archetypes: []
 grammars: []
 artifact_types: []
-lint_rules: []
+# Advisory lint rules (quire-rs FR-036; format-walkthrough decision #12):
+# Configuration Scope cells use the blessed scope vocabulary. Evaluated
+# by `quire lint`; never blocks validation/extraction/sync.
+lint_rules:
+- type: table_column_values
+  id: configuration-scope
+  section: Configuration
+  column: Scope
+  allowed: [creation, runtime, session]
+  severity: warning
 object_types:
 - name: configuration
   data_schema:
@@ -34,14 +43,23 @@ object_types:
           path:
           - artifact_type
           required: true
-        parameters:
-          from: section_body
-          after_heading: Parameters
+        # Format-walkthrough decision #12 (2026-06-11): Parameters vs
+        # Settings was a near-synonym guessing game. ONE required
+        # `## Configuration` table with an explicit Scope column carries
+        # the semantic as data: Scope ∈ creation | runtime | session
+        # (enforced by the `configuration-scope` lint rule below).
+        configuration_table:
+          from: table_row
+          under_section: Configuration
           required: true
-        settings:
-          from: section_body
-          after_heading: Settings
-          required: false
+          assert:
+            columns:
+            - Name
+            - Scope
+            - Type
+            - Default
+            - Description
+            min_rows: 1
         behavior:
           from: section_body
           after_heading: Behavior

@@ -141,7 +141,7 @@ def test_core_frontmatter_locators_are_required(name: str) -> None:
 
 
 _REQUIRED_DEFINING_FIELDS = {
-    "configuration": ["parameters"],
+    "configuration": ["configuration_table"],
     "migration": ["sql"],
     "sli": ["query"],
     "slo": ["target", "window"],
@@ -233,6 +233,10 @@ def test_skeleton_headings_do_not_drift_from_asserts(name: str) -> None:
         loc["after_heading"]
         for loc in _locators(_object_type(name)).values()
         if loc.get("from") in ("section_body", "code_block")
+    } | {
+        loc["under_section"]
+        for loc in _locators(_object_type(name)).values()
+        if loc.get("from") in ("table_row", "list_item") and loc.get("under_section")
     }
     for level, text in _skeleton_headings(_skeleton_text(name)):
         if level != _HEADING_LEVEL:
