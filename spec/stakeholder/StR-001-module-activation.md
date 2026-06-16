@@ -1,7 +1,7 @@
 ---
 id: StR-001
 title: "Tier-2 operational objects"
-artifact_type: StR
+type: StR
 ---
 # [StR-001] Tier-2 operational objects
 
