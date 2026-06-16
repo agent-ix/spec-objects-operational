@@ -1,11 +1,11 @@
 ---
 id: INC-001
 title: "Artifact-store availability incident 2026-06-02"
-artifact_type: incident
+type: incident
 ---
 <!-- incident authoring skeleton (spec-objects-operational). Contract
      (manifest body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: incident.
+     - Frontmatter MUST carry id, title, and type: incident.
      - "## Timeline" (H2) is REQUIRED; its body is extracted as `timeline`.
      - Timeline entries are timestamped (UTC), factual, and ordered. -->
 # [INC-001] Artifact-store availability incident 2026-06-02

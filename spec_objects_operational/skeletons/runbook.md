@@ -1,11 +1,11 @@
 ---
 id: RUN-001
 title: "Restore artifact-store availability"
-artifact_type: runbook
+type: runbook
 ---
 <!-- runbook authoring skeleton (spec-objects-operational). Contract (manifest
      body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: runbook.
+     - Frontmatter MUST carry id, title, and type: runbook.
      - "## Steps" (H2) is REQUIRED; its body is extracted as `steps`.
      - Steps are an ordered list of concrete, executable actions with the
        exact commands the operator runs. -->

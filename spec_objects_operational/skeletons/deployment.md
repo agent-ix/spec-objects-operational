@@ -1,11 +1,11 @@
 ---
 id: DEP-001
 title: "Artifact-store production deployment topology"
-artifact_type: deployment
+type: deployment
 ---
 <!-- deployment authoring skeleton (spec-objects-operational). Contract
      (manifest body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: deployment.
+     - Frontmatter MUST carry id, title, and type: deployment.
      - "## Topology" (H2) is REQUIRED and MUST contain a fenced ```mermaid
        code block; its content is extracted as `topology`.
      - Mermaid rules: no semicolons in label text, no spaces in node ids,

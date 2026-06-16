@@ -1,11 +1,11 @@
 ---
 id: ALR-001
 title: "Artifact-store availability burn-rate alert"
-artifact_type: alert
+type: alert
 ---
 <!-- alert authoring skeleton (spec-objects-operational). Contract (manifest
      body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: alert.
+     - Frontmatter MUST carry id, title, and type: alert.
      - "## Flow" (H2) is REQUIRED and MUST contain a fenced ```mermaid code
        block; its content is extracted as `flow`.
      - Mermaid rules: no semicolons in label text, no spaces in node ids,

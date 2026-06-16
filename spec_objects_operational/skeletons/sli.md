@@ -1,11 +1,11 @@
 ---
 id: SLI-001
 title: "Artifact-store availability SLI"
-artifact_type: sli
+type: sli
 ---
 <!-- sli authoring skeleton (spec-objects-operational). Fill the query with
      the real measurement. Contract (manifest body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: sli.
+     - Frontmatter MUST carry id, title, and type: sli.
      - "## Query" (H2) is REQUIRED and MUST contain a fenced code block; its
        content is extracted as `query`.
      - State what counts as a good event so the ratio is unambiguous. -->

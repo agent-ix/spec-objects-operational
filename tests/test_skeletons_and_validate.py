@@ -11,7 +11,7 @@ spec-artifacts-iso). These tests cover:
   language, the skeleton does not drift ahead of the contract (reverse
   direction), required ``section_body`` sections are substantive and
   placeholder-free, and the frontmatter carries every required
-  ``frontmatter_field`` with ``artifact_type`` equal to the type name;
+  ``frontmatter_field`` with ``type`` equal to the type name;
 * roundtrip: each skeleton passes ``quire.validate_document`` and a mutated
   copy fails (requires a quire wheel exposing the markdown validator; skipped
   cleanly otherwise — quire is intentionally NOT a dependency).
@@ -132,9 +132,9 @@ def test_manifest_declares_exactly_the_expected_object_types() -> None:
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
 def test_core_frontmatter_locators_are_required(name: str) -> None:
-    """id / title / artifact_type are required in BOTH anchor groups."""
+    """id / title / type are required in BOTH anchor groups."""
     locators = _locators(_object_type(name))
-    for field in ("id", "title", "artifact_type"):
+    for field in ("id", "title", "type"):
         loc = locators[field]
         assert loc["from"] == "frontmatter_field", f"{name}.{field}"
         assert loc["required"] is True, f"{name}.{field} is not required"
@@ -170,7 +170,7 @@ def test_skeleton_exists(name: str) -> None:
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
 def test_skeleton_frontmatter_carries_required_fields(name: str) -> None:
     """Every required frontmatter_field locator is satisfied by the skeleton,
-    and ``artifact_type`` equals the object-type name."""
+    and ``type`` equals the object-type name."""
     fm = _frontmatter(_skeleton_text(name))
     locators = _locators(_object_type(name))
     for field, loc in locators.items():
@@ -180,7 +180,7 @@ def test_skeleton_frontmatter_carries_required_fields(name: str) -> None:
         assert len(path) == 1, f"{name}.{field}: unexpected nested path {path}"
         value = fm.get(path[0])
         assert value not in (None, ""), f"{name}: frontmatter missing {path[0]!r}"
-    assert fm["artifact_type"] == name
+    assert fm["type"] == name
 
 
 # ─── Forward parity: asserted structure exists in the skeleton ────────────

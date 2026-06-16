@@ -38,10 +38,10 @@ object_types:
           path:
           - title
           required: true
-        artifact_type: &id003
+        type: &id003
           from: frontmatter_field
           path:
-          - artifact_type
+          - type
           required: true
         # Format-walkthrough decision #12 (2026-06-11): Parameters vs
         # Settings was a near-synonym guessing game. ONE required
@@ -72,7 +72,7 @@ object_types:
       match:
         id: *id001
         title: *id002
-        artifact_type: *id003
+        type: *id003
         sql:
           from: code_block
           after_heading: Migration
@@ -94,10 +94,10 @@ object_types:
           path:
           - title
           required: true
-        artifact_type: &id006
+        type: &id006
           from: frontmatter_field
           path:
-          - artifact_type
+          - type
           required: true
         query:
           from: code_block
@@ -111,7 +111,7 @@ object_types:
       match:
         id: *id004
         title: *id005
-        artifact_type: *id006
+        type: *id006
         target:
           from: frontmatter_field
           path:
@@ -130,7 +130,7 @@ object_types:
       match:
         id: *id004
         title: *id005
-        artifact_type: *id006
+        type: *id006
         flow:
           from: code_block
           after_heading: Flow
@@ -144,7 +144,7 @@ object_types:
       match:
         id: *id004
         title: *id005
-        artifact_type: *id006
+        type: *id006
         steps:
           from: section_body
           after_heading: Steps
@@ -157,7 +157,7 @@ object_types:
       match:
         id: *id004
         title: *id005
-        artifact_type: *id006
+        type: *id006
         timeline:
           from: section_body
           after_heading: Timeline
@@ -170,7 +170,7 @@ object_types:
       match:
         id: *id004
         title: *id005
-        artifact_type: *id006
+        type: *id006
         topology:
           from: code_block
           after_heading: Topology

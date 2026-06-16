@@ -1,13 +1,13 @@
 ---
 id: SLO-001
 title: "Artifact-store availability SLO"
-artifact_type: slo
+type: slo
 target: "99.9%"
 window: "30d"
 ---
 <!-- slo authoring skeleton (spec-objects-operational). Contract (manifest
      body_extraction):
-     - Frontmatter MUST carry id, title, artifact_type: slo, AND the two
+     - Frontmatter MUST carry id, title, type: slo, AND the two
        extracted objective fields: `target` (e.g. "99.9%") and `window`
        (e.g. "30d", a rolling window).
      - The body explains the objective and its error budget in prose. -->

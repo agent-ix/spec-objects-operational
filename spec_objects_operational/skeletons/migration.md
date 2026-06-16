@@ -1,11 +1,11 @@
 ---
 id: MIG-001
 title: "Add checksum column to artifacts table"
-artifact_type: migration
+type: migration
 ---
 <!-- migration authoring skeleton (spec-objects-operational). Fill the SQL
      with the real, runnable migration. Contract (manifest body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: migration.
+     - Frontmatter MUST carry id, title, and type: migration.
      - "## Migration" (H2) is REQUIRED and MUST contain a fenced ```sql code
        block; its content is extracted as `sql`.
      - Keep the migration idempotent or guarded so reruns are safe. -->

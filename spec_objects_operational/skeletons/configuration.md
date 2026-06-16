@@ -1,11 +1,11 @@
 ---
 id: CFG-001
 title: "Artifact-store service configuration"
-artifact_type: configuration
+type: configuration
 ---
 <!-- configuration authoring skeleton (spec-objects-operational). Fill every
      section with substantive content. Contract (manifest body_extraction):
-     - Frontmatter MUST carry id, title, and artifact_type: configuration.
+     - Frontmatter MUST carry id, title, and type: configuration.
      - "## Configuration" (H2) is REQUIRED: a table with headers exactly
        Name | Scope | Type | Default | Description and at least one data
        row. Scope carries the semantic as data:
