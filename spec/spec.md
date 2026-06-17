@@ -66,5 +66,5 @@ tests.
 ## References
 
 - ISO/IEC/IEEE 29148 — Requirements engineering.
-- filament-core-service FR-035 — Module Manifest Schema.
+- filament-core-service [FR-035](ix://agent-ix/filament-core-service/FR-035) — Module Manifest Schema.
 - This module's source repository and README.

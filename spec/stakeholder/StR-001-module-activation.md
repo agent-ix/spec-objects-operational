@@ -36,5 +36,5 @@ schemas and templates.
 
 ## Dependencies
 
-- **Upstream**: filament-core-service FR-035 (Module Manifest Schema)
+- **Upstream**: filament-core-service [FR-035](ix://agent-ix/filament-core-service/FR-035) (Module Manifest Schema)
 - **Downstream**: [FR-001](../functional/FR-001-module-manifest-activates.md) (Module manifest activates against filament-core)
