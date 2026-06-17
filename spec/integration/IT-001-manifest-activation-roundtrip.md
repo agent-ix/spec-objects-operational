@@ -13,7 +13,7 @@ relationships:
 Verify the integration boundary between this Module's published manifest and a
 clean `filament-core-service` instance: activating `manifest.yaml` shall land all
 declared contributions in the database, and re-activating the same manifest shall
-be an idempotent no-op. This test verifies FR-001.
+be an idempotent no-op. This test verifies [FR-001](../functional/FR-001-module-manifest-activates.md).
 
 ## Target Integration
 
@@ -58,5 +58,5 @@ criterion holds.
 
 ## Traceability
 
-This integration test verifies FR-001 (Module manifest activates against
+This integration test verifies [FR-001](../functional/FR-001-module-manifest-activates.md) (Module manifest activates against
 filament-core).
