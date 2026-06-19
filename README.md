@@ -2,7 +2,7 @@
 
 > Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)
 
-Agent-IX Filament module loaded by [`quire-cli`](https://github.com/agent-ix/quire-cli) and [`ix-spec`](https://github.com/agent-ix/ix-spec).
+Agent-IX Filament module loaded by [`quire-cli`](https://github.com/agent-ix/quire-cli) and [`quoin`](https://github.com/agent-ix/quoin).
 
 ## Installing quire-cli
 
@@ -34,16 +34,16 @@ See https://github.com/agent-ix/quire-cli#install for details.
 
 ## How this module is used
 
-### With ix-spec (recommended)
+### With quoin (recommended)
 
 ```bash
-ix-spec plugin install path:../spec-objects-operational
-ix-spec catalog list
-ix-spec write . --types configuration,slo
-ix-spec review
+quoin plugin install path:../spec-objects-operational
+quoin catalog list
+quoin write . --types configuration,slo
+quoin review
 ```
 
-See https://github.com/agent-ix/ix-spec.
+See https://github.com/agent-ix/quoin.
 
 ### With quire-cli directly
 
