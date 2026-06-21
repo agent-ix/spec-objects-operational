@@ -23,6 +23,10 @@ lint_rules:
   severity: warning
 object_types:
 - name: configuration
+  roles: [configurable]
+  allowed_links:
+    configures: [configurable]
+    references: [configuration]
   data_schema:
     type: object
   body_extraction:
@@ -65,6 +69,9 @@ object_types:
           after_heading: Behavior
           required: false
 - name: migration
+  allowed_links:
+    migrates: [data_schema]
+    depends_on: [migration]
   data_schema:
     type: object
   body_extraction:
@@ -79,6 +86,8 @@ object_types:
           required: true
           language: sql
 - name: sli
+  allowed_links:
+    measures: [measurable]
   data_schema:
     type: object
   body_extraction:
@@ -104,6 +113,9 @@ object_types:
           after_heading: Query
           required: true
 - name: slo
+  allowed_links:
+    depends_on: [sli]
+    constrains: [deployable]
   data_schema:
     type: object
   body_extraction:
@@ -123,6 +135,9 @@ object_types:
           - window
           required: true
 - name: alert
+  allowed_links:
+    escalates_to: [incident]
+    references: [runbook, slo, sli]
   data_schema:
     type: object
   body_extraction:
@@ -137,6 +152,9 @@ object_types:
           required: true
           language: mermaid
 - name: runbook
+  allowed_links:
+    remediates: [incident, alert]
+    references: [deployment]
   data_schema:
     type: object
   body_extraction:
@@ -150,6 +168,11 @@ object_types:
           after_heading: Steps
           required: true
 - name: incident
+  allowed_links:
+    correlates: [alert]
+    breaches: [slo]
+    triggers: [runbook]
+    references: [deployment]
   data_schema:
     type: object
   body_extraction:
@@ -163,6 +186,10 @@ object_types:
           after_heading: Timeline
           required: true
 - name: deployment
+  roles: [deployable, measurable, configurable]
+  allowed_links:
+    deploys: [deployable]
+    depends_on: [deployment, configuration]
   data_schema:
     type: object
   body_extraction:
