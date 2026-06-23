@@ -203,3 +203,31 @@ object_types:
           after_heading: Topology
           required: true
           language: mermaid
+
+# FR-043: concrete-term lexicon — operational / SRE / deployment objects.
+lexicon:
+  deployment: {definition: a released, running instance of a service}
+  replica: {definition: one of N interchangeable copies of a workload}
+  migration: {definition: a versioned schema or data change step}
+  runbook: {definition: a documented operational procedure}
+  rollout: {definition: a progressive release of a new version}
+  rollback: {definition: reverting to a prior known-good version}
+  scaling: {definition: changing capacity by adding/removing replicas}
+  backend: {definition: a server-side system serving requests}
+  build: {definition: a produced, versioned artifact from source}
+  pipeline: {definition: an ordered sequence of automated stages}
+  container: {definition: a packaged, isolated runtime unit}
+  image: {definition: an immutable container build artifact}
+  cluster: {definition: a set of nodes running workloads together}
+  pod: {definition: a co-scheduled group of containers}
+  volume: {definition: persistent storage attached to a workload}
+  probe: {definition: a periodic liveness/readiness check}
+  healthcheck: {definition: an endpoint reporting service health}
+  scheduler: {definition: a component placing work onto resources}
+  worker: {definition: a process that consumes and executes jobs}
+  environment: {definition: a named deployment target (dev/staging/prod)}
+  configmap: {definition: externalized non-secret configuration}
+  registry: {definition: a store of versioned images or packages}
+  metric: {definition: a measured time-series value}
+  alert: {definition: a fired condition requiring attention}
+  refresh: {definition: a periodic re-fetch or re-computation}
