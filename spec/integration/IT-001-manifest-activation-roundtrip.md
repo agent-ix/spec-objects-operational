@@ -6,7 +6,7 @@ relationships:
   - target: "ix://agent-ix/spec-objects-operational/FR-001"
     type: "verifies"
 ---
-# [IT-001] Manifest activation roundtrip
+# IT-001: Manifest activation roundtrip
 
 ## Objective
 
