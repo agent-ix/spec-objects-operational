@@ -2,7 +2,7 @@
   "name": "@agent-ix/spec-objects-operational",
   "version": "0.0.0-managed",
   "description": "Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "author": "Agent IX <agents@agent-ix.dev>",
   "keywords": [
     "agent-ix",
