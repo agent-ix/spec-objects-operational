@@ -22,11 +22,13 @@ fragments the operational graph and blocks downstream automation.
 
 ## Validation Criteria
 
-This need is considered satisfied when a Module activation against filament-core
-registers all the contents this module declares, and when agent CLI generators
-(minijinja-cli) can produce valid artifacts using the templates and schemas this
-module ships. Satisfaction is judged by demonstrating both outcomes against a
-filament-core instance.
+
+| ID | Criteria | Validation |
+|----|----------|------------|
+| StR-001-VC-1 | A Module activation against filament-core registers all the contents this module declares. | Inspection |
+| StR-001-VC-2 | Agent CLI generators (minijinja-cli) can produce valid artifacts using the templates and schemas this module ships. | Demonstration |
+
+Satisfaction is judged by demonstrating both outcomes against a filament-core instance.
 
 ## Stakeholders
 
