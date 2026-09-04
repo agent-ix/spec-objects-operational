@@ -25,6 +25,8 @@ import re
 import pytest
 import yaml
 
+from tests.conftest import require_quire
+
 PKG_ROOT = pathlib.Path(__file__).resolve().parent.parent / "spec_objects_operational"
 MANIFEST_PATH = PKG_ROOT / "manifest.yaml"
 SKELETONS_DIR = PKG_ROOT / "skeletons"
@@ -126,11 +128,13 @@ def _fence_languages(section_body: str) -> list[str]:
 # ─── Manifest sanity ──────────────────────────────────────────────────────
 
 
+@pytest.mark.trace("TC-030", "FR-003-AC-1")
 def test_manifest_declares_exactly_the_expected_object_types() -> None:
     assert [ot["name"] for ot in _object_types()] == OBJECT_TYPE_NAMES
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-032", "FR-003-AC-3")
 def test_core_frontmatter_locators_are_required(name: str) -> None:
     """id / title / type are required in BOTH anchor groups."""
     locators = _locators(_object_type(name))
@@ -153,6 +157,7 @@ _REQUIRED_DEFINING_FIELDS = {
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-032", "FR-003-AC-3")
 def test_defining_fields_are_required(name: str) -> None:
     locators = _locators(_object_type(name))
     for field in _REQUIRED_DEFINING_FIELDS[name]:
@@ -163,11 +168,13 @@ def test_defining_fields_are_required(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-060", "FR-005-AC-1")
 def test_skeleton_exists(name: str) -> None:
     assert (SKELETONS_DIR / f"{name}.md").exists(), f"missing skeleton {name}.md"
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-067", "FR-005-AC-8")
 def test_skeleton_frontmatter_carries_required_fields(name: str) -> None:
     """Every required frontmatter_field locator is satisfied by the skeleton,
     and ``type`` equals the object-type name."""
@@ -187,6 +194,7 @@ def test_skeleton_frontmatter_carries_required_fields(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-065", "FR-005-AC-6")
 def test_asserted_headings_exist_at_asserted_level(name: str) -> None:
     """Every section_body / code_block locator's heading exists as an H2."""
     md = _skeleton_text(name)
@@ -202,6 +210,7 @@ def test_asserted_headings_exist_at_asserted_level(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-065", "FR-005-AC-6")
 def test_asserted_code_blocks_carry_asserted_language(name: str) -> None:
     """Every code_block locator finds a fence under its heading whose info
     string matches the asserted language (any fence when none is asserted)."""
@@ -226,6 +235,7 @@ def test_asserted_code_blocks_carry_asserted_language(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-065", "FR-005-AC-6")
 def test_skeleton_headings_do_not_drift_from_asserts(name: str) -> None:
     """Every H2 heading in the skeleton is addressed by some locator, so the
     skeleton cannot drift ahead of the manifest contract."""
@@ -251,6 +261,7 @@ def test_skeleton_headings_do_not_drift_from_asserts(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-066", "FR-005-AC-7")
 def test_required_section_bodies_are_substantive(name: str) -> None:
     md = _skeleton_text(name)
     sections = _split_sections(md)
@@ -271,6 +282,7 @@ def test_required_section_bodies_are_substantive(name: str) -> None:
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-066", "FR-005-AC-7")
 def test_skeleton_body_is_placeholder_free(name: str) -> None:
     """The whole body (frontmatter stripped) is free of placeholder tokens."""
     body = _strip_frontmatter(_skeleton_text(name)).lower()
@@ -280,45 +292,52 @@ def test_skeleton_body_is_placeholder_free(name: str) -> None:
         ), f"{name}: skeleton carries placeholder token {token!r}"
 
 
-# ─── Roundtrip via the quire Python wheel (guarded) ───────────────────────
+# ─── Roundtrip via the quire Python wheel ─────────────────────────────────
 
 
 def _quire_doc_validator():
-    """Return the quire wheel iff it exposes the markdown validator."""
-    try:
-        import quire
-    except ImportError:
-        return None
+    """The quire wheel exposing the markdown validator, or a failed test.
+
+    These rows FAIL rather than skip when the engine is absent (FR-005-AC-10);
+    the wheel is provisioned by `make dev-quire` while agent-ix/quire-rs#392 is
+    open. A skipped row is not coverage — this file used to skip here, which is
+    how a broken locator lookup below went unnoticed.
+    """
+    quire = require_quire()
     if not hasattr(quire, "validate_document"):
-        return None
+        pytest.fail(
+            "the installed quire exposes no `validate_document`; run "
+            "`make dev-quire` (agent-ix/quire-rs#392)"
+        )
     return quire
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-060", "FR-005-AC-1")
 def test_skeleton_validates_via_quire(name: str) -> None:
     """Each filled skeleton passes validate_document.
 
-    Skips when no quire wheel (or one predating the markdown validator) is
-    installed; quire is intentionally not a dependency of this package."""
+    Fails — never skips — when no quire wheel (or one predating the markdown
+    validator) is installed; quire is intentionally not a declared dependency
+    of this package while agent-ix/quire-rs#392 is open (FR-005-AC-10/AC-11)."""
     quire = _quire_doc_validator()
-    if quire is None:
-        pytest.skip("quire wheel lacks validate_document")
     res = quire.validate_document(name, str(PKG_ROOT), _skeleton_text(name))
     assert res["is_valid"], res["errors"]
 
 
 @pytest.mark.parametrize("name", OBJECT_TYPE_NAMES)
+@pytest.mark.trace("TC-060", "FR-005-AC-1")
 def test_mutated_skeleton_fails_validation(name: str) -> None:
     """Deleting the defining required section/field makes validation fail."""
     quire = _quire_doc_validator()
-    if quire is None:
-        pytest.skip("quire wheel lacks validate_document")
     base = _skeleton_text(name)
     if name == "slo":
         mutated = re.sub(r"^target:.*\n", "", base, count=1, flags=re.MULTILINE)
     else:
         loc = _locators(_object_type(name))[_REQUIRED_DEFINING_FIELDS[name][0]]
-        heading = f"## {loc['after_heading']}"
+        # `section_body`/`code_block` locators name their heading with
+        # `after_heading`; a `table_row` locator names it with `under_section`.
+        heading = f"## {loc.get('after_heading') or loc['under_section']}"
         mutated = re.sub(
             rf"^{re.escape(heading)}$.*?(?=^## |\Z)",
             "",

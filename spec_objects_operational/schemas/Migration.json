@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Migration.json",
+  "type": "object",
+  "properties": {
+    "fields": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/FieldDecl.json"
+      },
+      "minItems": 1,
+      "contains": {
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/IdentityField.json"
+      },
+      "minContains": 0,
+      "maxContains": 0
+    },
+    "clauses": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/ClauseRef.json"
+      },
+      "minItems": 1
+    },
+    "rollback": {
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackDecl.json"
+    },
+    "migrates": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/OperationDecl.json"
+      }
+    }
+  },
+  "required": [
+    "fields",
+    "clauses"
+  ],
+  "unevaluatedProperties": {
+    "not": {}
+  },
+  "description": "A migration: a versioned change and the safety condition it preserves.\n\n`clauses` is required because a migration that states no safety condition\nstates nothing a reviewer can check. The declaration carries rollback\n*intent* (`rollback`) and never execution state: no applied-at timestamp, no\nrow count, no database status. A consumer needing execution state reads it\nthrough `migrates` or through an `Incident` that references the migration.\n`relations` is forbidden by the seal.",
+  "allOf": [
+    {
+      "properties": {
+        "fields": {
+          "contains": {
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+          },
+          "minContains": 0,
+          "maxContains": 0
+        }
+      }
+    }
+  ]
+}

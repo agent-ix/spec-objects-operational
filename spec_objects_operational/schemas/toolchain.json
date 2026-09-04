@@ -1,0 +1,60 @@
+{
+  "compiler": {
+    "name": "@typespec/compiler",
+    "version": "1.15.0"
+  },
+  "emitter": {
+    "name": "@typespec/json-schema",
+    "version": "1.15.0"
+  },
+  "semanticCore": {
+    "name": "@agent-ix/semantic-core",
+    "version": "0.1.0"
+  },
+  "base": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/",
+  "normalization": {
+    "name": "absolute-id-and-ref",
+    "version": "1.0.0",
+    "issue": "https://github.com/agent-ix/spec-objects-operational/issues/6",
+    "applied": true,
+    "rewrittenFiles": [
+      "Configuration.json",
+      "Deployment.json",
+      "Incident.json",
+      "Migration.json",
+      "Sli.json",
+      "Slo.json"
+    ],
+    "note": "rewrote relative $id/$ref to the module base or semantic-core 0.1.0"
+  },
+  "files": [
+    "Alert.json",
+    "AlertCondition.json",
+    "AlertSeverity.json",
+    "Comparator.json",
+    "Configuration.json",
+    "ConfigurationScope.json",
+    "Deployment.json",
+    "EvidenceRecordId.json",
+    "EvidenceRecordShape.json",
+    "EvidenceRef.json",
+    "IdentityField.json",
+    "Incident.json",
+    "MeasuredField.json",
+    "Migration.json",
+    "ObjectiveDecl.json",
+    "OccurrenceField.json",
+    "OccurrenceTypeRef.json",
+    "RollbackDecl.json",
+    "RollbackStrategy.json",
+    "RolloutDecl.json",
+    "RolloutStrategy.json",
+    "Runbook.json",
+    "RunbookStep.json",
+    "ScopeAssignment.json",
+    "Sli.json",
+    "Slo.json",
+    "UnitTypeRef.json"
+  ],
+  "digest": "sha256:09b94d98570cb3c2f418a58e60745c48de5713cf00fe8b5afcdbb07215d013f6"
+}

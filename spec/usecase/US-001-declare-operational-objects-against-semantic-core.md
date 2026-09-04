@@ -46,11 +46,11 @@ only, not test cases and not verification criteria.
 - **When** Quire extracts it under this module
 - **Then** the record carries one `FieldDecl` per row, at least one row declares a default, and the record validates against the shipped `Configuration.json`
 
-### US-001-EX-2: An SLI that accumulates observations is refused
+### US-001-EX-2: A migration that records when it ran is refused
 
-- **Given** an SLI artifact whose declaration carries an `observations` key of measured samples
+- **Given** a migration artifact whose `## Properties` table carries an `applied_at` `Timestamp` row
 - **When** Quire validates it
-- **Then** validation fails naming the SLI schema, because an SLI declares a measurement, not the values measured
+- **Then** validation fails naming the migration schema, because a migration declares change intent and safety, and when it ran belongs to the execution that applied it
 
 ### US-001-EX-3: The module installs into Quoin
 

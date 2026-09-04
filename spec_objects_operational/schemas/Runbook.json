@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Runbook.json",
+  "type": "object",
+  "properties": {
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/OperationDecl.json"
+      },
+      "minItems": 1
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RunbookStep.json"
+      }
+    },
+    "remediates": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "clauses": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/ClauseRef.json"
+      }
+    }
+  },
+  "required": [
+    "operations"
+  ],
+  "unevaluatedProperties": {
+    "not": {}
+  },
+  "description": "A runbook: the operations an operator performs to remediate something.\n\n`fields` is forbidden by the seal — a runbook declares actions, not data.\n`operations` is required; `steps` orders them once the extractor populates\nit."
+}

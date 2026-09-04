@@ -1,7 +1,7 @@
 {
   "name": "@agent-ix/spec-objects-operational",
   "version": "0.0.0-managed",
-  "description": "Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)",
+  "description": "Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)",
   "license": "AGPL-3.0-or-later",
   "author": "Agent IX <agents@agent-ix.dev>",
   "keywords": [
@@ -20,7 +20,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepack": "node scripts/stage-npm.mjs"
+    "prepack": "node scripts/stage-npm.mjs",
+    "postpack": "node scripts/stage-npm.mjs --clean"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -29,5 +30,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/agent-ix/spec-objects-operational.git"
+  },
+  "devDependencies": {
+    "@agent-ix/semantic-core": "0.1.0",
+    "@typespec/compiler": "1.15.0",
+    "@typespec/json-schema": "1.15.0"
   }
 }

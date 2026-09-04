@@ -52,6 +52,7 @@ fails the build.
 
 ## Behavior
 
+- `make install` SHALL install the TypeSpec toolchain with `npm ci` alongside the Python dependencies, so `make lint` — which runs `make schemas-check` — has the compiler and emitter it needs; without it the drift gate fails for a missing toolchain rather than for drift.
 - `make schemas` SHALL run `node scripts/generate-schemas.mjs`.
 - The generator SHALL compile `typespec/` with `tsp compile`, keep only the emitted files whose `$id` starts with the module base, and discard the re-emitted semantic-core files.
 - If the emitter leaves any `$id` or `$ref` relative, then the generator SHALL rewrite it to `<base><file>` (module models) or `https://schemas.agent-ix.org/semantic-core/0.1.0/<file>` (semantic-core models) and record each rewrite in `toolchain.json`.
@@ -73,7 +74,7 @@ fails the build.
 - The generator SHALL write files under `spec_objects_operational/schemas/` only.
 - The generator SHALL edit `manifest.yaml` only at `data_schema.digest` values.
 - The Python package SHALL include `spec_objects_operational/schemas/*.json` in the wheel and sdist.
-- The repository SHALL mark `*.json` and `*.tsp` as `eol=lf` in `.gitattributes`, so a checkout with `autocrlf` cannot change the digested bytes.
+- The repository SHALL mark `*.json`, `*.tsp`, `*.yaml` and `*.md` as `eol=lf` in `.gitattributes`, so a checkout with `autocrlf` cannot change the digested bytes of a schema, a source, the manifest, or a skeleton.
 - `scripts/stage-npm.mjs` SHALL copy `schemas/` beside `manifest.yaml` at pack time, so the npm tarball ships the schemas the manifest references.
 
 ## Constraints
@@ -99,6 +100,10 @@ fails the build.
 | FR-002-AC-7 | The npm tarball produced by `npm pack` contains `manifest.yaml` and a sibling `schemas/<Model>.json` for every exported model, so a manifest-relative `schema:` path resolves inside the tarball. | Test |
 | FR-002-AC-8 | Bumping the manifest `version` and the `@jsonSchema` base together and re-running the generator yields every `$id` and every sibling `$ref` at the new version, `toolchain.json` recording the new base, and manifest digests equal to the new bytes; `make schemas-check` then exits zero, while bumping only one of the pair exits non-zero. | Test |
 | FR-002-AC-9 | `make schemas-check` on a committed tree carrying an extra `spec_objects_operational/schemas/Stale.json` with no emitted counterpart exits non-zero naming that file, and writes nothing. | Test |
+| FR-002-AC-10 | A generator run over a scratch copy of the tree writes only under `spec_objects_operational/schemas/` and, in `manifest.yaml`, only at `data_schema.digest` lines: every other tracked file is byte-identical afterwards. | Test |
+| FR-002-AC-11 | `make lint` runs `make schemas-check`: with one shipped schema mutated, `make lint` exits non-zero naming that file. | Test |
+| FR-002-AC-12 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf`, so a checkout with `autocrlf` cannot change the digested bytes. | Inspection |
+| FR-002-AC-13 | `make install` installs the TypeSpec toolchain: after it, `node_modules/@typespec/compiler` and `node_modules/@agent-ix/semantic-core` exist at the pinned versions and `make schemas-check` exits zero. | Test |
 
 ## Dependencies
 

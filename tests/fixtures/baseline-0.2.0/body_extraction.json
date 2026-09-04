@@ -1,0 +1,329 @@
+{
+  "lexicon_terms": [
+    "alert",
+    "backend",
+    "build",
+    "cluster",
+    "configmap",
+    "container",
+    "deployment",
+    "environment",
+    "healthcheck",
+    "image",
+    "metric",
+    "migration",
+    "pipeline",
+    "pod",
+    "probe",
+    "refresh",
+    "registry",
+    "replica",
+    "rollback",
+    "rollout",
+    "runbook",
+    "scaling",
+    "scheduler",
+    "volume",
+    "worker"
+  ],
+  "lint_rules": [
+    {
+      "allowed": [
+        "creation",
+        "runtime",
+        "session"
+      ],
+      "column": "Scope",
+      "id": "configuration-scope",
+      "section": "Configuration",
+      "severity": "warning",
+      "type": "table_column_values"
+    }
+  ],
+  "object_types": {
+    "alert": {
+      "yield_pattern": {
+        "match": {
+          "flow": {
+            "after_heading": "Flow",
+            "from": "code_block",
+            "language": "mermaid",
+            "required": true
+          },
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "configuration": {
+      "yield_pattern": {
+        "match": {
+          "behavior": {
+            "after_heading": "Behavior",
+            "from": "section_body",
+            "required": false
+          },
+          "configuration_table": {
+            "assert": {
+              "columns": [
+                "Name",
+                "Scope",
+                "Type",
+                "Default",
+                "Description"
+              ],
+              "min_rows": 1
+            },
+            "from": "table_row",
+            "required": true,
+            "under_section": "Configuration"
+          },
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "deployment": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "topology": {
+            "after_heading": "Topology",
+            "from": "code_block",
+            "language": "mermaid",
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "incident": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "timeline": {
+            "after_heading": "Timeline",
+            "from": "section_body",
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "migration": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "sql": {
+            "after_heading": "Migration",
+            "from": "code_block",
+            "language": "sql",
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "runbook": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "steps": {
+            "after_heading": "Steps",
+            "from": "section_body",
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "sli": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "query": {
+            "after_heading": "Query",
+            "from": "code_block",
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          }
+        }
+      }
+    },
+    "slo": {
+      "yield_pattern": {
+        "match": {
+          "id": {
+            "from": "frontmatter_field",
+            "path": [
+              "id"
+            ],
+            "required": true
+          },
+          "target": {
+            "from": "frontmatter_field",
+            "path": [
+              "target"
+            ],
+            "required": true
+          },
+          "title": {
+            "from": "frontmatter_field",
+            "path": [
+              "title"
+            ],
+            "required": true
+          },
+          "type": {
+            "from": "frontmatter_field",
+            "path": [
+              "type"
+            ],
+            "required": true
+          },
+          "window": {
+            "from": "frontmatter_field",
+            "path": [
+              "window"
+            ],
+            "required": true
+          }
+        }
+      }
+    }
+  },
+  "version": "0.2.0"
+}

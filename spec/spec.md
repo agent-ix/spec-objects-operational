@@ -107,10 +107,17 @@ one authoritative definition of what the module activates against
   wheel with a documented `make dev-quire` target and its semantic tests fail
   rather than skip when the engine is absent (FR-005). Declaring `quire` as a
   committed dev dependency waits on that issue.
+- Reconciling the three divergent copies of the FR-035 module-manifest schema:
+  `agent-ix/filament-core-service#26`. The service's own copy admits neither
+  the `semantic` block nor the `lexicon` block this manifest carries, so this
+  module pins the `agent-ix/spec-artifacts-iso` copy that Quoin and Quire load,
+  and FR-001-AC-1 is measured against that. Dropping the `lexicon` to satisfy
+  the stale copy is refused.
 - Resolving a reference-form `data_schema` into a stored snapshot at
   activation: `agent-ix/filament-core-service#23`. Until it lands the service
-  stores the reference verbatim, which is what FR-001-AC-4 and IT-001-SC-03
-  assert.
+  stores the reference verbatim, which is the reading FR-001-AC-4 and
+  IT-001-SC-02 take of "appears in the corresponding table": the registered
+  `data_schema` is the reference object as posted, not a resolved snapshot.
 - Editing any corpus repository or vendored fixture; the legacy-form sweep and
   corpus promotion (`agent-ix/quoin#291`).
 - Application database schema generation: none is produced by these schemas.

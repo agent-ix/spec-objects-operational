@@ -26,12 +26,15 @@ lexicon entry keeps its meaning.
 ## Inputs
 
 - The emitted schemas and digests of [FR-002](./FR-002-emitted-json-schemas.md).
-- The module-manifest schema with the `semantic` block, at
-  `agent-ix/filament-core-service` revision `a77f31e` (CR-003) — the same
-  revision [FR-001](./FR-001-module-manifest-activates.md) names, and the
-  revision Quoin and Quire each vendor byte-identically. All three consumers
-  therefore judge this manifest against one schema; a consumer vendoring an
-  older copy is a skew defect on that consumer, not a change here.
+- The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it
+  at `6686f11` — the copy Quoin and Quire load, and the only copy that admits
+  both the `semantic` block (quoin FR-070) and the `lexicon` block (FR-043)
+  this manifest carries. [FR-001](./FR-001-module-manifest-activates.md) names
+  the same copy, so both requirements judge this manifest against one schema.
+  `agent-ix/filament-core-service` still ships a narrower copy of its own that
+  admits neither block; that divergence is `agent-ix/filament-core-service#26`
+  and is recorded rather than worked around — this module does not drop its
+  `lexicon` to satisfy a stale copy.
 - The `lexicon` block as repaired by `agent-ix/spec-objects-operational#5`.
 
 ## Outputs

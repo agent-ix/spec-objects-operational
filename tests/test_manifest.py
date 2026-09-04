@@ -11,6 +11,7 @@ PKG_ROOT = pathlib.Path(__file__).resolve().parent.parent / "spec_objects_operat
 MANIFEST_PATH = PKG_ROOT / "manifest.yaml"
 
 
+@pytest.mark.trace("TC-001", "FR-001-AC-1")
 def test_manifest_loads() -> None:
     manifest = yaml.safe_load(MANIFEST_PATH.read_text())
     assert manifest["manifest_version"] == "1.0.0"
@@ -24,12 +25,14 @@ def _object_types():
 
 
 @pytest.mark.parametrize("ot", _object_types(), ids=lambda ot: ot["name"])
+@pytest.mark.trace("TC-031", "FR-003-AC-2")
 def test_object_type_has_name_and_data_schema(ot: dict) -> None:
     assert isinstance(ot["name"], str) and len(ot["name"]) > 0
     assert "data_schema" in ot
     assert isinstance(ot["data_schema"], dict)
 
 
+@pytest.mark.trace("TC-030", "FR-003-AC-1")
 def test_no_duplicate_object_type_names() -> None:
     names = [ot["name"] for ot in _object_types()]
     assert len(names) == len(set(names)), f"duplicate names: {names}"
