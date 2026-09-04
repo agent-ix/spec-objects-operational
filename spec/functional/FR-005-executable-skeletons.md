@@ -79,7 +79,7 @@ refuse.
 
 | ID | Constraint | Type | Validation |
 |----|------------|------|------------|
-| FR-005-CON-1 | The module SHALL keep the skeletons and negatives in this repository only, editing no corpus repository and no vendored quoin/quire fixture. | Boundary | Inspection |
+| FR-005-CON-1 | The module SHALL keep the skeletons and negatives in this repository only, editing no corpus repository and no vendored quoin/quire fixture. | Boundary | Test |
 | FR-005-CON-2 | A skeleton SHALL carry one Properties form; the alternate form is a separate file, never a second block in the same artifact. | Integrity | Test |
 
 ## Acceptance Criteria
@@ -96,7 +96,7 @@ refuse.
 | FR-005-AC-8 | Every skeleton `title` matches the `Identifier` pattern, is unique across the skeletons, and is not a `KernelScalar` name; every skeleton frontmatter carries `object` equal to `type`. | Test |
 | FR-005-AC-9 | The `sli` and `slo` skeletons each extract at least one field carrying `type.unit`, and the `incident` skeleton extracts at least one `identity` field and one field whose `type.target` is `Timestamp`. | Test |
 | FR-005-AC-10 | With the Quire wheel absent from the environment, every semantic test fails — none is skipped or reported green — with a message naming `extract_semantic`, `make dev-quire`, and `agent-ix/quire-rs#392`. | Test |
-| FR-005-AC-11 | `pyproject.toml` declares no `quire` dependency in any group, and `make dev-quire` is the only documented provisioning path for the wheel. | Inspection |
+| FR-005-AC-11 | `pyproject.toml` declares no `quire` dependency in any group, and `make dev-quire` is the only documented provisioning path for the wheel. | Test |
 
 ## Dependencies
 

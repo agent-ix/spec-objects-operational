@@ -59,7 +59,7 @@ those fail when the engine is absent (FR-005-AC-10).
 
 | User Story | Acceptance Criteria | Test Cases | Coverage Status |
 |---|---|---|---|
-| US-001 | US-001-EX-1..3 (illustrative) implemented by FR-002..FR-005 | TC-060, TC-053, TC-091 | 🚧 TC-091 needs a Quoin built from main |
+| US-001 | US-001-EX-1..3 (illustrative) implemented by FR-002..FR-005 | TC-060, TC-053, TC-091 | 🚧 TC-091 waits on the operator opt-in |
 
 ### Functional Requirement Coverage
 
@@ -82,7 +82,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | Integration Test | Success Criteria | Test Cases | Coverage Status |
 |---|---|---|---|
 | IT-001 | IT-001-SC-01..03 | TC-002..TC-004 | 🚧 needs a running filament-core |
-| IT-002 | IT-002-SC-01..06 | TC-091 | 🚧 needs a Quoin built from main |
+| IT-002 | IT-002-SC-01..06 | TC-091 | 🚧 waits on the operator opt-in |
 
 ## Test Case Summary
 
@@ -106,12 +106,12 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-018 | `make schemas-check` names a stale committed schema with no emitted counterpart and writes nothing | Integration | P1 | FR-002-AC-9 | ✅ |
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
-| TC-021 | No `.npmrc`, no `file:`/`link:` dependency, exact toolchain pins in `package.json` | Inspection | P2 | FR-002-CON-2 | ✅ |
+| TC-021 | No `.npmrc`, no `file:`/`link:` dependency, exact toolchain pins in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
 | TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (npm.ix) | Unit | P2 | FR-002-CON-4 | ✅ |
 | TC-023 | No acceptance test hard-codes the `$id` version segment; each reads it from the manifest `version` | Unit | P2 | FR-002-AC-2 | ✅ |
 | TC-024 | A generator run writes only under `schemas/` and only at `data_schema.digest` in the manifest; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |
-| TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Inspection | P2 | FR-002-AC-12 | ✅ |
+| TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
 | TC-027 | `make install` provisions the TypeSpec toolchain, so `make lint`'s drift gate fails for drift and not for a missing compiler | Unit | P1 | FR-002-AC-13 | ✅ |
 | TC-030 | The `semantic` block equals the nine admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
 | TC-031 | Every exported type's `data_schema` is the reference form whose file hashes to the recorded digest | Unit | P0 | FR-003-AC-2 | ✅ |
@@ -119,7 +119,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-033 | Every added locator is `required: false` | Unit | P1 | FR-003-CON-2 | ✅ |
 | TC-034 | `quire.Registry.load_from` lists all eight archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
 | TC-035 | An unknown `semantic` key and an altered digest are each refused by the loader; the refusal names the key or path | Integration | P1 | FR-003-AC-6 | ✅ the naming half is an expected failure on quire-rs#221 and quire-rs#394 |
-| TC-036 | `quoin module install path:` succeeds, lists the module, and the prior entry is restored | Manual | P1 | FR-003-AC-5 | 🚧 |
+| TC-036 | `quoin module install path:` succeeds, lists the module, and the prior entry is restored | Manual | P1 | FR-003-AC-5 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
 | TC-037 | Every lexicon definition is one whole scalar, the term set is unchanged, and the three issue #5 definitions carry their restored wording | Unit | P1 | FR-003-AC-7, FR-003-CON-3 | ✅ |
 | TC-038 | The `configuration-scope` lint rule is present unchanged with its three allowed values at `warning` severity | Unit | P1 | FR-003-AC-8 | ✅ |
 | TC-040 | Each of the eight schemas differs from every other in a required, forbidden, or item rule; none is `type: object` only | Unit | P0 | FR-004-AC-1 | ✅ |
@@ -146,15 +146,15 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-066 | Every skeleton is placeholder-free with non-empty asserted sections | Unit | P2 | FR-005-AC-7 | ✅ |
 | TC-067 | Skeleton titles are distinct `Identifier`s outside `KernelScalar`, and `object` equals `type` in every skeleton frontmatter | Unit | P1 | FR-005-AC-8 | ✅ |
 | TC-068 | The sli and slo skeletons extract a unit-bearing field; the incident skeleton extracts an identity field and a `Timestamp` field | Integration | P0 | FR-005-AC-9 | ✅ |
-| TC-069 | No corpus repository or vendored fixture is edited by the change (diff over the branch) | Inspection | P2 | FR-005-CON-1 | ✅ |
+| TC-069 | No corpus repository or vendored fixture is edited by the change (diff over the branch) | Integration | P2 | FR-005-CON-1 | ✅ |
 | TC-070 | A Properties section holding both a table and a fence is refused at the second form | Integration | P1 | FR-005-CON-2 | ✅ |
 | TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic`, `make dev-quire` and quire-rs#392; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
-| TC-072 | `pyproject.toml` declares no `quire` dependency in any group | Inspection | P1 | FR-005-AC-11 | ✅ |
+| TC-072 | `pyproject.toml` declares no `quire` dependency in any group | Unit | P1 | FR-005-AC-11 | ✅ |
 | TC-080 | Zero 0.2.0 locators changed and the lint rule unchanged | Unit | P0 | NFR-001-AC-1 | ✅ |
 | TC-081 | Every checked-in 0.2.0 skeleton validates under 0.3.0 with zero errors | Integration | P0 | NFR-001-AC-2 | ✅ the `object:`-declaring legacy case is an expected failure on quire-rs#391 |
 | TC-082 | The 0.2.0 lexicon term set is intact and only the three issue #5 definitions differ, each by restoration | Unit | P1 | NFR-001-AC-3 | ✅ |
 | TC-083 | Each 0.2.0 required locator yields a byte-identical body under 0.2.0 and 0.3.0 | Integration | P1 | NFR-001-AC-4 | ✅ |
-| TC-091 | Quoin install roundtrip: record, install, list, derive, restore | Manual | P1 | IT-002-SC-01, IT-002-SC-02, IT-002-SC-03, IT-002-SC-04, IT-002-SC-05, IT-002-SC-06 | 🚧 needs a Quoin built from quoin main ≥ `3e842ce` (no release carries it) |
+| TC-091 | Quoin install roundtrip: record, install, list, derive, restore | Manual | P1 | IT-002-SC-01, IT-002-SC-02, IT-002-SC-03, IT-002-SC-04, IT-002-SC-05, IT-002-SC-06 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
 
 ## Test Environment
 
@@ -165,6 +165,15 @@ at most); `agent-ix/quire-rs#392` is the blocking issue. The suite **fails**
 rather than skips when `extract_semantic` is absent, so no row here can be
 reported green without the engine under test. The one exception is TC-081, an
 explicit expected failure while `agent-ix/quire-rs#391` is open.
+
+TC-036 and TC-091 are no longer blocked on a Quoin build: the Quoin on this
+machine is `0.23.1-2-g3e842ce`, exactly the revision IT-002 pins. What they now
+wait on is the operator's consent — the install writes to the machine-global
+`quoin module` store, so the test is double-gated behind
+`QUOIN_INSTALL_ROUNDTRIP=1` and restores the recorded state in a `finally`
+(IT-002-SC-06). No agent sets that variable on an operator's behalf; the rows
+stay `🚧` until a human runs
+`QUOIN_INSTALL_ROUNDTRIP=1 poetry run pytest tests/test_quoin_install_roundtrip.py`.
 
 Rows over the record keys the extractor does not populate (`scopes`,
 `configures`, `rollback`, `migrates`, `dependsOn`, `measures`, `objective`,
@@ -192,11 +201,12 @@ Two evidence-plan artifacts are absent and are carried by the plan, not by this
 matrix: no `SuiteRegistry` document declares a producer for the `Unit`,
 `Integration`, `Snapshot` and `Manual` evidence kinds, and no `Inspections`
 document exists to discharge the `Inspection` / `Manual` / `Demonstration`
-rows. `quire coverage` names both as `archetype-matches-nothing`. Those rows
-are TC-005, TC-006, TC-007, TC-020, TC-021, TC-026, TC-036, TC-069, TC-072 and
-TC-091; each is nevertheless backed by a tagged symbol that performs the
-inspection in code where one can (TC-020, TC-021, TC-026, TC-069, TC-072), and
-is environment-gated where it cannot (TC-005, TC-006, TC-036, TC-091).
+rows. `quire coverage` names both as `archetype-matches-nothing`. Those rows are
+TC-005, TC-006, TC-007, TC-020, TC-036 and TC-091. Four rows that were
+originally typed `Inspection` are now `Unit`/`Integration` because an
+executable symbol decides them (TC-021 the packaging surface, TC-026 the
+line-ending pins, TC-069 the branch diff, TC-072 the dependency groups); only
+TC-020's hand-edit half is genuinely judgement and stays `Inspection`.
 
 Three rows are explicit expected failures rather than passes, each naming its
 blocking issue in the test's own `xfail` reason: TC-035's naming half

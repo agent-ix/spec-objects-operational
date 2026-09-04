@@ -410,7 +410,6 @@ def test_the_three_cross_key_reader_rules_are_stated_and_owned(schema_registry):
             assert keyword not in rendered, (name, keyword)
 
 
-@pytest.mark.trace("TC-054", "FR-004-AC-15")
 @pytest.mark.xfail(
     strict=True,
     reason=(
@@ -422,6 +421,7 @@ def test_the_three_cross_key_reader_rules_are_stated_and_owned(schema_registry):
         "the engine can enforce the rules, which is when the claim is revisited."
     ),
 )
+@pytest.mark.trace("TC-054", "FR-004-AC-15")
 def test_the_three_cross_key_reader_rules_are_refused(schema_registry):
     configuration = schema_registry("Configuration")
     assert not ok(

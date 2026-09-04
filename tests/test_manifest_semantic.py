@@ -174,7 +174,6 @@ def test_an_unknown_semantic_key_and_an_altered_digest_are_refused(
             )
 
 
-@pytest.mark.trace("TC-035", "FR-003-AC-6")
 @pytest.mark.xfail(
     strict=True,
     reason=(
@@ -186,6 +185,7 @@ def test_an_unknown_semantic_key_and_an_altered_digest_are_refused(
         "not relaxed and the test is not skipped."
     ),
 )
+@pytest.mark.trace("TC-035", "FR-003-AC-6")
 def test_the_refusal_names_the_offending_key_and_path(quire_engine, tmp_path):
     def add_unknown_key(data):
         data["semantic"]["foo"] = "bar"

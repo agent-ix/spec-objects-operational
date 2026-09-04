@@ -240,11 +240,19 @@ function manifestWithDigests(digests) {
   return out.join("\n");
 }
 
+/**
+ * The file's text, or `undefined` when it does not exist.
+ *
+ * Only `ENOENT` maps to "absent": a `PermissionError` or an `EISDIR` on a
+ * committed schema is a different problem, and swallowing it would make
+ * `--check` report a content difference instead of the real cause.
+ */
 function readIfPresent(path) {
   try {
     return readFileSync(path, "utf8");
-  } catch {
-    return undefined;
+  } catch (error) {
+    if (error.code === "ENOENT") return undefined;
+    throw error;
   }
 }
 
@@ -257,7 +265,8 @@ function check(rendered, toolchain, manifestText) {
   let committed = [];
   try {
     committed = readdirSync(outputDir).filter((name) => name.endsWith(".json"));
-  } catch {
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
     problems.push(`${relative(repoRoot, outputDir)} (missing; run \`make schemas\`)`);
   }
   for (const name of committed) {

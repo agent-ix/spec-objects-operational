@@ -263,12 +263,16 @@ def test_the_lockfile_resolves_public_packages_from_npmjs():
 
 @pytest.mark.trace("TC-016", "FR-002-AC-7")
 def test_the_npm_tarball_ships_the_schemas_beside_the_manifest(tmp_path):
+    # The pack-time staged copies, at the repository root — never the inner
+    # package. Captured before the pack so the cleanup below can only remove
+    # paths `npm pack` itself created (FND-002).
     staged = [
         REPO_ROOT / "manifest.yaml",
         REPO_ROOT / "schemas",
         REPO_ROOT / "skeletons",
     ]
-    assert not any(path.exists() for path in staged), (
+    preexisting = {path for path in staged if path.exists()}
+    assert not preexisting, (
         "the npm payload is already staged at the repository root; a stray "
         "root manifest.yaml makes every Filament tool discover the repo root "
         "as a second module"
@@ -291,6 +295,8 @@ def test_the_npm_tarball_ships_the_schemas_beside_the_manifest(tmp_path):
         )
     finally:
         for path in staged:
+            if path in preexisting:
+                continue
             if path.is_dir():
                 shutil.rmtree(path)
             elif path.exists():

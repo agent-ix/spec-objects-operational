@@ -82,7 +82,7 @@ fails the build.
 | ID | Constraint | Type | Validation |
 |----|------------|------|------------|
 | FR-002-CON-1 | The build SHALL use the official `@typespec/json-schema` emitter only; no custom emitter and no hand-edited emitted file. | Architecture | Inspection |
-| FR-002-CON-2 | The repository SHALL carry no `.npmrc`, no `file:` or `link:` dependency, and no upper version bound on the TypeSpec toolchain beyond the exact pin. | Packaging | Inspection |
+| FR-002-CON-2 | The repository SHALL carry no `.npmrc`, no `file:` or `link:` dependency, and no upper version bound on the TypeSpec toolchain beyond the exact pin. | Packaging | Test |
 | FR-002-CON-3 | Emission SHALL be deterministic: two runs over one source produce byte-identical files. | Integrity | Test |
 | FR-002-CON-4 | `package-lock.json` SHALL resolve every public package from `registry.npmjs.org`; `@agent-ix/semantic-core` resolves from npm.ix until `agent-ix/filament-core-data#11` publishes it, so `make schemas`/`make schemas-check` run on a machine whose user-level npm config routes `@agent-ix` to npm.ix, not in the GitHub workflow. | Packaging | Inspection |
 | FR-002-CON-5 | The `$id` base SHALL embed the manifest `version`, bumped as one atomic regeneration (source base, manifest version, schemas, digests, `toolchain.json` in one commit). | Compatibility | Test |
@@ -91,7 +91,7 @@ fails the build.
 
 | ID | Criteria | Verification |
 |----|----------|--------------|
-| FR-002-AC-1 | After `make schemas`, `spec_objects_operational/schemas/` holds exactly the files `toolchain.json` lists (the eight object-type models plus the support models named by [FR-004](./FR-004-role-schemas.md)), with compiler 1.15.0 and emitter 1.15.0 recorded. | Test |
+| FR-002-AC-1 | After `make schemas`, `spec_objects_operational/schemas/` holds exactly the twenty-seven files `toolchain.json` lists — the eight object-type models plus the nineteen support models [FR-004](./FR-004-role-schemas.md) names, with compiler 1.15.0 and emitter 1.15.0 recorded. | Test |
 | FR-002-AC-2 | Every shipped schema declares the 2020-12 `$schema` and the `$id` `https://schemas.agent-ix.org/agent-ix/spec-objects-operational/<manifest version>/<Model>.json` matching its file name, with the version segment read from `manifest.yaml` rather than hard-coded. | Test |
 | FR-002-AC-3 | Every `$ref` across the shipped schemas resolves to a shipped sibling or to semantic-core `0.1.0`; a `$ref` to any other host or version is absent. | Test |
 | FR-002-AC-4 | `make schemas-check` on the committed tree exits zero; after one byte of any shipped schema or one manifest digest is changed, it exits non-zero naming that file. | Test |
@@ -102,7 +102,7 @@ fails the build.
 | FR-002-AC-9 | `make schemas-check` on a committed tree carrying an extra `spec_objects_operational/schemas/Stale.json` with no emitted counterpart exits non-zero naming that file, and writes nothing. | Test |
 | FR-002-AC-10 | A generator run over a scratch copy of the tree writes only under `spec_objects_operational/schemas/` and, in `manifest.yaml`, only at `data_schema.digest` lines: every other tracked file is byte-identical afterwards. | Test |
 | FR-002-AC-11 | `make lint` runs `make schemas-check`: with one shipped schema mutated, `make lint` exits non-zero naming that file. | Test |
-| FR-002-AC-12 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf`, so a checkout with `autocrlf` cannot change the digested bytes. | Inspection |
+| FR-002-AC-12 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf`, so a checkout with `autocrlf` cannot change the digested bytes. | Test |
 | FR-002-AC-13 | `make install` installs the TypeSpec toolchain: after it, `node_modules/@typespec/compiler` and `node_modules/@agent-ix/semantic-core` exist at the pinned versions and `make schemas-check` exits zero. | Test |
 
 ## Dependencies

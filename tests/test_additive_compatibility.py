@@ -75,7 +75,6 @@ def test_every_baseline_skeleton_validates_under_the_new_manifest(quire_engine):
     assert failures == {}
 
 
-@pytest.mark.trace("TC-081", "NFR-001-AC-2")
 @pytest.mark.xfail(
     strict=True,
     reason=(
@@ -88,6 +87,7 @@ def test_every_baseline_skeleton_validates_under_the_new_manifest(quire_engine):
         "the row is an expected failure, never a skip."
     ),
 )
+@pytest.mark.trace("TC-081", "NFR-001-AC-2")
 def test_a_legacy_form_artifact_that_declares_its_object_is_not_an_error(quire_engine):
     text = (BASELINE_DIR / "skeletons" / "incident.md").read_text()
     text = text.replace("type: incident\n", "type: incident\nobject: incident\n", 1)
