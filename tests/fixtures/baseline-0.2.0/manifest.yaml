@@ -1,0 +1,233 @@
+manifest_version: 1.0.0
+name: spec-objects-operational
+version: 0.2.0
+description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)'
+nav:
+  category:
+    slug: operational
+    label: Operational
+    icon: Activity
+    order: 53
+archetypes: []
+grammars: []
+artifact_types: []
+# Advisory lint rules (quire-rs FR-036; format-walkthrough decision #12):
+# Configuration Scope cells use the blessed scope vocabulary. Evaluated
+# by `quire lint`; never blocks validation/extraction/sync.
+lint_rules:
+- type: table_column_values
+  id: configuration-scope
+  section: Configuration
+  column: Scope
+  allowed: [creation, runtime, session]
+  severity: warning
+object_types:
+- name: configuration
+  roles: [configurable]
+  allowed_links:
+    configures: [configurable]
+    references: [configuration]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: &id001
+          from: frontmatter_field
+          path:
+          - id
+          required: true
+        title: &id002
+          from: frontmatter_field
+          path:
+          - title
+          required: true
+        type: &id003
+          from: frontmatter_field
+          path:
+          - type
+          required: true
+        # Format-walkthrough decision #12 (2026-06-11): Parameters vs
+        # Settings was a near-synonym guessing game. ONE required
+        # `## Configuration` table with an explicit Scope column carries
+        # the semantic as data: Scope ∈ creation | runtime | session
+        # (enforced by the `configuration-scope` lint rule below).
+        configuration_table:
+          from: table_row
+          under_section: Configuration
+          required: true
+          assert:
+            columns:
+            - Name
+            - Scope
+            - Type
+            - Default
+            - Description
+            min_rows: 1
+        behavior:
+          from: section_body
+          after_heading: Behavior
+          required: false
+- name: migration
+  allowed_links:
+    migrates: [data_schema]
+    depends_on: [migration]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id001
+        title: *id002
+        type: *id003
+        sql:
+          from: code_block
+          after_heading: Migration
+          required: true
+          language: sql
+- name: sli
+  allowed_links:
+    measures: [measurable]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: &id004
+          from: frontmatter_field
+          path:
+          - id
+          required: true
+        title: &id005
+          from: frontmatter_field
+          path:
+          - title
+          required: true
+        type: &id006
+          from: frontmatter_field
+          path:
+          - type
+          required: true
+        query:
+          from: code_block
+          after_heading: Query
+          required: true
+- name: slo
+  allowed_links:
+    depends_on: [sli]
+    constrains: [deployable]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        target:
+          from: frontmatter_field
+          path:
+          - target
+          required: true
+        window:
+          from: frontmatter_field
+          path:
+          - window
+          required: true
+- name: alert
+  allowed_links:
+    escalates_to: [incident]
+    references: [runbook, slo, sli]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        flow:
+          from: code_block
+          after_heading: Flow
+          required: true
+          language: mermaid
+- name: runbook
+  allowed_links:
+    remediates: [incident, alert]
+    references: [deployment]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        steps:
+          from: section_body
+          after_heading: Steps
+          required: true
+- name: incident
+  allowed_links:
+    correlates: [alert]
+    breaches: [slo]
+    triggers: [runbook]
+    references: [deployment]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        timeline:
+          from: section_body
+          after_heading: Timeline
+          required: true
+- name: deployment
+  roles: [deployable, measurable, configurable]
+  allowed_links:
+    deploys: [deployable]
+    depends_on: [deployment, configuration]
+  data_schema:
+    type: object
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        topology:
+          from: code_block
+          after_heading: Topology
+          required: true
+          language: mermaid
+
+# FR-043: concrete-term lexicon — operational / SRE / deployment objects.
+lexicon:
+  deployment: {definition: a released, running instance of a service}
+  replica: {definition: one of N interchangeable copies of a workload}
+  migration: {definition: a versioned schema or data change step}
+  runbook: {definition: a documented operational procedure}
+  rollout: {definition: a progressive release of a new version}
+  rollback: {definition: reverting to a prior known-good version}
+  scaling: {definition: changing capacity by adding/removing replicas}
+  backend: {definition: a server-side system serving requests}
+  build: {definition: a produced, versioned artifact from source}
+  pipeline: {definition: an ordered sequence of automated stages}
+  container: {definition: a packaged, isolated runtime unit}
+  image: {definition: an immutable container build artifact}
+  cluster: {definition: a set of nodes running workloads together}
+  pod: {definition: a co-scheduled group of containers}
+  volume: {definition: persistent storage attached to a workload}
+  probe: {definition: a periodic liveness/readiness check}
+  healthcheck: {definition: an endpoint reporting service health}
+  scheduler: {definition: a component placing work onto resources}
+  worker: {definition: a process that consumes and executes jobs}
+  environment: {definition: a named deployment target (dev/staging/prod)}
+  configmap: {definition: externalized non-secret configuration}
+  registry: {definition: a store of versioned images or packages}
+  metric: {definition: a measured time-series value}
+  alert: {definition: a fired condition requiring attention}
+  refresh: {definition: a periodic re-fetch or re-computation}

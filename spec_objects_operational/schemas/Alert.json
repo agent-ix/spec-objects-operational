@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Alert.json",
+  "type": "object",
+  "properties": {
+    "clauses": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/ClauseRef.json"
+      },
+      "minItems": 1
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/AlertCondition.json"
+      }
+    },
+    "escalatesTo": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/OperationDecl.json"
+      }
+    }
+  },
+  "required": [
+    "clauses"
+  ],
+  "unevaluatedProperties": {
+    "not": {}
+  },
+  "description": "An alert: a firing condition over an indicator.\n\n`fields` is forbidden by the seal — an alert declares a condition, not data.\n`clauses` is required and carries the condition; `conditions` carries the\nsame condition in typed form once the extractor populates it."
+}

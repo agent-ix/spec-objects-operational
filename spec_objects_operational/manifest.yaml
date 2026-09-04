@@ -1,7 +1,25 @@
 manifest_version: 1.0.0
 name: spec-objects-operational
-version: 0.2.0
-description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)'
+version: 0.3.0
+description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)'
+semantic:
+  contract_version: 1.0.0
+  semantic_core: 0.1.0
+  package: agent-ix/spec-objects-operational
+  exports:
+  - configuration
+  - migration
+  - sli
+  - slo
+  - alert
+  - runbook
+  - incident
+  - deployment
+  imports: {}
+  targets: [json-schema, markdown]
+  mappings: [typed-table, sysml-fence, ocl-clause]
+  compatibility_posture: additive
+  legacy_forms: warning
 nav:
   category:
     slug: operational
@@ -28,7 +46,8 @@ object_types:
     configures: [configurable]
     references: [configuration]
   data_schema:
-    type: object
+    schema: schemas/Configuration.json
+    digest: sha256:ce2d741e8a68936781416a8362addc2ab5ec90c9a4d63b99cf58febb29c810fe
   body_extraction:
     yield_pattern:
       match:
@@ -68,12 +87,27 @@ object_types:
           from: section_body
           after_heading: Behavior
           required: false
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: migration
   allowed_links:
     migrates: [data_schema]
     depends_on: [migration]
   data_schema:
-    type: object
+    schema: schemas/Migration.json
+    digest: sha256:deb035455b042c2c78c7318ad41a0cc2fc9e506f48cea70174c5d37a19fdeb84
   body_extraction:
     yield_pattern:
       match:
@@ -85,11 +119,26 @@ object_types:
           after_heading: Migration
           required: true
           language: sql
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: sli
   allowed_links:
     measures: [measurable]
   data_schema:
-    type: object
+    schema: schemas/Sli.json
+    digest: sha256:53f544d407a5b1aca75352d2d3dd4ca1384b6eda307b61d7c6b76faea3f9e1dc
   body_extraction:
     yield_pattern:
       match:
@@ -112,12 +161,27 @@ object_types:
           from: code_block
           after_heading: Query
           required: true
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: slo
   allowed_links:
     depends_on: [sli]
     constrains: [deployable]
   data_schema:
-    type: object
+    schema: schemas/Slo.json
+    digest: sha256:0e9cd6bb09c5be099b967020776681480f69539bc0104b3f9777550cf2d9ae76
   body_extraction:
     yield_pattern:
       match:
@@ -134,12 +198,27 @@ object_types:
           path:
           - window
           required: true
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: alert
   allowed_links:
     escalates_to: [incident]
     references: [runbook, slo, sli]
   data_schema:
-    type: object
+    schema: schemas/Alert.json
+    digest: sha256:5c69d16d74dab15804cd1bb4f7a760cf6e86f827282692beb33f84e357f642c7
   body_extraction:
     yield_pattern:
       match:
@@ -151,12 +230,19 @@ object_types:
           after_heading: Flow
           required: true
           language: mermaid
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: runbook
   allowed_links:
     remediates: [incident, alert]
     references: [deployment]
   data_schema:
-    type: object
+    schema: schemas/Runbook.json
+    digest: sha256:b93e436bb6e6d486654419d628df50a184916b4bc02e12a5c7d8c3be84a4666d
   body_extraction:
     yield_pattern:
       match:
@@ -167,6 +253,18 @@ object_types:
           from: section_body
           after_heading: Steps
           required: true
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <name>` per
+        # operation, with optional Param table and Pre:/Post: lines.
+        operations:
+          from: section_body
+          after_heading: Operations
+          required: false
 - name: incident
   allowed_links:
     correlates: [alert]
@@ -174,7 +272,8 @@ object_types:
     triggers: [runbook]
     references: [deployment]
   data_schema:
-    type: object
+    schema: schemas/Incident.json
+    digest: sha256:28570fd6628eafbc646fbf05624b317d42e8f4fb01d08d726cb28f6b29022ad0
   body_extraction:
     yield_pattern:
       match:
@@ -185,13 +284,28 @@ object_types:
           from: section_body
           after_heading: Timeline
           required: true
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
 - name: deployment
   roles: [deployable, measurable, configurable]
   allowed_links:
     deploys: [deployable]
     depends_on: [deployment, configuration]
   data_schema:
-    type: object
+    schema: schemas/Deployment.json
+    digest: sha256:debc62ed096620868c08fab9129cb64904f5a56c9cc16659558f88289d9c9571
   body_extraction:
     yield_pattern:
       match:
@@ -203,31 +317,55 @@ object_types:
           after_heading: Topology
           required: true
           language: mermaid
+        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # table (`Field | Type | Multiplicity | Constraints`) or its
+        # `sysml` fence alternate. `required: false` so every 0.2.0
+        # artifact stays valid (FR-003-CON-2, NFR-001).
+        properties:
+          from: section_body
+          after_heading: Properties
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
+        # Added at 0.3.0 (issue #6, FR-005): one `### <name>` per
+        # operation, with optional Param table and Pre:/Post: lines.
+        operations:
+          from: section_body
+          after_heading: Operations
+          required: false
 
 # FR-043: concrete-term lexicon — operational / SRE / deployment objects.
+# Definitions are QUOTED scalars: an unquoted flow-mapping value truncates at
+# the first comma and mints a garbage second key, which silently lost three
+# definitions (agent-ix/spec-objects-operational#5). The three restored here
+# are `container`, `deployment`, and `build`, to the wording that issue names.
 lexicon:
-  deployment: {definition: a released, running instance of a service}
-  replica: {definition: one of N interchangeable copies of a workload}
-  migration: {definition: a versioned schema or data change step}
-  runbook: {definition: a documented operational procedure}
-  rollout: {definition: a progressive release of a new version}
-  rollback: {definition: reverting to a prior known-good version}
-  scaling: {definition: changing capacity by adding/removing replicas}
-  backend: {definition: a server-side system serving requests}
-  build: {definition: a produced, versioned artifact from source}
-  pipeline: {definition: an ordered sequence of automated stages}
-  container: {definition: a packaged, isolated runtime unit}
-  image: {definition: an immutable container build artifact}
-  cluster: {definition: a set of nodes running workloads together}
-  pod: {definition: a co-scheduled group of containers}
-  volume: {definition: persistent storage attached to a workload}
-  probe: {definition: a periodic liveness/readiness check}
-  healthcheck: {definition: an endpoint reporting service health}
-  scheduler: {definition: a component placing work onto resources}
-  worker: {definition: a process that consumes and executes jobs}
-  environment: {definition: a named deployment target (dev/staging/prod)}
-  configmap: {definition: externalized non-secret configuration}
-  registry: {definition: a store of versioned images or packages}
-  metric: {definition: a measured time-series value}
-  alert: {definition: a fired condition requiring attention}
-  refresh: {definition: a periodic re-fetch or re-computation}
+  deployment: {definition: "a released, running instance of a service"}
+  replica: {definition: "one of N interchangeable copies of a workload"}
+  migration: {definition: "a versioned schema or data change step"}
+  runbook: {definition: "a documented operational procedure"}
+  rollout: {definition: "a progressive release of a new version"}
+  rollback: {definition: "reverting to a prior known-good version"}
+  scaling: {definition: "changing capacity by adding/removing replicas"}
+  backend: {definition: "a server-side system serving requests"}
+  build: {definition: "a produced, versioned artifact from source"}
+  pipeline: {definition: "an ordered sequence of automated stages"}
+  container: {definition: "a packaged, isolated runtime unit"}
+  image: {definition: "an immutable container build artifact"}
+  cluster: {definition: "a set of nodes running workloads together"}
+  pod: {definition: "a co-scheduled group of containers"}
+  volume: {definition: "persistent storage attached to a workload"}
+  probe: {definition: "a periodic liveness/readiness check"}
+  healthcheck: {definition: "an endpoint reporting service health"}
+  scheduler: {definition: "a component placing work onto resources"}
+  worker: {definition: "a process that consumes and executes jobs"}
+  environment: {definition: "a named deployment target (dev/staging/prod)"}
+  configmap: {definition: "externalized non-secret configuration"}
+  registry: {definition: "a store of versioned images or packages"}
+  metric: {definition: "a measured time-series value"}
+  alert: {definition: "a fired condition requiring attention"}
+  refresh: {definition: "a periodic re-fetch or re-computation"}

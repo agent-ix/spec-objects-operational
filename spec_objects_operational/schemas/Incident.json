@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Incident.json",
+  "type": "object",
+  "properties": {
+    "fields": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/FieldDecl.json"
+      },
+      "minItems": 1,
+      "contains": {
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/IdentityField.json"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/EvidenceRef.json"
+      }
+    },
+    "correlates": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "breaches": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      }
+    },
+    "clauses": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/ClauseRef.json"
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/OperationDecl.json"
+      }
+    }
+  },
+  "required": [
+    "fields"
+  ],
+  "unevaluatedProperties": {
+    "not": {}
+  },
+  "description": "An incident: something that happened.\n\nThis is the module's one observed-execution type and the only model that\nrequires an occurrence identity — at least one identity field (which\nincident it was) and at least one `Timestamp` field (when it was). The\nsecond `contains` predicate is expressed through `allOf`, because JSON\nSchema admits one `contains` per array.\n\n`Incident` is also the only model that declares `evidence`, which is what\nmakes the `agent-ix/quoin#267` mapping canonical: exactly one key on exactly\none type, referencing that family's records by `SemanticId` and copying none\nof their fields.",
+  "allOf": [
+    {
+      "properties": {
+        "fields": {
+          "contains": {
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+          }
+        }
+      }
+    }
+  ]
+}
