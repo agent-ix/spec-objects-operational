@@ -39,9 +39,12 @@ installer, and leave the operator's global module store exactly as it was found.
 
 ## Notes
 
-- **Blocked.** No released Quoin carries the semantic installer — it needs a build
-  from `agent-ix/quoin` main at or after `3e842ce`. The test is written and
-  double-gated: it runs only when such a Quoin is on `PATH` *and*
-  `QUOIN_INSTALL_ROUNDTRIP=1` says the operator's global module store may be touched.
+- **Blocked on operator consent, not on a build.** The Quoin on this machine is
+  `0.23.1-2-g3e842ce` — exactly the revision IT-002 pins — so the build half of the
+  original blocker is cleared. What remains is that the install writes to the
+  machine-global `quoin module` store, so the test is double-gated and runs only
+  when such a Quoin is on `PATH` *and* `QUOIN_INSTALL_ROUNDTRIP=1` says that store
+  may be touched. No agent sets that variable on an operator's behalf; clearing this
+  task is an operator action, not engineering work.
 - This is the one row that mutates state outside the repository, which is why the
   restore is in a `finally` and is itself a criterion (IT-002-SC-06).

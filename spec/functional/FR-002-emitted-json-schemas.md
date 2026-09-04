@@ -76,6 +76,8 @@ fails the build.
 - The Python package SHALL include `spec_objects_operational/schemas/*.json` in the wheel and sdist.
 - The repository SHALL mark `*.json`, `*.tsp`, `*.yaml` and `*.md` as `eol=lf` in `.gitattributes`, so a checkout with `autocrlf` cannot change the digested bytes of a schema, a source, the manifest, or a skeleton.
 - `scripts/stage-npm.mjs` SHALL copy `schemas/` beside `manifest.yaml` at pack time, so the npm tarball ships the schemas the manifest references.
+- `scripts/stage-npm.mjs --clean` SHALL run at `postpack` and remove the three staged paths it created at the repository root (`manifest.yaml`, `schemas/`, `skeletons/`), because a `manifest.yaml` left at the root makes every Filament tool discover the repository itself as a second module and an unrelated `quire validate` then fails with "no archetype registered".
+- The clean step SHALL remove only the paths the pack staged, never the inner `spec_objects_operational/` sources it copied from.
 
 ## Constraints
 
@@ -104,6 +106,7 @@ fails the build.
 | FR-002-AC-11 | `make lint` runs `make schemas-check`: with one shipped schema mutated, `make lint` exits non-zero naming that file. | Test |
 | FR-002-AC-12 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf`, so a checkout with `autocrlf` cannot change the digested bytes. | Test |
 | FR-002-AC-13 | `make install` installs the TypeSpec toolchain: after it, `node_modules/@typespec/compiler` and `node_modules/@agent-ix/semantic-core` exist at the pinned versions and `make schemas-check` exits zero. | Test |
+| FR-002-AC-14 | After `npm pack`, none of `manifest.yaml`, `schemas/` or `skeletons/` remains at the repository root, and `spec_objects_operational/manifest.yaml`, `spec_objects_operational/schemas/` and `spec_objects_operational/skeletons/` are byte-identical to their pre-pack state. | Test |
 
 ## Dependencies
 

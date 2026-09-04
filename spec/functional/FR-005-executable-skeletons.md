@@ -79,7 +79,7 @@ refuse.
 
 | ID | Constraint | Type | Validation |
 |----|------------|------|------------|
-| FR-005-CON-1 | The module SHALL keep the skeletons and negatives in this repository only, editing no corpus repository and no vendored quoin/quire fixture. | Boundary | Test |
+| FR-005-CON-1 | The repository SHALL track no `corpus/` path, no `fixtures/semantic-module` path and no `/vendor/` path, so the skeletons and negatives live in this repository only. The constraint is verified as a tree assertion over `git ls-files`, never as a diff against a moving ref: a merged change's path set is a fixed historical fact, so an `origin/main...HEAD` range empties on merge and turns the gate red for a branch that no longer exists. | Boundary | Test |
 | FR-005-CON-2 | A skeleton SHALL carry one Properties form; the alternate form is a separate file, never a second block in the same artifact. | Integrity | Test |
 
 ## Acceptance Criteria

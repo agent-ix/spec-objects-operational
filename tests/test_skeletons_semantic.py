@@ -262,23 +262,47 @@ def test_the_measurement_and_occurrence_rows_are_actually_extracted(
     assert [f for f in record["fields"] if f["type"]["target"] == "Timestamp"]
 
 
+#: Path shapes FR-005-CON-1 forbids: a corpus repository checkout, a vendored
+#: quoin/quire semantic-module fixture, and any vendored tree.
+FORBIDDEN_PATHS = (
+    ("corpus/", lambda path: path.startswith("corpus/")),
+    ("fixtures/semantic-module", lambda path: "fixtures/semantic-module" in path),
+    ("/vendor/", lambda path: "/vendor/" in path),
+)
+
+
 @pytest.mark.trace("TC-069", "FR-005-CON-1")
-def test_the_branch_edits_no_corpus_repository_or_vendored_fixture():
-    """FR-005-CON-1, inspection over the branch diff against `main`."""
-    diff = subprocess.run(
-        ["git", "-C", str(REPO_ROOT), "diff", "--name-only", "origin/main...HEAD"],
+def test_no_corpus_repository_or_vendored_fixture_is_tracked():
+    """FR-005-CON-1 as a *tree* assertion, not a diff against a moving ref.
+
+    The obvious form — `git diff --name-only origin/main...HEAD` — is a
+    merge-degrading guard: a merged change's path set is a fixed historical
+    fact, but that range is computed against a ref that moves, so the moment
+    the branch merges the range empties, any `assert changed` fails, and main
+    goes red for a branch that no longer exists. `agent-ix/spec-objects-business`
+    main has been red on exactly that test since `567e5c4` merged.
+
+    None of the forbidden path shapes exists anywhere in this repository, so
+    the tree form is equivalent in intent and strictly stronger: it says these
+    paths are absent from the repository, not merely that one branch left them
+    alone. It is also merge-invariant — `git ls-files` answers the same
+    question on a branch, on main, and on main plus ten unrelated commits.
+    """
+    listing = subprocess.run(
+        ["git", "-C", str(REPO_ROOT), "ls-files"],
         capture_output=True,
         text=True,
         check=False,
     )
-    if diff.returncode != 0:  # pragma: no cover - a detached clone has no origin/main
-        pytest.fail(f"cannot read the branch diff: {diff.stderr.strip()}")
-    changed = [line for line in diff.stdout.splitlines() if line]
-    assert changed, "the branch changes nothing"
-    for path in changed:
-        assert not path.startswith("corpus/"), path
-        assert "fixtures/semantic-module" not in path, path
-        assert "/vendor/" not in path, path
+    if listing.returncode != 0:  # pragma: no cover - not a git checkout
+        pytest.fail(f"cannot read the tracked file list: {listing.stderr.strip()}")
+    tracked = [line for line in listing.stdout.splitlines() if line]
+    # Liveness: never `assert changed`. This says the gate ran over a real
+    # tree, and it cannot become vacuously true the way a diff range can.
+    assert tracked, "the repository tracks no files, so this gate did not run"
+    for label, matches in FORBIDDEN_PATHS:
+        offenders = [path for path in tracked if matches(path)]
+        assert offenders == [], f"{label}: {offenders}"
 
 
 @pytest.mark.trace("TC-070", "FR-005-CON-2")

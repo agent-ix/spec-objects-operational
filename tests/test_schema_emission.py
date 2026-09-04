@@ -451,3 +451,56 @@ def test_make_install_provisions_the_typespec_toolchain():
         assert installed.is_file(), f"{name} is not installed; run `make install`"
         assert json.loads(installed.read_text())["version"] == version, name
     assert run_generator("--check").returncode == 0
+
+
+@pytest.mark.trace("TC-028", "FR-002-AC-14")
+def test_postpack_removes_only_the_paths_the_pack_staged(tmp_path):
+    """FR-002-AC-14: `stage-npm.mjs --clean` is a destructive step, so what it
+    must NOT delete is asserted, not assumed. A `manifest.yaml` left at the
+    repository root makes every Filament tool discover the repo itself as a
+    second module; deleting the inner sources instead would be worse."""
+    inner = REPO_ROOT / "spec_objects_operational"
+    before = {
+        path.relative_to(inner): path.read_bytes()
+        for path in inner.rglob("*")
+        if path.is_file() and "__pycache__" not in path.parts
+    }
+    staged = [
+        REPO_ROOT / "manifest.yaml",
+        REPO_ROOT / "schemas",
+        REPO_ROOT / "skeletons",
+    ]
+    assert not any(path.exists() for path in staged), "the payload is already staged"
+
+    stage = subprocess.run(
+        ["node", str(REPO_ROOT / "scripts" / "stage-npm.mjs")],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    try:
+        assert stage.returncode == 0, stage.stderr
+        assert all(path.exists() for path in staged), "the payload was not staged"
+        clean = subprocess.run(
+            ["node", str(REPO_ROOT / "scripts" / "stage-npm.mjs"), "--clean"],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert clean.returncode == 0, clean.stderr
+    finally:
+        for path in staged:
+            if path.is_dir():
+                shutil.rmtree(path)
+            elif path.exists():
+                path.unlink()
+
+    assert not any(path.exists() for path in staged), "postpack left a staged path"
+    after = {
+        path.relative_to(inner): path.read_bytes()
+        for path in inner.rglob("*")
+        if path.is_file() and "__pycache__" not in path.parts
+    }
+    assert before == after, "the clean step touched the inner package sources"

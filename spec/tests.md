@@ -27,7 +27,13 @@ every acceptance criterion, named constraint, and NFR metric maps to at least
 one test case. A row is `🚧` until a tagged test asserts it.
 
 `quire coverage --scope .` reports **125/125 rows backed (100%)** on this
-branch. That figure counts *matrix and criterion rows minted from this spec*
+branch, and `quire validate --scope . "spec/**/*.md"` exits 0 with no document
+diagnostic. That second claim is about *documents*: the run also prints
+registry notices on stderr (`DuplicateModuleName` for this module at two paths,
+`DuplicateArchetype` per exported type, `DuplicateLexiconTerm` for the three
+repaired terms), all of which come from the module being registered from both
+the main checkout and its worktree at once and disappear when the worktree is
+removed. They are not findings against any artifact here. That figure counts *matrix and criterion rows minted from this spec*
 (67 from `spec/tests.md`, 58 acceptance criteria and validation criteria from
 the requirement documents) against the tracking tags on 88 test symbols — it
 is a traceability figure, not a pass rate. The pass rate is separate:
@@ -66,7 +72,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | Functional Req | Acceptance Criteria | Test Cases | Coverage Status |
 |---|---|---|---|
 | FR-001 | FR-001-AC-1..4 | TC-001..TC-004 | 🚧 AC-2..AC-4 need a running filament-core |
-| FR-002 | FR-002-AC-1..13, FR-002-CON-1..5 | TC-010..TC-027 | ✅ |
+| FR-002 | FR-002-AC-1..14, FR-002-CON-1..5 | TC-010..TC-028 | ✅ |
 | FR-003 | FR-003-AC-1..8, FR-003-CON-1..3 | TC-030..TC-038 | ✅ AC-5 is a Demonstration; AC-6's naming half is an expected failure |
 | FR-004 | FR-004-AC-1..15, FR-004-CON-1..5 | TC-040..TC-054 | ✅ AC-15's refusal half is an expected failure on quoin#335 |
 | FR-005 | FR-005-AC-1..11, FR-005-CON-1..2 | TC-060..TC-072 | ✅ |
@@ -113,6 +119,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
 | TC-027 | `make install` provisions the TypeSpec toolchain, so `make lint`'s drift gate fails for drift and not for a missing compiler | Unit | P1 | FR-002-AC-13 | ✅ |
+| TC-028 | `stage-npm.mjs --clean` removes every staged root path and leaves the inner package sources byte-identical | Integration | P1 | FR-002-AC-14 | ✅ |
 | TC-030 | The `semantic` block equals the nine admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
 | TC-031 | Every exported type's `data_schema` is the reference form whose file hashes to the recorded digest | Unit | P0 | FR-003-AC-2 | ✅ |
 | TC-032 | Every 0.2.0 locator is unchanged against the checked-in baseline | Unit | P0 | FR-003-AC-3 | ✅ |
@@ -146,7 +153,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-066 | Every skeleton is placeholder-free with non-empty asserted sections | Unit | P2 | FR-005-AC-7 | ✅ |
 | TC-067 | Skeleton titles are distinct `Identifier`s outside `KernelScalar`, and `object` equals `type` in every skeleton frontmatter | Unit | P1 | FR-005-AC-8 | ✅ |
 | TC-068 | The sli and slo skeletons extract a unit-bearing field; the incident skeleton extracts an identity field and a `Timestamp` field | Integration | P0 | FR-005-AC-9 | ✅ |
-| TC-069 | No corpus repository or vendored fixture is edited by the change (diff over the branch) | Integration | P2 | FR-005-CON-1 | ✅ |
+| TC-069 | The repository tracks no corpus path, no vendored semantic-module fixture and no vendor tree — a merge-invariant tree assertion over `git ls-files`, not a diff against a moving ref | Integration | P2 | FR-005-CON-1 | ✅ |
 | TC-070 | A Properties section holding both a table and a fence is refused at the second form | Integration | P1 | FR-005-CON-2 | ✅ |
 | TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic`, `make dev-quire` and quire-rs#392; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
 | TC-072 | `pyproject.toml` declares no `quire` dependency in any group | Unit | P1 | FR-005-AC-11 | ✅ |
@@ -197,6 +204,14 @@ validated against; the mismatch is upstream and is filed as
 Every criterion, constraint, and metric above has a row, and `quire coverage`
 reports zero unbacked rows and zero untracked symbols.
 
+One half of matrix verification is **unmeasured** rather than clean: because of
+`agent-ix/quoin#340` the engine skips status classification over the three
+Requirements Traceability tables, so it cannot tell a row that claims `✅`
+while nothing backs it from one that is honestly complete. The 125/125 backed
+figure stands on its own — it is derived from the tags, not from the status
+column — but "no status lies" is a claim this branch cannot yet evidence, and
+it is recorded here rather than asserted.
+
 Two evidence-plan artifacts are absent and are carried by the plan, not by this
 matrix: no `SuiteRegistry` document declares a producer for the `Unit`,
 `Integration`, `Snapshot` and `Manual` evidence kinds, and no `Inspections`
@@ -205,7 +220,7 @@ rows. `quire coverage` names both as `archetype-matches-nothing`. Those rows are
 TC-005, TC-006, TC-007, TC-020, TC-036 and TC-091. Four rows that were
 originally typed `Inspection` are now `Unit`/`Integration` because an
 executable symbol decides them (TC-021 the packaging surface, TC-026 the
-line-ending pins, TC-069 the branch diff, TC-072 the dependency groups); only
+line-ending pins, TC-069 the tracked file list, TC-072 the dependency groups); only
 TC-020's hand-edit half is genuinely judgement and stays `Inspection`.
 
 Three rows are explicit expected failures rather than passes, each naming its

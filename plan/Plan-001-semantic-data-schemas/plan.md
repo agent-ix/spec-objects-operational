@@ -30,13 +30,18 @@ relationships:
 ## Requirements Summary
 
 ### Stakeholder Requirements
-- [x] **StR-001**: Operational specifications yield extractable graph entities; every operational object carries one typed structural contract downstream frontends can read, and a standing definition is distinguishable from an observed execution without reading the prose (VC-1..VC-3).
+
+An unchecked box below means at least one of its criteria has no execution
+evidence yet, and the matrix row says why. StR-001 (VC-1, VC-2) and FR-001
+(AC-2..AC-4) each need a running `filament-core-service`; everything else is
+complete.
+- [ ] **StR-001**: Operational specifications yield extractable graph entities; every operational object carries one typed structural contract downstream frontends can read, and a standing definition is distinguishable from an observed execution without reading the prose (VC-1..VC-3).
 
 ### User Stories
 - [x] **US-001**: Declare every operational object type against the shared semantic-core grammar, so one declaration record per object validates identically in Quire, Quoin and the compiler, and operational evidence is referenced rather than duplicated.
 
 ### Functional Requirements
-- [x] **FR-001**: The manifest conforms to the FR-035 module-manifest schema and activates idempotently; the registered `data_schema` is the reference object as posted.
+- [ ] **FR-001**: The manifest conforms to the FR-035 module-manifest schema and activates idempotently; the registered `data_schema` is the reference object as posted.
 - [x] **FR-002**: Emit one JSON Schema 2020-12 document per model from `typespec/main.tsp` with the official `@typespec/json-schema` emitter at a pinned toolchain; normalize `$id`/`$ref`; gate drift; package the schemas into the wheel and the npm tarball; version-embedded `$id` with an atomic bump procedure.
 - [x] **FR-003**: `manifest.yaml` at version 0.3.0 carries the quoin FR-070 `semantic` block and a reference-form `data_schema` (path + digest) per exported object type, with every 0.2.0 locator, the `configuration-scope` lint rule and the lexicon term set unchanged.
 - [x] **FR-004**: One role-distinct model per operational object type — required, forbidden and item rules — separating the seven standing definitions from the one observed execution, with a single canonical `evidence` mapping and every grammar item by `$ref` to semantic-core 0.1.0.
