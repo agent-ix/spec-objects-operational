@@ -63,9 +63,9 @@ def test_the_manifest_validates_against_the_pinned_fr035_schema(quire_engine):
     assert violations == [], violations
 
 
-@pytest.mark.trace("TC-002", "FR-001-AC-2", "IT-001-SC-01")
 @pytest.mark.integration
 @needs_filament_core
+@pytest.mark.trace("TC-002", "FR-001-AC-2", "IT-001-SC-01")
 def test_activation_against_a_clean_filament_core_returns_200():
     import urllib.request
 
@@ -79,9 +79,9 @@ def test_activation_against_a_clean_filament_core_returns_200():
         assert response.status == 200
 
 
-@pytest.mark.trace("TC-003", "FR-001-AC-3", "IT-001-SC-03")
 @pytest.mark.integration
 @needs_filament_core
+@pytest.mark.trace("TC-003", "FR-001-AC-3", "IT-001-SC-03")
 def test_reactivation_is_a_content_hash_no_op():
     import urllib.request
 
@@ -98,9 +98,9 @@ def test_reactivation_is_a_content_hash_no_op():
     assert hashes[0] == hashes[1]
 
 
-@pytest.mark.trace("TC-004", "FR-001-AC-4", "IT-001-SC-02", "TC-005", "StR-001-VC-1")
 @pytest.mark.integration
 @needs_filament_core
+@pytest.mark.trace("TC-004", "FR-001-AC-4", "IT-001-SC-02", "TC-005", "StR-001-VC-1")
 def test_every_declared_contribution_is_readable_from_the_registry_endpoints():
     """FR-001-AC-4 and StR-001-VC-1 observe the same run: activation registers
     the contents this module declares, and each exported object type's
@@ -118,9 +118,9 @@ def test_every_declared_contribution_is_readable_from_the_registry_endpoints():
         assert row["data_schema"] == declared["data_schema"]
 
 
-@pytest.mark.trace("TC-006", "StR-001-VC-2")
 @pytest.mark.integration
 @needs_filament_core
+@pytest.mark.trace("TC-006", "StR-001-VC-2")
 def test_a_generator_produces_an_artifact_that_validates_against_the_shipped_module(
     quire_engine,
 ):

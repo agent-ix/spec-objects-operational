@@ -74,9 +74,9 @@ def roundtrip():
     return observed
 
 
-@pytest.mark.trace("TC-036", "FR-003-AC-5")
 @pytest.mark.integration
 @needs_quoin
+@pytest.mark.trace("TC-036", "FR-003-AC-5")
 def test_quoin_module_install_succeeds_and_lists_the_module():
     observed = roundtrip()
     install = observed["install"]
@@ -89,9 +89,9 @@ def test_quoin_module_install_succeeds_and_lists_the_module():
     ), "the prior quoin module state was not restored"
 
 
-@pytest.mark.trace("TC-091", "IT-002-SC-01", "IT-002-SC-02", "IT-002-SC-03")
 @pytest.mark.integration
 @needs_quoin
+@pytest.mark.trace("TC-091", "IT-002-SC-01", "IT-002-SC-02", "IT-002-SC-03")
 def test_the_install_records_the_prior_listing_installs_and_lists_the_module():
     observed = roundtrip()
     assert observed["recorded"] is not None  # step 1: the listing was captured
@@ -101,9 +101,9 @@ def test_the_install_records_the_prior_listing_installs_and_lists_the_module():
     assert "spec-objects-operational" in observed["listing"].stdout  # step 3
 
 
-@pytest.mark.trace("TC-091", "IT-002-SC-04", "IT-002-SC-05", "IT-002-SC-06")
 @pytest.mark.integration
 @needs_quoin
+@pytest.mark.trace("TC-091", "IT-002-SC-04", "IT-002-SC-05", "IT-002-SC-06")
 def test_the_roundtrip_derives_the_package_manifest_and_restores_state():
     observed = roundtrip()
     derived = observed.get("package_manifest")  # step 4: derived manifest
