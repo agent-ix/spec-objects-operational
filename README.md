@@ -1,5 +1,7 @@
 # spec-objects-operational
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.gg/6qsdhSPE)
+
 > Filament Module: tier-2 operational ObjectTypes (configuration, migration, hook, job, sli, slo)
 
 Agent-IX Filament module loaded by [`quire-cli`](https://github.com/agent-ix/quire-cli) and [`quoin`](https://github.com/agent-ix/quoin).
