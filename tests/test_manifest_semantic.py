@@ -66,7 +66,7 @@ def test_the_semantic_block_carries_the_nine_admitted_keys_and_eight_exports(
 ):
     assert set(semantic_block) == ADMITTED_KEYS
     assert semantic_block["contract_version"] == "1.0.0"
-    assert semantic_block["semantic_core"] == "0.1.0"
+    assert semantic_block["semantic_core"] == "0.3.0"
     assert semantic_block["package"] == "agent-ix/spec-objects-operational"
     assert semantic_block["exports"] == list(OBJECT_TYPES)
     assert semantic_block["imports"] == {}

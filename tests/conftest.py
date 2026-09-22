@@ -41,7 +41,7 @@ SEMANTIC_CORE_DIR = (
     / "json-schema"
 )
 
-SEMANTIC_CORE_BASE = "https://schemas.agent-ix.org/semantic-core/0.1.0/"
+SEMANTIC_CORE_BASE = "https://schemas.agent-ix.org/semantic-core/0.3.0/"
 
 QUIRE_MISSING = (
     "the Quire wheel exposing `extract_semantic` is not installed in this "
@@ -225,8 +225,8 @@ def schema_registry():
     if not SEMANTIC_CORE_DIR.is_dir():
         pytest.fail(
             "@agent-ix/semantic-core is not installed, so `$ref`s to the grammar "
-            "cannot resolve. Run `npm ci` (FR-002-CON-4: `@agent-ix` resolves "
-            "from npm.ix through the user-level npm config)."
+            "cannot resolve. Run `npm ci` (FR-002-CON-4: `@agent-ix/semantic-core` "
+            "resolves from GitHub Packages, the real CI-reachable registry)."
         )
     resources = []
     for path in sorted(SCHEMAS_DIR.glob("*.json")):
