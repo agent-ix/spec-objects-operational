@@ -178,7 +178,7 @@ def test_an_unknown_semantic_key_and_an_altered_digest_are_refused(
     strict=True,
     reason=(
         "FR-003-AC-6 requires the refusal to NAME the offending key and schema "
-        "path. quire 0.46.0 empties the registry silently instead: no "
+        "path. quire 0.47.1 empties the registry silently instead: no "
         "ArchetypeLoadFailure, no semantic.* code, nothing naming `foo` or the "
         "path. Blocked on agent-ix/quire-rs#221 (unknown key) and "
         "agent-ix/quire-rs#394 (digest). The criterion stands; the schema is "

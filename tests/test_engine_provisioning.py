@@ -40,8 +40,7 @@ def test_a_missing_engine_fails_the_semantic_rows_and_names_the_provisioning_pat
     assert not isinstance(raised.value, pytest.skip.Exception), raised.value
     message = str(raised.value)
     assert "extract_semantic" in message
-    assert "make dev-quire" in message
-    assert "agent-ix/quire-rs#392" in message
+    assert "poetry install" in message
 
 
 @pytest.mark.trace("TC-071", "FR-005-AC-10")
@@ -55,32 +54,35 @@ def test_an_engine_without_extract_semantic_fails_the_same_way(monkeypatch):
     assert isinstance(raised.value, pytest.fail.Exception), raised.value
     assert not isinstance(raised.value, pytest.skip.Exception), raised.value
     assert "extract_semantic" in str(raised.value)
-    assert "make dev-quire" in str(raised.value)
+    assert "poetry install" in str(raised.value)
 
 
 @pytest.mark.trace("TC-072", "FR-005-AC-11")
-def test_quire_is_declared_in_no_dependency_group_and_dev_quire_is_the_only_path():
-    """FR-005-AC-11: while agent-ix/quire-rs#392 is open, no index this
-    repository may commit against carries 0.46.0, so `quire` must not appear in
-    `pyproject.toml` at all and `make dev-quire` must be the documented path."""
+def test_quire_is_declared_as_a_dev_dependency_from_internal_pypi():
+    """FR-005-AC-11: `quire` is a committed dev dependency pinned to the
+    `internal-pypi` source, so `poetry install` provisions the engine and no
+    lookup falls through to public PyPI, where `quire` names an unrelated
+    package. `pyproject.toml`, `poetry.lock`, and the Makefile carry no
+    `dev-quire` target."""
     import tomlkit
 
     config = tomlkit.parse((REPO_ROOT / "pyproject.toml").read_text())
     poetry = config["tool"]["poetry"]
-    groups = [poetry.get("dependencies", {})]
-    for group in (poetry.get("group") or {}).values():
-        groups.append(group.get("dependencies", {}))
-    for table in groups:
-        assert "quire" not in table, "quire is a declared dependency"
+    dev = poetry["group"]["dev"]["dependencies"]
+    assert dev["quire"]["source"] == "internal-pypi"
 
-    task = config["tool"]["poe"]["tasks"]["dev-quire"]
-    assert "quire>=0.46.0" in task["shell"]
-    assert "pypi.ix" in task["shell"]
-    assert "quire-rs#392" in task["help"]
+    assert "dev-quire" not in config["tool"]["poe"]["tasks"]
 
     makefile = (REPO_ROOT / "Makefile").read_text()
-    assert "dev-quire" in makefile
-    assert "quire-rs#392" in makefile
+    assert "dev-quire" not in makefile
+    assert "quire-rs#392" not in makefile
+
+    # The declared source must actually resolve where poetry.lock says it
+    # will: a passing dependency declaration over a lockfile still pointing
+    # elsewhere would install from the wrong index.
+    lock = tomlkit.parse((REPO_ROOT / "poetry.lock").read_text())
+    quire_lock_entry = next(pkg for pkg in lock["package"] if pkg["name"] == "quire")
+    assert quire_lock_entry["source"]["reference"] == "internal-pypi"
 
     # The policy text the failure message quotes lives in one place.
-    assert "make dev-quire" in conftest.QUIRE_MISSING
+    assert "poetry install" in conftest.QUIRE_MISSING

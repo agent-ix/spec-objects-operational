@@ -155,8 +155,8 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-068 | The sli and slo skeletons extract a unit-bearing field; the incident skeleton extracts an identity field and a `Timestamp` field | Integration | P0 | FR-005-AC-9 | ✅ |
 | TC-069 | The repository tracks no corpus path, no vendored semantic-module fixture and no vendor tree — a merge-invariant tree assertion over `git ls-files`, not a diff against a moving ref | Integration | P2 | FR-005-CON-1 | ✅ |
 | TC-070 | A Properties section holding both a table and a fence is refused at the second form | Integration | P1 | FR-005-CON-2 | ✅ |
-| TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic`, `make dev-quire` and quire-rs#392; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
-| TC-072 | `pyproject.toml` declares no `quire` dependency in any group | Unit | P1 | FR-005-AC-11 | ✅ |
+| TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic` and `poetry install`; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
+| TC-072 | `pyproject.toml` declares `quire` as a dev dependency pinned to the `internal-pypi` source | Unit | P1 | FR-005-AC-11 | ✅ |
 | TC-080 | Zero 0.2.0 locators changed and the lint rule unchanged | Unit | P0 | NFR-001-AC-1 | ✅ |
 | TC-081 | Every checked-in 0.2.0 skeleton validates under 0.3.0 with zero errors | Integration | P0 | NFR-001-AC-2 | ✅ the `object:`-declaring legacy case is an expected failure on quire-rs#391 |
 | TC-082 | The 0.2.0 lexicon term set is intact and only the three issue #5 definitions differ, each by restoration | Unit | P1 | NFR-001-AC-3 | ✅ |
@@ -166,12 +166,11 @@ those fail when the engine is absent (FR-005-AC-10).
 ## Test Environment
 
 Every `Integration` row that names Quire runs against the Quire wheel FR-005
-Inputs pins, provisioned by `make dev-quire`. That wheel is not on any index
-this repository may commit a dependency against (`internal-pypi` serves 0.33.0
-at most); `agent-ix/quire-rs#392` is the blocking issue. The suite **fails**
-rather than skips when `extract_semantic` is absent, so no row here can be
-reported green without the engine under test. The one exception is TC-081, an
-explicit expected failure while `agent-ix/quire-rs#391` is open.
+Inputs pins, a dev dependency resolved from `internal-pypi` by `poetry install`.
+The suite **fails** rather than skips when `extract_semantic` is absent, so no
+row here can be reported green without the engine under test. The one
+exception is TC-081, an explicit expected failure while `agent-ix/quire-rs#391`
+is open.
 
 TC-036 and TC-091 are no longer blocked on a Quoin build: the Quoin on this
 machine is `0.23.1-2-g3e842ce`, exactly the revision IT-002 pins. What they now
