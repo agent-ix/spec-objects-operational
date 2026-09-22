@@ -4,10 +4,10 @@
   "type": "object",
   "properties": {
     "name": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/Identifier.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/Identifier.json"
     },
     "sli": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/SemanticId.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/SemanticId.json"
     },
     "comparator": {
       "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Comparator.json"

@@ -103,7 +103,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-007 | Every object type ships a typed schema a fixture reader can consume; a standing definition and an observed execution are distinguishable by schema alone | Demonstration | P2 | StR-001-VC-3 | ✅ |
 | TC-010 | Emitted set equals the eight object-type models plus the declared support models; `toolchain.json` records compiler and emitter 1.15.0 | Unit | P0 | FR-002-AC-1 | ✅ |
 | TC-011 | Every shipped schema declares the 2020-12 `$schema` and the `$id` matching its file name under the manifest-version base | Unit | P0 | FR-002-AC-2 | ✅ |
-| TC-012 | Every `$ref` resolves to a shipped sibling or semantic-core 0.1.0 | Unit | P0 | FR-002-AC-3 | ✅ |
+| TC-012 | Every `$ref` resolves to a shipped sibling or semantic-core 0.3.0 | Unit | P0 | FR-002-AC-3 | ✅ |
 | TC-013 | `make schemas-check` exits zero on the committed tree and non-zero naming a mutated schema or digest | Integration | P1 | FR-002-AC-4 | ✅ |
 | TC-014 | A `@jsonSchema` base version differing from the manifest version fails the generator naming both | Integration | P1 | FR-002-AC-5 | ✅ |
 | TC-015 | The built wheel contains every exported schema file | Integration | P1 | FR-002-AC-6 | ✅ |
@@ -113,7 +113,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
 | TC-021 | No `.npmrc`, no `file:`/`link:` dependency, exact toolchain pins in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
-| TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (npm.ix) | Unit | P2 | FR-002-CON-4 | ✅ |
+| TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (GitHub Packages) | Unit | P2 | FR-002-CON-4 | ✅ |
 | TC-023 | No acceptance test hard-codes the `$id` version segment; each reads it from the manifest `version` | Unit | P2 | FR-002-AC-2 | ✅ |
 | TC-024 | A generator run writes only under `schemas/` and only at `data_schema.digest` in the manifest; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |

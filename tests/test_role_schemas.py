@@ -33,7 +33,13 @@ def field(
     identity: bool = False,
     unit: str | None = None,
 ) -> dict:
-    type_ref: dict = {"target": target, "multiplicity": {"lower": 1, "upper": 1}}
+    # Multiplicity.json (semantic-core 0.3.0) requires `ordered`/`unique`; a
+    # producer clamps both `false` on a singular multiplicity (`upper` at
+    # most one). Every field this helper builds is singular.
+    type_ref: dict = {
+        "target": target,
+        "multiplicity": {"lower": 1, "upper": 1, "ordered": False, "unique": False},
+    }
     if unit is not None:
         type_ref["unit"] = unit
     decl: dict = {"name": name, "type": type_ref}
@@ -303,7 +309,7 @@ def test_an_unresolved_placeholder_target_is_accepted_and_a_bare_token_is_refuse
         "name": "mystery",
         "type": {
             "target": "ix://agent-ix/spec-objects-operational/unresolved/Mystery",
-            "multiplicity": {"lower": 1, "upper": 1},
+            "multiplicity": {"lower": 1, "upper": 1, "ordered": False, "unique": False},
         },
     }
     identity = field("incident_id", "UUID", identity=True)

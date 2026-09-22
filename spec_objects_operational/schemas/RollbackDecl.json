@@ -7,7 +7,7 @@
       "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackStrategy.json"
     },
     "clause": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/ClauseRef.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/ClauseRef.json"
     },
     "doc": {
       "type": "string"

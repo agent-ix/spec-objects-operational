@@ -23,7 +23,7 @@ type.
 
 ## Inputs
 
-- semantic-core 0.1.0 grammar models: `FieldDecl`, `RelationDecl`,
+- semantic-core 0.3.0 grammar models: `FieldDecl`, `RelationDecl`,
   `OperationDecl`, `ClauseRef`, `EnumValue`, `Identifier`, `SemanticId`,
   `UnitSymbol`, `KernelScalar`.
 - The declaration record Quire assembles per artifact: `fields` from
@@ -51,7 +51,7 @@ Each model SHALL enforce its row of the following table. "Identity field"
 means a `FieldDecl` with `identity: true`; "occurrence field" a `FieldDecl`
 whose `type.target` is `Timestamp`; "measured field" a `FieldDecl` whose
 `type.unit` is present (a `Type` cell of the form `Duration [ms]`, quoin
-FR-071). All three readings are semantic-core 0.1.0 and quoin FR-071 reader
+FR-071). All three readings are semantic-core 0.3.0 and quoin FR-071 reader
 conventions, so a release that renders `identity: false`, namespaces kernel
 scalars, or moves `unit` off `TypeRef` is a breaking change to these schemas
 and SHALL be handled by a manifest version bump, not by widening a rule.
@@ -93,7 +93,7 @@ occurrence field at all.
 - The TypeSpec source SHALL express that ban as an `@extension("allOf", …)` clause carrying `contains: OccurrenceField.json` with `minContains: 0` and `maxContains: 0`; `minContains: 0` is required because the keyword defaults to 1 and would otherwise contradict `maxContains: 0`.
 - This specification SHALL NOT claim that purity is enforced over field *names*. A row named `consumed_budget` typed `Decimal(5,4) [1]` is a well-formed measured field and no JSON Schema over `FieldDecl` can refuse it; the enforceable rules are the key seal and the occurrence-row ban above, and the remaining discipline is a review obligation, recorded here rather than asserted as a refusal.
 - Where a consumer needs a migration's execution state, that consumer SHALL read it through the `migrates` reference to the migrated schema or through an `Incident` that references the migration, never through a key on `Migration`.
-- Every `fields`, `params`, `clauses`, `operations`, and `relations` item SHALL be validated by `$ref` to the semantic-core 0.1.0 model, never by a copied definition.
+- Every `fields`, `params`, `clauses`, `operations`, and `relations` item SHALL be validated by `$ref` to the semantic-core 0.3.0 model, never by a copied definition.
 - `Deployment` SHALL be the only model that declares `relations`; the other seven refuse the key through their seal. The table names the refusal only where the key would otherwise be expected.
 - The TypeSpec source SHALL express the item rules through the official emitter's decorators over open marker models: `@contains(IdentityField)` for "≥ 1 identity field", `@contains(IdentityField) @minContains(0) @maxContains(0)` for "0 identity fields", `@contains(MeasuredField)` for "≥ 1 measured field", and, because JSON Schema admits one `contains` per array, the incident occurrence rule as an `@extension("allOf", …)` clause whose `contains` references `OccurrenceField.json`; the generator normalizes that relative `$ref` per [FR-002](./FR-002-emitted-json-schemas.md).
 - Every cross-reference a declaration makes (`type.target`, `configures`, `measures`, `constrains`, `dependsOn`, `migrates`, `deploys`, `escalatesTo`, `references`, `correlates`, `breaches`, `triggers`, `ObjectiveDecl.sli`, `AlertCondition.sli`) SHALL be a `SemanticId` or `KernelScalar` per semantic-core — `EvidenceRef.record` is the one deliberate exception, and carries the neighbour's own pattern for the reason above — so a bare token is rejected by the schema; resolution against the bundle, and the placeholder `ix://<org>/<repo>/unresolved/<Token>` with its `semantic.unresolved-type` finding, exist today for `type.target` only (quire-rs FR-070) and for the other keys once `agent-ix/quoin#335` publishes their mapping.
@@ -131,7 +131,7 @@ occurrence field at all.
 | FR-004-AC-10 | The empty record `{}` fails all eight object-type schemas, and a record carrying an `observations` key fails every one of them. The second half holds for any unknown key, so it is evidence of the seal only; the type-specific purity evidence is FR-004-AC-14. | Test |
 | FR-004-AC-11 | `evidence` is declared by `Incident.json` and by no other shipped schema; an `evidence` entry whose `record` falls outside quoin FR-059's `$defs/identity` pattern fails, one carrying an `ix://` identity (also a valid FR-059 `record_id`) validates, and one whose `shape` is outside `EvidenceRecordShape` fails. | Test |
 | FR-004-AC-12 | A `type.target` of `ix://agent-ix/spec-objects-operational/unresolved/Mystery` is accepted by the schema (it is a `SemanticId`) and reported by the extractor as `semantic.unresolved-type`; a bare `Mystery` string is rejected by the schema. | Test |
-| FR-004-AC-13 | No module schema redeclares a semantic-core model; every grammar item across the eight object-type schemas is a `$ref` to semantic-core 0.1.0. | Test |
+| FR-004-AC-13 | No module schema redeclares a semantic-core model; every grammar item across the eight object-type schemas is a `$ref` to semantic-core 0.3.0. | Test |
 | FR-004-AC-14 | A record adding one `Timestamp` field to an otherwise valid configuration, migration, SLI, SLO or deployment record fails that type's schema, while the same field added to a valid incident record still validates; `Incident.json` is the only shipped schema whose `fields` admits an occurrence field. | Test |
 | FR-004-AC-15 | A record violating each of the three cross-key reader rules (`AlertCondition.sli`, `RunbookStep.operation`, `ScopeAssignment.parameter`) is refused. Blocked: JSON Schema cannot express any of the three and `agent-ix/quoin#335` owns the mapping that will, so the criterion is carried as an explicit expected failure — the test asserts the refusal and is marked strict-xfail, and it turns red the day the engine can enforce it. | Test |
 

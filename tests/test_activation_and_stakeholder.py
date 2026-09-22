@@ -151,11 +151,22 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
         assert schema.get("properties"), f"{name} carries no declared shape"
         assert set(schema) > {"$schema", "$id", "type"}, name
 
+    # Multiplicity.json (semantic-core 0.3.0) requires `ordered`/`unique`; a
+    # producer clamps both `false` on a singular multiplicity (`upper` at
+    # most one). Every field below is singular, so both are `false`.
     standing_record = {
         "fields": [
             {
                 "name": "storage_root",
-                "type": {"target": "String", "multiplicity": {"lower": 1, "upper": 1}},
+                "type": {
+                    "target": "String",
+                    "multiplicity": {
+                        "lower": 1,
+                        "upper": 1,
+                        "ordered": False,
+                        "unique": False,
+                    },
+                },
             }
         ]
     }
@@ -163,14 +174,27 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
         "fields": [
             {
                 "name": "incident_id",
-                "type": {"target": "UUID", "multiplicity": {"lower": 1, "upper": 1}},
+                "type": {
+                    "target": "UUID",
+                    "multiplicity": {
+                        "lower": 1,
+                        "upper": 1,
+                        "ordered": False,
+                        "unique": False,
+                    },
+                },
                 "identity": True,
             },
             {
                 "name": "detected_at",
                 "type": {
                     "target": "Timestamp",
-                    "multiplicity": {"lower": 1, "upper": 1},
+                    "multiplicity": {
+                        "lower": 1,
+                        "upper": 1,
+                        "ordered": False,
+                        "unique": False,
+                    },
                 },
             },
         ]

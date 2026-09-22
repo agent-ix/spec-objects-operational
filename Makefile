@@ -39,7 +39,7 @@ help:
 
 # `make lint` runs `make schemas-check`, which needs the TypeSpec toolchain, so
 # `make install` provisions both halves (FR-002-AC-13). `@agent-ix` resolves
-# from npm.ix through the user-level npm config; this repo carries no .npmrc.
+# from GitHub Packages per `package-lock.json`; this repo carries no .npmrc.
 .PHONY: install
 install:
 	$(POETRY) install

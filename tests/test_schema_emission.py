@@ -238,7 +238,7 @@ def test_no_npmrc_no_local_dependency_and_exact_toolchain_pins():
     dev = package["devDependencies"]
     assert dev["@typespec/compiler"] == "1.15.0"
     assert dev["@typespec/json-schema"] == "1.15.0"
-    assert dev["@agent-ix/semantic-core"] == "0.1.0"
+    assert dev["@agent-ix/semantic-core"] == "0.3.0"
     assert "dependencies" not in package or not package["dependencies"]
     for section in ("dependencies", "devDependencies"):
         for name, spec in (package.get(section) or {}).items():
@@ -248,13 +248,20 @@ def test_no_npmrc_no_local_dependency_and_exact_toolchain_pins():
 
 @pytest.mark.trace("TC-022", "FR-002-CON-4")
 def test_the_lockfile_resolves_public_packages_from_npmjs():
+    # `@agent-ix/semantic-core` 0.3.0 is the first real, CI-reachable
+    # published version (GitHub Packages); the lockfile SHALL resolve it
+    # from there directly, matching the scope routing CI's own
+    # `setup-npmrc` action configures, never from the private npm.ix
+    # dev-mirror.
     lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
     for path, entry in lock["packages"].items():
         resolved = entry.get("resolved")
         if not resolved:
             continue
         if path.endswith("@agent-ix/semantic-core"):
-            assert "npm.ix" in resolved, resolved
+            assert resolved.startswith(
+                "https://npm.pkg.github.com/"
+            ), f"{path} -> {resolved}"
         else:
             assert resolved.startswith(
                 "https://registry.npmjs.org/"
@@ -336,7 +343,15 @@ def test_a_coordinated_version_bump_reemits_every_id_and_digest(tmp_path):
             continue
         schema = json.loads(path.read_text())
         assert schema["$id"] == f"{bumped_base}{path.name}"
-        assert old not in json.dumps(schema)
+        # Checks the *module's own* base only, never a bare version number:
+        # the module version and the pinned semantic-core version can
+        # coincide numerically (both are "0.3.0" as of this bump), and a
+        # bare `old not in ...` would wrongly flag every legitimate
+        # semantic-core `$ref` that happens to share the digits.
+        old_base = (
+            f"https://schemas.agent-ix.org/agent-ix/spec-objects-operational/{old}/"
+        )
+        assert old_base not in json.dumps(schema)
     assert run_generator("--check", cwd=tree).returncode == 0
 
 

@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "unit": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.1.0/UnitSymbol.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/UnitSymbol.json"
     }
   },
   "required": [

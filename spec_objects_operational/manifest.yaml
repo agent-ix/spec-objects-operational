@@ -4,7 +4,7 @@ version: 0.3.0
 description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)'
 semantic:
   contract_version: 1.0.0
-  semantic_core: 0.1.0
+  semantic_core: 0.3.0
   package: agent-ix/spec-objects-operational
   exports:
   - configuration
@@ -47,7 +47,7 @@ object_types:
     references: [configuration]
   data_schema:
     schema: schemas/Configuration.json
-    digest: sha256:ce2d741e8a68936781416a8362addc2ab5ec90c9a4d63b99cf58febb29c810fe
+    digest: sha256:20151856a9cda771e838278fafd6f1f8af3b279e222233c44a82fcc91032aa2d
   body_extraction:
     yield_pattern:
       match:
@@ -107,7 +107,7 @@ object_types:
     depends_on: [migration]
   data_schema:
     schema: schemas/Migration.json
-    digest: sha256:deb035455b042c2c78c7318ad41a0cc2fc9e506f48cea70174c5d37a19fdeb84
+    digest: sha256:3a397942625a2234b86a95a488e36870dc9b5eaf26265a57ac2305ad5c78180c
   body_extraction:
     yield_pattern:
       match:
@@ -138,7 +138,7 @@ object_types:
     measures: [measurable]
   data_schema:
     schema: schemas/Sli.json
-    digest: sha256:53f544d407a5b1aca75352d2d3dd4ca1384b6eda307b61d7c6b76faea3f9e1dc
+    digest: sha256:172b70230fda27af4a2204c116d709ca46885b1634c6e98c23fc21ae12c362f6
   body_extraction:
     yield_pattern:
       match:
@@ -181,7 +181,7 @@ object_types:
     constrains: [deployable]
   data_schema:
     schema: schemas/Slo.json
-    digest: sha256:0e9cd6bb09c5be099b967020776681480f69539bc0104b3f9777550cf2d9ae76
+    digest: sha256:a3b5d11318e13a472428534076a4ab4b342e9564aad984d650a0947f24cd1954
   body_extraction:
     yield_pattern:
       match:
@@ -218,7 +218,7 @@ object_types:
     references: [runbook, slo, sli]
   data_schema:
     schema: schemas/Alert.json
-    digest: sha256:5c69d16d74dab15804cd1bb4f7a760cf6e86f827282692beb33f84e357f642c7
+    digest: sha256:6de897c9646c087e9ddeb65b3c7f6a149ed9aaa31b9f24c5a815b2d20e19dedc
   body_extraction:
     yield_pattern:
       match:
@@ -242,7 +242,7 @@ object_types:
     references: [deployment]
   data_schema:
     schema: schemas/Runbook.json
-    digest: sha256:b93e436bb6e6d486654419d628df50a184916b4bc02e12a5c7d8c3be84a4666d
+    digest: sha256:03072f6f752abd9d7153d1caee65451269282030e80a89d803840b8ab6e7871b
   body_extraction:
     yield_pattern:
       match:
@@ -273,7 +273,7 @@ object_types:
     references: [deployment]
   data_schema:
     schema: schemas/Incident.json
-    digest: sha256:28570fd6628eafbc646fbf05624b317d42e8f4fb01d08d726cb28f6b29022ad0
+    digest: sha256:750015d277ccdfd4a239bffc57ff74cfc5420281d1a416afa8e4c59b6e53a7cd
   body_extraction:
     yield_pattern:
       match:
@@ -305,7 +305,7 @@ object_types:
     depends_on: [deployment, configuration]
   data_schema:
     schema: schemas/Deployment.json
-    digest: sha256:debc62ed096620868c08fab9129cb64904f5a56c9cc16659558f88289d9c9571
+    digest: sha256:98582b4932d77ef3590e08edbf16579fe44020afb23904d1576aead67a4ac508
   body_extraction:
     yield_pattern:
       match:

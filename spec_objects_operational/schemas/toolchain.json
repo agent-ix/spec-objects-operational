@@ -9,7 +9,7 @@
   },
   "semanticCore": {
     "name": "@agent-ix/semantic-core",
-    "version": "0.1.0"
+    "version": "0.3.0"
   },
   "base": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/",
   "normalization": {
@@ -25,7 +25,7 @@
       "Sli.json",
       "Slo.json"
     ],
-    "note": "rewrote relative $id/$ref to the module base or semantic-core 0.1.0"
+    "note": "rewrote relative $id/$ref to the module base or semantic-core 0.3.0"
   },
   "files": [
     "Alert.json",
@@ -56,5 +56,5 @@
     "Slo.json",
     "UnitTypeRef.json"
   ],
-  "digest": "sha256:09b94d98570cb3c2f418a58e60745c48de5713cf00fe8b5afcdbb07215d013f6"
+  "digest": "sha256:689a225c5b5c30539ba7ab0450e6096a5a809db37bcd9bc2a5f0d7b27b88333b"
 }
