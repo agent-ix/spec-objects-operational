@@ -101,12 +101,6 @@ one authoritative definition of what the module activates against
   NFR-001-AC-2 itself holds — no 0.2.0 artifact carries `object:` — and the
   defect is carried as an explicit expected failure beside it rather than
   worked around by relaxing a schema.
-- Publishing the Quire 0.46.0 wheel to an index a repository may commit
-  against: `agent-ix/quire-rs#392`. `internal-pypi` serves 0.33.0 at most and
-  no `quire-rs` tag carries the semantic layer, so this module provisions the
-  wheel with a documented `make dev-quire` target and its semantic tests fail
-  rather than skip when the engine is absent (FR-005). Declaring `quire` as a
-  committed dev dependency waits on that issue.
 - Reconciling the three divergent copies of the FR-035 module-manifest schema:
   `agent-ix/filament-core-service#26`. The service's own copy admits neither
   the `semantic` block nor the `lexicon` block this manifest carries, so this

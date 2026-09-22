@@ -299,15 +299,15 @@ def _quire_doc_validator():
     """The quire wheel exposing the markdown validator, or a failed test.
 
     These rows FAIL rather than skip when the engine is absent (FR-005-AC-10);
-    the wheel is provisioned by `make dev-quire` while agent-ix/quire-rs#392 is
-    open. A skipped row is not coverage — this file used to skip here, which is
-    how a broken locator lookup below went unnoticed.
+    the wheel is a dev dependency provisioned by `poetry install`. A skipped
+    row is not coverage — this file used to skip here, which is how a broken
+    locator lookup below went unnoticed.
     """
     quire = require_quire()
     if not hasattr(quire, "validate_document"):
         pytest.fail(
             "the installed quire exposes no `validate_document`; run "
-            "`make dev-quire` (agent-ix/quire-rs#392)"
+            "`poetry install`"
         )
     return quire
 
@@ -318,8 +318,8 @@ def test_skeleton_validates_via_quire(name: str) -> None:
     """Each filled skeleton passes validate_document.
 
     Fails — never skips — when no quire wheel (or one predating the markdown
-    validator) is installed; quire is intentionally not a declared dependency
-    of this package while agent-ix/quire-rs#392 is open (FR-005-AC-10/AC-11)."""
+    validator) is installed; quire is a committed dev dependency resolved
+    from `internal-pypi` (FR-005-AC-10/AC-11)."""
     quire = _quire_doc_validator()
     res = quire.validate_document(name, str(PKG_ROOT), _skeleton_text(name))
     assert res["is_valid"], res["errors"]
