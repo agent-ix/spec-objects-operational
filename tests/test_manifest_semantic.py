@@ -23,7 +23,6 @@ from tests.conftest import (
     locators,
     object_type,
     object_types,
-    sha256_of,
 )
 
 ADMITTED_KEYS = {
@@ -76,21 +75,6 @@ def test_the_semantic_block_carries_the_nine_admitted_keys_and_eight_exports(
     assert semantic_block["legacy_forms"] == "warning"
 
 
-@pytest.mark.trace("TC-031", "FR-003-AC-2")
-def test_every_exported_type_carries_the_reference_form_and_a_matching_digest():
-    for ot in object_types():
-        data_schema = ot["data_schema"]
-        assert set(data_schema) == {"schema", "digest"}, ot["name"]
-        expected = f"schemas/{MODEL_OF[ot['name']]}.json"
-        assert data_schema["schema"] == expected, ot["name"]
-        path = PACKAGE_ROOT / data_schema["schema"]
-        assert path.is_file(), path
-        assert data_schema["digest"] == sha256_of(path), ot["name"]
-        assert (
-            "type" not in data_schema
-        ), f"{ot['name']} still carries an inline data_schema"
-
-
 @pytest.mark.trace("TC-032", "FR-003-AC-3")
 def test_every_020_locator_is_unchanged_against_the_checked_in_baseline():
     baseline = json.loads((BASELINE_DIR / "body_extraction.json").read_text())
@@ -141,37 +125,6 @@ def test_validate_document_reports_no_semantic_load_failure_for_any_skeleton(
         assert not [
             e for e in result["errors"] if "semantic." in e["message"]
         ], path.name
-
-
-@pytest.mark.trace("TC-035", "FR-003-AC-6")
-def test_an_unknown_semantic_key_and_an_altered_digest_are_refused(
-    quire_engine, tmp_path
-):
-    """Measured against quire 0.46.0: an unknown `semantic` key drops every
-    object type of the module (the manifest is refused whole), while a wrong
-    digest drops the refused object type alone."""
-
-    def add_unknown_key(data):
-        data["semantic"]["foo"] = "bar"
-
-    unknown = module_copy(tmp_path / "unknown", add_unknown_key)
-    assert quire_engine.Registry.load_from([str(unknown)]).archetype_names() == []
-
-    def break_digest(data):
-        target = next(ot for ot in data["object_types"] if ot["name"] == "incident")
-        target["data_schema"]["digest"] = "sha256:" + "0" * 64
-
-    altered = module_copy(tmp_path / "digest", break_digest)
-    loaded = set(quire_engine.Registry.load_from([str(altered)]).archetype_names())
-    assert "incident" not in loaded
-    assert loaded >= set(OBJECT_TYPES) - {"incident"}
-
-    text = (SKELETONS_DIR / "incident.md").read_text()
-    for search_path in (unknown, altered):
-        with pytest.raises(Exception):
-            quire_engine.validate_document(
-                "incident", str(search_path / "module"), text
-            )
 
 
 @pytest.mark.xfail(

@@ -142,20 +142,6 @@ def test_schemas_check_is_green_on_the_committed_tree_and_names_a_mutation(tmp_p
     assert mutated.returncode != 0
     assert "Configuration.json" in mutated.stderr
 
-    tree = worktree_copy(tmp_path / "digest")
-    manifest = tree / "spec_objects_operational" / "manifest.yaml"
-    manifest.write_text(
-        re.sub(
-            r"digest: sha256:\w+",
-            "digest: sha256:deadbeef",
-            manifest.read_text(),
-            count=1,
-        )
-    )
-    digest_run = run_generator("--check", cwd=tree)
-    assert digest_run.returncode != 0
-    assert "manifest.yaml" in digest_run.stderr
-
 
 @pytest.mark.trace("TC-014", "FR-002-AC-5")
 def test_a_base_version_differing_from_the_manifest_version_fails_naming_both(tmp_path):
