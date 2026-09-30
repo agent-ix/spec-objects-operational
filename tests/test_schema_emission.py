@@ -142,20 +142,6 @@ def test_schemas_check_is_green_on_the_committed_tree_and_names_a_mutation(tmp_p
     assert mutated.returncode != 0
     assert "Configuration.json" in mutated.stderr
 
-    tree = worktree_copy(tmp_path / "digest")
-    manifest = tree / "spec_objects_operational" / "manifest.yaml"
-    manifest.write_text(
-        re.sub(
-            r"digest: sha256:\w+",
-            "digest: sha256:deadbeef",
-            manifest.read_text(),
-            count=1,
-        )
-    )
-    digest_run = run_generator("--check", cwd=tree)
-    assert digest_run.returncode != 0
-    assert "manifest.yaml" in digest_run.stderr
-
 
 @pytest.mark.trace("TC-014", "FR-002-AC-5")
 def test_a_base_version_differing_from_the_manifest_version_fails_naming_both(tmp_path):
@@ -317,7 +303,7 @@ def test_the_npm_tarball_ships_the_schemas_beside_the_manifest(tmp_path):
 
 
 @pytest.mark.trace("TC-017", "FR-002-AC-8", "FR-002-CON-5")
-def test_a_coordinated_version_bump_reemits_every_id_and_digest(tmp_path):
+def test_a_coordinated_version_bump_reemits_every_id(tmp_path):
     tree = worktree_copy(tmp_path)
     old, new = manifest_version(), "9.9.9"
     source = tree / "typespec" / "main.tsp"
@@ -385,7 +371,7 @@ def test_no_test_hard_codes_the_id_version_segment():
 
 
 @pytest.mark.trace("TC-024", "FR-002-AC-10")
-def test_the_generator_writes_only_schemas_and_manifest_digests(tmp_path):
+def test_the_generator_writes_only_schemas(tmp_path):
     """FR-002-AC-10: the generator's write scope, measured over a throwaway
     tree rather than asserted from the source."""
     tree = worktree_copy(tmp_path)
@@ -403,19 +389,7 @@ def test_the_generator_writes_only_schemas_and_manifest_digests(tmp_path):
     assert set(before) == set(after), "the generator added or removed a file"
     changed = {str(name) for name in before if before[name] != after[name]}
     for name in changed:
-        assert name.startswith("spec_objects_operational/schemas/") or name.endswith(
-            "manifest.yaml"
-        ), name
-
-    manifest = tree / "spec_objects_operational" / "manifest.yaml"
-    old_lines = before[manifest.relative_to(tree)].decode().splitlines()
-    new_lines = manifest.read_text().splitlines()
-    assert len(old_lines) == len(new_lines)
-    for old, new in zip(old_lines, new_lines):
-        if old != new:
-            assert old.strip().startswith("digest:") and new.strip().startswith(
-                "digest:"
-            ), (old, new)
+        assert name.startswith("spec_objects_operational/schemas/"), name
 
 
 @pytest.mark.trace("TC-025", "FR-002-AC-11")
@@ -438,9 +412,9 @@ def test_make_lint_runs_the_schema_drift_gate(tmp_path):
 
 
 @pytest.mark.trace("TC-026", "FR-002-AC-12")
-def test_gitattributes_pins_lf_for_every_digested_file_type():
+def test_gitattributes_pins_lf_for_every_file_type():
     """FR-002-AC-12, inspection: a checkout with `autocrlf` must not be able to
-    change the bytes a digest was taken over."""
+    change the committed bytes."""
     lines = {
         line.split()[0]: line
         for line in (REPO_ROOT / ".gitattributes").read_text().splitlines()

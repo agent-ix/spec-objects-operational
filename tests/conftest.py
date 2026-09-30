@@ -13,7 +13,6 @@ Two policies are enforced here and nowhere else:
 
 from __future__ import annotations
 
-import hashlib
 import json
 import pathlib
 import re
@@ -137,10 +136,6 @@ def frontmatter(markdown: str) -> dict[str, Any]:
     match = re.match(r"---\n(.*?)\n---\n", markdown, re.DOTALL)
     assert match, "document has no frontmatter"
     return yaml.safe_load(match.group(1))
-
-
-def sha256_of(path: pathlib.Path) -> str:
-    return f"sha256:{hashlib.sha256(path.read_bytes()).hexdigest()}"
 
 
 def require_quire():

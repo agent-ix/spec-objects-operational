@@ -47,7 +47,6 @@ object_types:
     references: [configuration]
   data_schema:
     schema: schemas/Configuration.json
-    digest: sha256:20151856a9cda771e838278fafd6f1f8af3b279e222233c44a82fcc91032aa2d
   body_extraction:
     yield_pattern:
       match:
@@ -107,7 +106,6 @@ object_types:
     depends_on: [migration]
   data_schema:
     schema: schemas/Migration.json
-    digest: sha256:3a397942625a2234b86a95a488e36870dc9b5eaf26265a57ac2305ad5c78180c
   body_extraction:
     yield_pattern:
       match:
@@ -138,7 +136,6 @@ object_types:
     measures: [measurable]
   data_schema:
     schema: schemas/Sli.json
-    digest: sha256:172b70230fda27af4a2204c116d709ca46885b1634c6e98c23fc21ae12c362f6
   body_extraction:
     yield_pattern:
       match:
@@ -181,7 +178,6 @@ object_types:
     constrains: [deployable]
   data_schema:
     schema: schemas/Slo.json
-    digest: sha256:a3b5d11318e13a472428534076a4ab4b342e9564aad984d650a0947f24cd1954
   body_extraction:
     yield_pattern:
       match:
@@ -218,7 +214,6 @@ object_types:
     references: [runbook, slo, sli]
   data_schema:
     schema: schemas/Alert.json
-    digest: sha256:6de897c9646c087e9ddeb65b3c7f6a149ed9aaa31b9f24c5a815b2d20e19dedc
   body_extraction:
     yield_pattern:
       match:
@@ -242,7 +237,6 @@ object_types:
     references: [deployment]
   data_schema:
     schema: schemas/Runbook.json
-    digest: sha256:03072f6f752abd9d7153d1caee65451269282030e80a89d803840b8ab6e7871b
   body_extraction:
     yield_pattern:
       match:
@@ -273,7 +267,6 @@ object_types:
     references: [deployment]
   data_schema:
     schema: schemas/Incident.json
-    digest: sha256:750015d277ccdfd4a239bffc57ff74cfc5420281d1a416afa8e4c59b6e53a7cd
   body_extraction:
     yield_pattern:
       match:
@@ -305,7 +298,6 @@ object_types:
     depends_on: [deployment, configuration]
   data_schema:
     schema: schemas/Deployment.json
-    digest: sha256:98582b4932d77ef3590e08edbf16579fe44020afb23904d1576aead67a4ac508
   body_extraction:
     yield_pattern:
       match:
