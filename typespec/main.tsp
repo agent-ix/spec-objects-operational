@@ -72,7 +72,7 @@ model MeasuredField {
 // ---------------------------------------------------------------------------
 
 /**
- * When a configuration parameter takes effect. The same closed set the 0.2.0
+ * When a configuration parameter takes effect. The same closed set the
  * `configuration-scope` lint rule allows on the untyped `## Configuration`
  * table, so the typed and untyped forms cannot disagree.
  */
