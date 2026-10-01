@@ -27,7 +27,7 @@ lexicon entry keeps its meaning.
 
 - The emitted schemas of [FR-002](./FR-002-emitted-json-schemas.md).
 - The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it
-  at `6686f11` — the copy Quoin and Quire load, and the only copy that admits
+  — the copy Quoin and Quire load, and the only copy that admits
   both the `semantic` block (quoin FR-070) and the `lexicon` block (FR-043)
   this manifest carries. [FR-001](./FR-001-module-manifest-activates.md) names
   the same copy, so both requirements judge this manifest against one schema.

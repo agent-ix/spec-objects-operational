@@ -56,7 +56,7 @@ only, not test cases and not verification criteria.
 
 - **Given** the packaged module directory
 - **When** an operator runs `quoin module install path:<dir>`
-- **Then** the install succeeds, every exported schema digest matches, and the module is listed
+- **Then** the install succeeds, every exported schema reference resolves, and the module is listed
 
 ## Options (Exploratory)
 

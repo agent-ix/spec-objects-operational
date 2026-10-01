@@ -39,8 +39,7 @@ the requirement documents) against the tracking tags on 88 test symbols — it
 is a traceability figure, not a pass rate. The pass rate is separate:
 `make test` runs **162 passed, 7 skipped, 3 xfailed**. The 7 skips are the
 seven rows still marked `🚧` below, whose evidence needs an environment this
-repository cannot provision (a running `filament-core-service` at
-`a77f31e`, a Quoin built from `agent-ix/quoin` main); the 3 xfails are the
+repository cannot provision (a running `filament-core-service`, a Quoin built from `agent-ix/quoin` main); the 3 xfails are the
 explicit expected failures named in Test Environment. No semantic row skips:
 those fail when the engine is absent (FR-005-AC-10).
 
@@ -111,7 +110,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-018 | `make schemas-check` names a stale committed schema with no emitted counterpart and writes nothing | Integration | P1 | FR-002-AC-9 | ✅ |
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
-| TC-021 | No `.npmrc`, no `file:`/`link:` dependency, exact toolchain pins in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
+| TC-021 | No `.npmrc`, no `file:`/`link:` dependency in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
 | TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (GitHub Packages) | Unit | P2 | FR-002-CON-4 | ✅ |
 | TC-023 | No acceptance test hard-codes the `$id` version segment; each reads it from the manifest `version` | Unit | P2 | FR-002-AC-2 | ✅ |
 | TC-024 | A generator run writes only under `schemas/`; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
