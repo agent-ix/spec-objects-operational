@@ -13,16 +13,13 @@ import yaml
 
 from tests.conftest import (
     BASELINE_DIR,
-    MODEL_OF,
     OBJECT_TYPES,
     PACKAGE_ROOT,
     REPO_ROOT,
-    SKELETONS_DIR,
     frontmatter,
     load_manifest,
     locators,
     object_type,
-    object_types,
 )
 
 ADMITTED_KEYS = {
