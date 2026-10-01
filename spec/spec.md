@@ -94,12 +94,6 @@ one authoritative definition of what the module activates against
   manifest key empties the model silently).
   FR-003-AC-6's "naming the key or the path" half is blocked on them and is
   carried as an explicit expected failure.
-- Record validation of a legacy-form artifact that declares `object:`:
-  `agent-ix/quire-rs#391` (the engine validates an `unavailable` record as
-  `{}`, so a legacy form errors even under `legacy_forms: warning`).
-  NFR-001-AC-2 itself holds — no 0.2.0 artifact carries `object:` — and the
-  defect is carried as an explicit expected failure beside it rather than
-  worked around by relaxing a schema.
 - Resolving a reference-form `data_schema` into a stored snapshot at
   activation: `agent-ix/filament-core-service#23`. Until it lands the service
   stores the reference verbatim, which is the reading FR-001-AC-4 and
@@ -134,8 +128,7 @@ through the maintainer's story of declaring those types against semantic-core
 (`usecase/`) to the functional requirements (`functional/`): FR-001 activates
 the manifest against `filament-core`; FR-002 emits the schemas; FR-003 declares
 the semantic contract in the manifest; FR-004 fixes each type's role-distinct
-schema; FR-005 makes the skeletons executable fixtures. NFR-001 bounds the
-change to additive compatibility. Integration tests in `integration/` verify
+schema; FR-005 makes the skeletons executable fixtures. Integration tests in `integration/` verify
 the activation and Quoin-install boundaries; the third external boundary, the
 Quire engine (loader, extraction, record surface), has no IT artifact of its
 own — the FR-003 and FR-005 test harness is this module's Quire contract test,

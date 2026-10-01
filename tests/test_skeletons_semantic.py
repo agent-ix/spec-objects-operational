@@ -273,20 +273,9 @@ FORBIDDEN_PATHS = (
 
 @pytest.mark.trace("TC-069", "FR-005-CON-1")
 def test_no_corpus_repository_or_vendored_fixture_is_tracked():
-    """FR-005-CON-1 as a *tree* assertion, not a diff against a moving ref.
-
-    The obvious form — `git diff --name-only origin/main...HEAD` — is a
-    merge-degrading guard: a merged change's path set is a fixed historical
-    fact, but that range is computed against a ref that moves, so the moment
-    the branch merges the range empties, any `assert changed` fails, and main
-    goes red for a branch that no longer exists. `agent-ix/spec-objects-business`
-    main has been red on exactly that test since `567e5c4` merged.
-
-    None of the forbidden path shapes exists anywhere in this repository, so
-    the tree form is equivalent in intent and strictly stronger: it says these
-    paths are absent from the repository, not merely that one branch left them
-    alone. It is also merge-invariant — `git ls-files` answers the same
-    question on a branch, on main, and on main plus ten unrelated commits.
+    """FR-005-CON-1 as a *tree* assertion: none of the forbidden path shapes
+    is tracked anywhere in this repository. `git ls-files` answers the same
+    question on any branch.
     """
     listing = subprocess.run(
         ["git", "-C", str(REPO_ROOT), "ls-files"],

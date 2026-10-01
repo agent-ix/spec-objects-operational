@@ -76,7 +76,7 @@ occurrence field at all.
 | incident | `Incident` | `fields` | `evidence: EvidenceRef[]`, `correlates: SemanticId[]`, `breaches: SemanticId[]`, `triggers: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, ≥ 1 identity field, and ≥ 1 occurrence field — an incident is an observed occurrence and is the only type that is |
 | deployment | `Deployment` | `fields`, `operations` | `rollout: RolloutDecl`, `deploys: SemanticId[]`, `dependsOn: SemanticId[]`, `relations`, `clauses` | `fields` has ≥ 1 item, ≥ 1 identity field (the release identity) and 0 occurrence fields; `operations` has ≥ 1 item (the lifecycle actions) |
 
-- `ScopeAssignment` SHALL be `{ parameter: Identifier, scope: ConfigurationScope }` with `ConfigurationScope` the closed set `creation`, `runtime`, `session` — the same vocabulary the 0.2.0 `configuration-scope` lint rule allows on the untyped `## Configuration` table.
+- `ScopeAssignment` SHALL be `{ parameter: Identifier, scope: ConfigurationScope }` with `ConfigurationScope` the closed set `creation`, `runtime`, `session` — the same vocabulary the `configuration-scope` lint rule allows on the untyped `## Configuration` table.
 - `RollbackDecl` SHALL be `{ strategy: RollbackStrategy, clause?: ClauseRef, doc?: string }` with `RollbackStrategy` the closed set `reversible`, `forward_only`, `compensating`.
 - `RolloutDecl` SHALL be `{ strategy: RolloutStrategy, rollback?: RollbackDecl, doc?: string }` with `RolloutStrategy` the closed set `recreate`, `rolling`, `blue_green`, `canary`.
 - `ObjectiveDecl` SHALL be `{ sli: SemanticId, target: float64, unit?: UnitSymbol, window: string matching the ISO 8601 duration form }`.

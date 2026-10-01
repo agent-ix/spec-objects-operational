@@ -28,7 +28,6 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const MIN_NODE_MAJOR = 20;
-const SEMANTIC_CORE_BASE = "https://schemas.agent-ix.org/semantic-core/0.3.0/";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDir = resolve(repoRoot, "typespec");
@@ -45,12 +44,23 @@ function requireNode() {
   const major = Number(process.versions.node.split(".")[0]);
   if (!Number.isFinite(major) || major < MIN_NODE_MAJOR) {
     fail(
-      `Node ${MIN_NODE_MAJOR} or later is required by @typespec/compiler 1.15.0; this is Node ${process.versions.node}.`,
+      `Node ${MIN_NODE_MAJOR} or later is required; this is Node ${process.versions.node}.`,
     );
   }
 }
 
-/** The manifest `version`, read without a YAML parser so the file is never reserialized. */
+/**
+ * The semantic-core base this module extends: the one version the manifest
+ * declares as `semantic.semantic_core`, read without a YAML parser so the file
+ * is never reserialized.
+ */
+function semanticCoreBase() {
+  const manifest = readFileSync(resolve(packageDir, "manifest.yaml"), "utf8");
+  const declared = manifest.match(/^[ ]{2}semantic_core:[ ]*([^\s#]+)[ ]*$/m)?.[1];
+  if (!declared) fail("manifest.yaml declares no semantic.semantic_core");
+  return `https://schemas.agent-ix.org/semantic-core/${declared}/`;
+}
+
 /** The `@jsonSchema` base declared by the source. */
 function moduleBase() {
   const source = readFileSync(resolve(sourceDir, "main.tsp"), "utf8");
@@ -82,10 +92,10 @@ function compile(scratch) {
  * Rewrite a relative `$id`/`$ref` to an absolute one: a file this module emits
  * resolves under the module base, anything else under the semantic-core base.
  */
-function normalize(schemas, base, moduleFiles) {
+function normalize(schemas, base, moduleFiles, coreBase) {
   const absolutize = (value) => {
     if (typeof value !== "string" || /^https?:\/\//.test(value)) return value;
-    return moduleFiles.has(value) ? `${base}${value}` : `${SEMANTIC_CORE_BASE}${value}`;
+    return moduleFiles.has(value) ? `${base}${value}` : `${coreBase}${value}`;
   };
   const walk = (node) => {
     if (Array.isArray(node)) {
@@ -128,7 +138,7 @@ function emit() {
       );
     }
     const moduleFiles = new Set(mine.map(([name]) => name));
-    normalize(mine, base, moduleFiles);
+    normalize(mine, base, moduleFiles, semanticCoreBase());
     const rendered = new Map(mine.map(([name, schema]) => [name, render(schema)]));
     return rendered;
   } finally {

@@ -72,7 +72,7 @@ refuse.
 - The negative-fixture test SHALL assert both the `expect:` code and the `detail:` substring, so a fixture cannot pass on a refusal it did not intend.
 - The module SHALL declare `quire` in `pyproject.toml` as a dev dependency pinned to the `internal-pypi` source, so `poetry install` provisions the engine and no lookup falls through to public PyPI, where `quire` names an unrelated package.
 - If the installed Quire wheel is absent or lacks `extract_semantic`, then every semantic test SHALL fail — not skip — with a message naming the missing function and `poetry install`, so that no matrix row can pass or be reported green without the engine under test.
-- Only a criterion this specification names as blocked SHALL be exempt from the previous rule, as an explicit expected failure naming the blocking issue. Today that is the record validation of a legacy-form artifact declaring `object:` (`agent-ix/quire-rs#391`, beside [NFR-001](../non-functional/NFR-001-additive-compatibility.md)-AC-2) and the naming half of FR-003-AC-6 (`agent-ix/quire-rs#221`, `agent-ix/quire-rs#394`).
+- Only a criterion this specification names as blocked SHALL be exempt from the previous rule, as an explicit expected failure naming the blocking issue. Today that is the naming half of FR-003-AC-6 (`agent-ix/quire-rs#221`, `agent-ix/quire-rs#394`).
 
 ## Constraints
 

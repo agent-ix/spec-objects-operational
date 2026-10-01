@@ -30,21 +30,18 @@ lexicon entry keeps its meaning.
 
 ## Outputs
 
-- `manifest.yaml` with `version: 0.3.0`, a `semantic` block, and reference-form
+- `manifest.yaml` with a `version`, a `semantic` block, and reference-form
   `data_schema` on every exported object type.
 
 ## Behavior
 
-- The manifest `semantic` block SHALL carry exactly these keys and values: `contract_version: 1.0.0`, `semantic_core: 0.3.0`, `package: agent-ix/spec-objects-operational`, `exports` listing every object type that ships a schema, `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
+- The manifest `semantic` block SHALL carry exactly these keys and values: `contract_version: 1.0.0`, `semantic_core` (the one semantic-core version the module declares it extends), `package: agent-ix/spec-objects-operational`, `exports` listing every object type that ships a schema, `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
 - `semantic.exports` SHALL name all eight object types: `configuration`, `migration`, `sli`, `slo`, `alert`, `runbook`, `incident`, `deployment`.
 - No exported object type SHALL carry an inline `data_schema`.
-- Every `body_extraction` locator present at version 0.2.0 SHALL remain present with the same `from`, heading, `language`, `required`, `multiple`, and `assert` facets.
 - The `configuration_table` locator (`table_row` under `Configuration`, asserting the columns `Name | Scope | Type | Default | Description`) SHALL stay in place, so the untyped configuration table continues to be yielded beside the semantic record.
 - The `configuration-scope` advisory lint rule SHALL stay in place with the same allowed values and `warning` severity, because it is the only check on the Scope column of the untyped table and remains advisory under quire-rs FR-036.
-- Where an object type gains a locator after 0.2.0, that locator SHALL be `required: false`, so existing artifacts stay valid (the additions themselves are specified by [FR-005](./FR-005-executable-skeletons.md)).
 - The `lexicon` block SHALL author every definition as a quoted scalar, so that a definition containing a comma is stored whole.
 - The manifest SHALL restore the three definitions `agent-ix/spec-objects-operational#5` records as truncated (`container`, `deployment`, `build`) to the wording that issue names.
-- The manifest SHALL leave every other lexicon definition byte-identical to its 0.2.0 text.
 - A refused schema drops that object type alone, while a manifest key the loader cannot parse (an unknown `semantic` key) drops every object type of the module, so a consumer sees the module as absent. Both refusals are silent — no diagnostic names the offending key, or path — which `agent-ix/quire-rs#221` record as engine defects; the naming half of FR-003-AC-6 is blocked on them and is verified as an explicit expected failure rather than dropped.
 - The manifest SHALL install through `quoin module install path:<module dir>` with no `semantic.*` error diagnostic.
 - When the install has completed, `quoin module` SHALL list `spec-objects-operational`.
@@ -55,20 +52,19 @@ lexicon entry keeps its meaning.
 | ID | Constraint | Type | Validation |
 |----|------------|------|------------|
 | FR-003-CON-1 | The `semantic` block SHALL contain no key outside the admitted list. Quire's loader refusal of an unknown key is verified here (FR-003-AC-6); Quoin's refusal is the neighbour's own obligation (quoin FR-070) and is assumed, evidenced only by the clean install of [IT-002](../integration/IT-002-quoin-module-install.md). | Compatibility | Test |
-| FR-003-CON-2 | The manifest SHALL mark every locator added after 0.2.0 `required: false`. | Compatibility | Test |
-| FR-003-CON-3 | The manifest SHALL keep every 0.2.0 lexicon term, changing only the three definitions `agent-ix/spec-objects-operational#5` names as truncated. | Compatibility | Test |
+| FR-003-CON-3 | The manifest SHALL carry every lexicon definition as one whole scalar, including the three definitions `agent-ix/spec-objects-operational#5` names as truncated. | Compatibility | Test |
 
 ## Acceptance Criteria
 
 | ID | Criteria | Verification |
 |----|----------|--------------|
 | FR-003-AC-1 | The loaded `semantic` block equals the nine admitted keys with the values above, and `exports` equals the eight object-type names. | Test |
-| FR-003-AC-3 | Every 0.2.0 locator, compared against the checked-in 0.2.0 baseline, is present unchanged; every added locator is `required: false`. | Test |
+| FR-003-AC-3 | The `id`, `title` and `type` frontmatter locators and each object type's defining locators are `required: true`. | Test |
 | FR-003-AC-4 | `quire.Registry.load_from([module dir])` lists all eight archetypes and `validate_document` on each skeleton reports no `semantic.*` load failure. | Test |
 | FR-003-AC-5 | `quoin module install path:<module dir>` exits zero and `quoin module` lists `spec-objects-operational`; the previously installed entry is restored afterwards. | Demonstration |
 | FR-003-AC-6 | A manifest copy whose `semantic` block gains a key `foo` is refused by Quire's loader naming `foo`. | Test |
-| FR-003-AC-7 | Every lexicon definition is a single whole scalar with no truncation-minted key, the term set is unchanged against the 0.2.0 baseline, and the three definitions `agent-ix/spec-objects-operational#5` names carry their restored wording. | Test |
-| FR-003-AC-8 | The `configuration-scope` lint rule is present with `allowed: [creation, runtime, session]` and `severity: warning`, unchanged from 0.2.0. | Test |
+| FR-003-AC-7 | Every lexicon definition is a single whole scalar with no truncation-minted key, and the three definitions `agent-ix/spec-objects-operational#5` names carry their restored wording. | Test |
+| FR-003-AC-8 | The `configuration-scope` lint rule is present with `allowed: [creation, runtime, session]` and `severity: warning`. | Test |
 
 ## Dependencies
 
