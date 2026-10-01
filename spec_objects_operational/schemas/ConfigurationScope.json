@@ -7,5 +7,5 @@
     "runtime",
     "session"
   ],
-  "description": "When a configuration parameter takes effect. The same closed set the 0.2.0\n`configuration-scope` lint rule allows on the untyped `## Configuration`\ntable, so the typed and untyped forms cannot disagree."
+  "description": "When a configuration parameter takes effect. The same closed set the\n`configuration-scope` lint rule allows on the untyped `## Configuration`\ntable, so the typed and untyped forms cannot disagree."
 }

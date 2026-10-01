@@ -4,7 +4,7 @@ version: 0.3.0
 description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)'
 semantic:
   contract_version: 1.0.0
-  semantic_core: 0.3.0
+  semantic_core: 0.3.2
   package: agent-ix/spec-objects-operational
   exports:
   - configuration
