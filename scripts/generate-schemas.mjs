@@ -4,8 +4,7 @@
  *
  * Runs the official `@typespec/json-schema` emitter through `tsp compile`,
  * keeps only the schemas of this module's namespace, normalizes any `$id` or
- * `$ref` the emitter left relative, writes `spec_objects_operational/schemas/`
- * plus `toolchain.json`.
+ * `$ref` the emitter left relative, writes `spec_objects_operational/schemas/`.
  *
  *   node scripts/generate-schemas.mjs            # regenerate
  *   node scripts/generate-schemas.mjs --check    # write nothing; fail on any difference
@@ -15,7 +14,6 @@
  * Node built-ins only, zero dependencies.
  */
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
 import {
   existsSync,
   mkdirSync,
@@ -31,17 +29,11 @@ import { fileURLToPath } from "node:url";
 
 const MIN_NODE_MAJOR = 20;
 const SEMANTIC_CORE_BASE = "https://schemas.agent-ix.org/semantic-core/0.3.0/";
-const NORMALIZATION = {
-  name: "absolute-id-and-ref",
-  version: "1.0.0",
-  issue: "https://github.com/agent-ix/spec-objects-operational/issues/6",
-};
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDir = resolve(repoRoot, "typespec");
 const packageDir = resolve(repoRoot, "spec_objects_operational");
 const outputDir = resolve(packageDir, "schemas");
-const toolchainPath = resolve(outputDir, "toolchain.json");
 const manifestPath = resolve(packageDir, "manifest.yaml");
 
 class GenerateError extends Error {}
@@ -57,13 +49,6 @@ function requireNode() {
       `Node ${MIN_NODE_MAJOR} or later is required by @typespec/compiler 1.15.0; this is Node ${process.versions.node}.`,
     );
   }
-}
-
-function dependencyVersion(name) {
-  const path = resolve(repoRoot, "node_modules", name, "package.json");
-  if (!existsSync(path))
-    fail(`${name} is not installed; run \`npm ci\` before \`make schemas\`.`);
-  return JSON.parse(readFileSync(path, "utf8")).version;
 }
 
 /** The manifest `version`, read without a YAML parser so the file is never reserialized. */
@@ -115,27 +100,24 @@ function compile(scratch) {
  * resolves under the module base, anything else under the semantic-core base.
  */
 function normalize(schemas, base, moduleFiles) {
-  const rewritten = new Set();
-  const absolutize = (name, value) => {
+  const absolutize = (value) => {
     if (typeof value !== "string" || /^https?:\/\//.test(value)) return value;
-    rewritten.add(name);
     return moduleFiles.has(value) ? `${base}${value}` : `${SEMANTIC_CORE_BASE}${value}`;
   };
-  const walk = (name, node) => {
+  const walk = (node) => {
     if (Array.isArray(node)) {
-      for (const item of node) walk(name, item);
+      for (const item of node) walk(item);
       return;
     }
     if (!node || typeof node !== "object") return;
     for (const key of ["$id", "$ref"]) {
-      if (key in node) node[key] = absolutize(name, node[key]);
+      if (key in node) node[key] = absolutize(node[key]);
     }
     for (const [key, value] of Object.entries(node)) {
-      if (key !== "$id" && key !== "$ref") walk(name, value);
+      if (key !== "$id" && key !== "$ref") walk(value);
     }
   };
-  for (const [name, schema] of schemas) walk(name, schema);
-  return [...rewritten].sort();
+  for (const [, schema] of schemas) walk(schema);
 }
 
 function render(schema) {
@@ -163,39 +145,9 @@ function emit() {
       );
     }
     const moduleFiles = new Set(mine.map(([name]) => name));
-    const rewrittenFiles = normalize(mine, base, moduleFiles);
+    normalize(mine, base, moduleFiles);
     const rendered = new Map(mine.map(([name, schema]) => [name, render(schema)]));
-
-    const overall = createHash("sha256");
-    for (const [name, text] of rendered) overall.update(`${name}\n${text}`);
-
-    const toolchain = {
-      compiler: {
-        name: "@typespec/compiler",
-        version: dependencyVersion("@typespec/compiler"),
-      },
-      emitter: {
-        name: "@typespec/json-schema",
-        version: dependencyVersion("@typespec/json-schema"),
-      },
-      semanticCore: {
-        name: "@agent-ix/semantic-core",
-        version: dependencyVersion("@agent-ix/semantic-core"),
-      },
-      base,
-      normalization: {
-        ...NORMALIZATION,
-        applied: rewrittenFiles.length > 0,
-        rewrittenFiles,
-        note:
-          rewrittenFiles.length === 0
-            ? "no-op: the emitter left no relative $id or $ref"
-            : "rewrote relative $id/$ref to the module base or semantic-core 0.3.0",
-      },
-      files: [...rendered.keys()],
-      digest: `sha256:${overall.digest("hex")}`,
-    };
-    return { rendered, toolchain: render(toolchain) };
+    return rendered;
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }
@@ -217,7 +169,7 @@ function readIfPresent(path) {
   }
 }
 
-function check(rendered, toolchain) {
+function check(rendered) {
   const problems = [];
   for (const [name, text] of rendered) {
     const path = join(outputDir, name);
@@ -231,32 +183,28 @@ function check(rendered, toolchain) {
     problems.push(`${relative(repoRoot, outputDir)} (missing; run \`make schemas\`)`);
   }
   for (const name of committed) {
-    if (name !== "toolchain.json" && !rendered.has(name)) {
+    if (!rendered.has(name)) {
       problems.push(`${relative(repoRoot, join(outputDir, name))} (stale)`);
     }
-  }
-  if (readIfPresent(toolchainPath) !== toolchain) {
-    problems.push(relative(repoRoot, toolchainPath));
   }
   return problems;
 }
 
-function write(rendered, toolchain) {
+function write(rendered) {
   mkdirSync(outputDir, { recursive: true });
   for (const name of readdirSync(outputDir)) {
-    if (name.endsWith(".json") && name !== "toolchain.json" && !rendered.has(name)) {
+    if (name.endsWith(".json") && !rendered.has(name)) {
       rmSync(join(outputDir, name));
     }
   }
   for (const [name, text] of rendered) writeFileSync(join(outputDir, name), text);
-  writeFileSync(toolchainPath, toolchain);
 }
 
 function main() {
   const checking = process.argv.includes("--check");
-  const { rendered, toolchain } = emit();
+  const rendered = emit();
   if (checking) {
-    const problems = check(rendered, toolchain);
+    const problems = check(rendered);
     if (problems.length > 0) {
       console.error(
         `emitted schemas differ from the committed output:\n  ${problems.join("\n  ")}\n` +
@@ -267,9 +215,9 @@ function main() {
     console.log(`schemas-check: ${rendered.size} schema(s) match the committed output`);
     return;
   }
-  write(rendered, toolchain);
+  write(rendered);
   console.log(
-    `schemas: wrote ${rendered.size} schema(s) + toolchain.json to ${relative(repoRoot, outputDir)}`,
+    `schemas: wrote ${rendered.size} schema(s) to ${relative(repoRoot, outputDir)}`,
   );
 }
 
