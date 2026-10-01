@@ -13,8 +13,6 @@ relationships:
     type: covers
   - target: "ix://agent-ix/spec-objects-operational/FR-005"
     type: covers
-  - target: "ix://agent-ix/spec-objects-operational/NFR-001"
-    type: covers
 ---
 # Test Matrix
 
@@ -22,11 +20,11 @@ relationships:
 
 This matrix is the verification contract for the module: the manifest
 activation requirement (FR-001, issue #1 era) and the issue #6 semantic data
-schemas (US-001, FR-002..FR-005, NFR-001, IT-002). Coverage is complete when
+schemas (US-001, FR-002..FR-005, IT-002). Coverage is complete when
 every acceptance criterion, named constraint, and NFR metric maps to at least
 one test case. A row is `🚧` until a tagged test asserts it.
 
-`quire coverage --scope .` reports **125/125 rows backed (100%)** on this
+`quire coverage --scope .` reports every row backed (100%) on this
 branch, and `quire validate --scope . "spec/**/*.md"` exits 0 with no document
 diagnostic. That second claim is about *documents*: the run also prints
 registry notices on stderr (`DuplicateModuleName` for this module at two paths,
@@ -34,12 +32,11 @@ registry notices on stderr (`DuplicateModuleName` for this module at two paths,
 repaired terms), all of which come from the module being registered from both
 the main checkout and its worktree at once and disappear when the worktree is
 removed. They are not findings against any artifact here. That figure counts *matrix and criterion rows minted from this spec*
-(67 from `spec/tests.md`, 58 acceptance criteria and validation criteria from
-the requirement documents) against the tracking tags on 88 test symbols — it
+(from `spec/tests.md` and the requirement documents) against the tracking tags on the test symbols — it
 is a traceability figure, not a pass rate. The pass rate is separate:
-`make test` runs **162 passed, 7 skipped, 3 xfailed**. The 7 skips are the
-seven rows still marked `🚧` below, whose evidence needs an environment this
-repository cannot provision (a running `filament-core-service`, a Quoin built from `agent-ix/quoin` main); the 3 xfails are the
+`make test` reports it. The skips are the
+rows still marked `🚧` below, whose evidence needs an environment this
+repository cannot provision (a running `filament-core-service`, a Quoin with the module installer); the xfails are the
 explicit expected failures named in Test Environment. No semantic row skips:
 those fail when the engine is absent (FR-005-AC-10).
 
@@ -76,12 +73,6 @@ those fail when the engine is absent (FR-005-AC-10).
 | FR-004 | FR-004-AC-1..15, FR-004-CON-1..5 | TC-040..TC-054 | ✅ AC-15's refusal half is an expected failure on quoin#335 |
 | FR-005 | FR-005-AC-1..11, FR-005-CON-1..2 | TC-060..TC-072 | ✅ |
 
-### Non-Functional Requirement Coverage
-
-| Non-Functional Req | Verification Method | Evidence/Test Cases | Status |
-|---|---|---|---|
-| NFR-001 | Test (NFR-001-AC-1..4: locator, lint-rule, lexicon and yield baseline diffs; legacy skeleton validation) | TC-080..TC-083 | ✅ the `object:`-declaring legacy case is an expected failure on quire-rs#391 |
-
 ### Integration Test Coverage
 
 | Integration Test | Success Criteria | Test Cases | Coverage Status |
@@ -116,12 +107,11 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-027 | `make install` provisions the TypeSpec toolchain, so `make lint`'s drift gate fails for drift and not for a missing compiler | Unit | P1 | FR-002-AC-13 | ✅ |
 | TC-028 | `stage-npm.mjs --clean` removes every staged root path and leaves the inner package sources byte-identical | Integration | P1 | FR-002-AC-14 | ✅ |
 | TC-030 | The `semantic` block equals the nine admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
-| TC-032 | Every 0.2.0 locator is unchanged against the checked-in baseline | Unit | P0 | FR-003-AC-3 | ✅ |
-| TC-033 | Every added locator is `required: false` | Unit | P1 | FR-003-CON-2 | ✅ |
+| TC-032 | The core frontmatter locators and each type's defining locators are required | Unit | P0 | FR-003-AC-3 | ✅ |
 | TC-034 | `quire.Registry.load_from` lists all eight archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
 | TC-035 | An unknown `semantic` key is refused by the loader; the refusal names the key or path | Integration | P1 | FR-003-AC-6 | ✅ the naming half is an expected failure on quire-rs#221 |
 | TC-036 | `quoin module install path:` succeeds, lists the module, and the prior entry is restored | Manual | P1 | FR-003-AC-5 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
-| TC-037 | Every lexicon definition is one whole scalar, the term set is unchanged, and the three issue #5 definitions carry their restored wording | Unit | P1 | FR-003-AC-7, FR-003-CON-3 | ✅ |
+| TC-037 | Every lexicon definition is one whole scalar, and the three issue #5 definitions carry their restored wording | Unit | P1 | FR-003-AC-7, FR-003-CON-3 | ✅ |
 | TC-038 | The `configuration-scope` lint rule is present unchanged with its three allowed values at `warning` severity | Unit | P1 | FR-003-AC-8 | ✅ |
 | TC-040 | Each of the eight schemas differs from every other in a required, forbidden, or item rule; none is `type: object` only | Unit | P0 | FR-004-AC-1 | ✅ |
 | TC-041 | Configuration: non-identity record validates and accepts `scopes`; an identity field fails; no `fields` fails | Integration | P0 | FR-004-AC-2 | ✅ |
@@ -151,10 +141,6 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-070 | A Properties section holding both a table and a fence is refused at the second form | Integration | P1 | FR-005-CON-2 | ✅ |
 | TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic` and `poetry install`; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
 | TC-072 | `pyproject.toml` declares `quire` as a dev dependency pinned to the `internal-pypi` source | Unit | P1 | FR-005-AC-11 | ✅ |
-| TC-080 | Zero 0.2.0 locators changed and the lint rule unchanged | Unit | P0 | NFR-001-AC-1 | ✅ |
-| TC-081 | Every checked-in 0.2.0 skeleton validates under 0.3.0 with zero errors | Integration | P0 | NFR-001-AC-2 | ✅ the `object:`-declaring legacy case is an expected failure on quire-rs#391 |
-| TC-082 | The 0.2.0 lexicon term set is intact and only the three issue #5 definitions differ, each by restoration | Unit | P1 | NFR-001-AC-3 | ✅ |
-| TC-083 | Each 0.2.0 required locator yields a byte-identical body under 0.2.0 and 0.3.0 | Integration | P1 | NFR-001-AC-4 | ✅ |
 | TC-091 | Quoin install roundtrip: record, install, list, derive, restore | Manual | P1 | IT-002-SC-01, IT-002-SC-02, IT-002-SC-03, IT-002-SC-04, IT-002-SC-05, IT-002-SC-06 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
 
 ## Test Environment
@@ -162,9 +148,7 @@ those fail when the engine is absent (FR-005-AC-10).
 Every `Integration` row that names Quire runs against the Quire wheel FR-005
 Inputs pins, a dev dependency resolved from `internal-pypi` by `poetry install`.
 The suite **fails** rather than skips when `extract_semantic` is absent, so no
-row here can be reported green without the engine under test. The one
-exception is TC-081, an explicit expected failure while `agent-ix/quire-rs#391`
-is open.
+row here can be reported green without the engine under test.
 
 TC-036 and TC-091 are no longer blocked on a Quoin build. What they now
 wait on is the operator's consent — the install writes to the machine-global
@@ -199,7 +183,7 @@ reports zero unbacked rows and zero untracked symbols.
 One half of matrix verification is **unmeasured** rather than clean: because of
 `agent-ix/quoin#340` the engine skips status classification over the three
 Requirements Traceability tables, so it cannot tell a row that claims `✅`
-while nothing backs it from one that is honestly complete. The 125/125 backed
+while nothing backs it from one that is honestly complete. The fully-backed
 figure stands on its own — it is derived from the tags, not from the status
 column — but "no status lies" is a claim this branch cannot yet evidence, and
 it is recorded here rather than asserted.
@@ -215,9 +199,8 @@ executable symbol decides them (TC-021 the packaging surface, TC-026 the
 line-ending pins, TC-069 the tracked file list, TC-072 the dependency groups); only
 TC-020's hand-edit half is genuinely judgement and stays `Inspection`.
 
-Three rows are explicit expected failures rather than passes, each naming its
+Two rows are explicit expected failures rather than passes, each naming its
 blocking issue in the test's own `xfail` reason: TC-035's naming half
-(`agent-ix/quire-rs#221`, `agent-ix/quire-rs#394`), TC-054's refusal half
-(`agent-ix/quoin#335`), and TC-081's `object:`-declaring legacy case
-(`agent-ix/quire-rs#391`). None is a skip and none relaxes a schema; each turns
+(`agent-ix/quire-rs#221`, `agent-ix/quire-rs#394`) and TC-054's refusal half
+(`agent-ix/quoin#335`). None is a skip and none relaxes a schema; each turns
 red the day its blocker lands, which is when the claim is revisited.

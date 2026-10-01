@@ -86,15 +86,15 @@ object_types:
           from: section_body
           after_heading: Behavior
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -117,15 +117,15 @@ object_types:
           after_heading: Migration
           required: true
           language: sql
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -158,15 +158,15 @@ object_types:
           from: code_block
           after_heading: Query
           required: true
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -194,15 +194,15 @@ object_types:
           path:
           - window
           required: true
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -225,7 +225,7 @@ object_types:
           after_heading: Flow
           required: true
           language: mermaid
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -247,13 +247,13 @@ object_types:
           from: section_body
           after_heading: Steps
           required: true
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
           after_heading: Invariants
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <name>` per
+        # Issue #6, FR-005: one `### <name>` per
         # operation, with optional Param table and Pre:/Post: lines.
         operations:
           from: section_body
@@ -277,15 +277,15 @@ object_types:
           from: section_body
           after_heading: Timeline
           required: true
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
@@ -309,21 +309,21 @@ object_types:
           after_heading: Topology
           required: true
           language: mermaid
-        # Added at 0.3.0 (issue #6, FR-005): the typed `## Properties`
+        # Issue #6, FR-005: the typed `## Properties`
         # table (`Field | Type | Multiplicity | Constraints`) or its
-        # `sysml` fence alternate. `required: false` so every 0.2.0
-        # artifact stays valid (FR-003-CON-2, NFR-001).
+        # `sysml` fence alternate. `required: false` so existing
+        # artifacts stay valid.
         properties:
           from: section_body
           after_heading: Properties
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <clauseId>` per
+        # Issue #6, FR-005: one `### <clauseId>` per
         # clause, each owning one ```ocl``` fence.
         invariants:
           from: section_body
           after_heading: Invariants
           required: false
-        # Added at 0.3.0 (issue #6, FR-005): one `### <name>` per
+        # Issue #6, FR-005: one `### <name>` per
         # operation, with optional Param table and Pre:/Post: lines.
         operations:
           from: section_body
