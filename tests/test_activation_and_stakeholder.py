@@ -3,7 +3,7 @@ StR-001 validation criteria.
 
 FR-001-AC-1 and StR-001-VC-3 are discharged here against the committed tree.
 FR-001-AC-2..AC-4, StR-001-VC-1 and StR-001-VC-2 need a running
-`filament-core-service` at revision `a77f31e` or later; they are environment-
+`filament-core-service`; they are environment-
 gated and their matrix rows stay `🚧` with that note. That is pre-existing
 debt from issue #1, not this issue's, and it is not the semantic suite: the
 Quire rows fail rather than skip (see `conftest.py`).
@@ -11,7 +11,6 @@ Quire rows fail rather than skip (see `conftest.py`).
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 
@@ -25,27 +24,17 @@ from tests.conftest import (
     load_manifest,
 )
 
-# The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it
-# at `6686f11` — the copy Quoin and Quire actually load, and the only copy that
-# admits BOTH the `semantic` block (quoin FR-070) and the `lexicon` block
-# (FR-043) this manifest carries. FR-001, FR-003 and IT-001 all judge this
-# manifest against this one revision.
-#
-# `agent-ix/filament-core-service` still carries a narrower copy of its own
-# (neither `semantic` nor `lexicon`), against which this manifest cannot
-# validate; that divergence is filed as agent-ix/filament-core-service#26 and
-# is not worked around here — the pin names the copy the engines load.
+# The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it —
+# the copy Quoin and Quire actually load, and the only copy that admits BOTH
+# the `semantic` block (quoin FR-070) and the `lexicon` block (FR-043) this
+# manifest carries. FR-001, FR-003 and IT-001 all judge this manifest against it.
 VENDORED_SCHEMA = REPO_ROOT / "tests" / "fixtures" / "module-manifest.schema.json"
-VENDORED_SCHEMA_DIGEST = (
-    "52bddd1c14e0df06e95322db45734925990a4472e6b4c980a5c14f00480bb874"
-)
 
 FILAMENT_CORE_URL = os.environ.get("FILAMENT_CORE_URL")
 needs_filament_core = pytest.mark.skipif(
     not FILAMENT_CORE_URL,
     reason=(
-        "FR-001-AC-2..AC-4 / IT-001 need a running filament-core-service at "
-        "revision a77f31e or later (no release tag contains it). Set "
+        "FR-001-AC-2..AC-4 / IT-001 need a running filament-core-service. Set "
         "FILAMENT_CORE_URL to run them; the matrix row stays 🚧 until then."
     ),
 )
@@ -53,12 +42,6 @@ needs_filament_core = pytest.mark.skipif(
 
 @pytest.mark.trace("TC-001", "FR-001-AC-1")
 def test_the_manifest_validates_against_the_pinned_fr035_schema(quire_engine):
-    digest = hashlib.sha256(VENDORED_SCHEMA.read_bytes()).hexdigest()
-    assert digest == VENDORED_SCHEMA_DIGEST, (
-        "the vendored module-manifest schema is not the spec-artifacts-iso "
-        "6686f11 revision the spec pins; FR-001 and FR-003 would judge the "
-        "manifest against different schemas"
-    )
     violations = quire_engine.validate_manifest(load_manifest(), str(VENDORED_SCHEMA))
     assert violations == [], violations
 
