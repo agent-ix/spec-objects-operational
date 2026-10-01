@@ -18,7 +18,7 @@ relationships:
 
 `spec_objects_operational/manifest.yaml` SHALL carry the quoin FR-070
 `semantic` block and reference every exported object type's emitted schema by
-path (quoin FR-073), at manifest `version` 0.3.0, so that Quoin
+path (quoin FR-073), so that Quoin
 verifies the shipped schemas at install and Quire validates every declaration
 record against them, while every existing extraction locator, lint rule, and
 lexicon entry keeps its meaning.
@@ -26,15 +26,6 @@ lexicon entry keeps its meaning.
 ## Inputs
 
 - The emitted schemas of [FR-002](./FR-002-emitted-json-schemas.md).
-- The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it
-  — the copy Quoin and Quire load, and the only copy that admits
-  both the `semantic` block (quoin FR-070) and the `lexicon` block (FR-043)
-  this manifest carries. [FR-001](./FR-001-module-manifest-activates.md) names
-  the same copy, so both requirements judge this manifest against one schema.
-  `agent-ix/filament-core-service` still ships a narrower copy of its own that
-  admits neither block; that divergence is `agent-ix/filament-core-service#26`
-  and is recorded rather than worked around — this module does not drop its
-  `lexicon` to satisfy a stale copy.
 - The `lexicon` block as repaired by `agent-ix/spec-objects-operational#5`.
 
 ## Outputs
@@ -47,7 +38,6 @@ lexicon entry keeps its meaning.
 - The manifest `semantic` block SHALL carry exactly these keys and values: `contract_version: 1.0.0`, `semantic_core: 0.3.0`, `package: agent-ix/spec-objects-operational`, `exports` listing every object type that ships a schema, `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
 - `semantic.exports` SHALL name all eight object types: `configuration`, `migration`, `sli`, `slo`, `alert`, `runbook`, `incident`, `deployment`.
 - No exported object type SHALL carry an inline `data_schema`.
-- The manifest `version` SHALL be `0.3.0`, because the emitted `$id` embeds it and the previous version was `0.2.0`.
 - Every `body_extraction` locator present at version 0.2.0 SHALL remain present with the same `from`, heading, `language`, `required`, `multiple`, and `assert` facets.
 - The `configuration_table` locator (`table_row` under `Configuration`, asserting the columns `Name | Scope | Type | Default | Description`) SHALL stay in place, so the untyped configuration table continues to be yielded beside the semantic record.
 - The `configuration-scope` advisory lint rule SHALL stay in place with the same allowed values and `warning` severity, because it is the only check on the Scope column of the untyped table and remains advisory under quire-rs FR-036.
@@ -55,7 +45,7 @@ lexicon entry keeps its meaning.
 - The `lexicon` block SHALL author every definition as a quoted scalar, so that a definition containing a comma is stored whole.
 - The manifest SHALL restore the three definitions `agent-ix/spec-objects-operational#5` records as truncated (`container`, `deployment`, `build`) to the wording that issue names.
 - The manifest SHALL leave every other lexicon definition byte-identical to its 0.2.0 text.
-- Measured against quire 0.47.1: a refused schema drops that object type alone, while a manifest key the loader cannot parse (an unknown `semantic` key) drops every object type of the module, so a consumer sees the module as absent. Both refusals are silent — no diagnostic names the offending key, or path — which `agent-ix/quire-rs#221` record as engine defects; the naming half of FR-003-AC-6 is blocked on them and is verified as an explicit expected failure rather than dropped.
+- A refused schema drops that object type alone, while a manifest key the loader cannot parse (an unknown `semantic` key) drops every object type of the module, so a consumer sees the module as absent. Both refusals are silent — no diagnostic names the offending key, or path — which `agent-ix/quire-rs#221` record as engine defects; the naming half of FR-003-AC-6 is blocked on them and is verified as an explicit expected failure rather than dropped.
 - The manifest SHALL install through `quoin module install path:<module dir>` with no `semantic.*` error diagnostic.
 - When the install has completed, `quoin module` SHALL list `spec-objects-operational`.
 - If Quoin or Quire rejects the manifest, then this module SHALL correct its own manifest or schemas rather than relax the contract keys or the `$id` rules to make a consumer accept them.

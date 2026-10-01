@@ -48,7 +48,7 @@ one authoritative definition of what the module activates against
 - The functional requirement that the manifest activates idempotently against
   `filament-core-service`, and the integration test that verifies it.
 - The semantic-module contract (issue #6): a TypeSpec source importing
-  `@agent-ix/semantic-core` 0.3.0, the emitted JSON Schema per object type
+  `@agent-ix/semantic-core`, the emitted JSON Schema per object type
   shipped under `spec_objects_operational/schemas/`, the manifest `semantic`
   block with reference-form `data_schema`, and the skeletons rewritten as
   executable typed fixtures with negative counterparts.
@@ -100,12 +100,6 @@ one authoritative definition of what the module activates against
   NFR-001-AC-2 itself holds — no 0.2.0 artifact carries `object:` — and the
   defect is carried as an explicit expected failure beside it rather than
   worked around by relaxing a schema.
-- Reconciling the three divergent copies of the FR-035 module-manifest schema:
-  `agent-ix/filament-core-service#26`. The service's own copy admits neither
-  the `semantic` block nor the `lexicon` block this manifest carries, so this
-  module pins the `agent-ix/spec-artifacts-iso` copy that Quoin and Quire load,
-  and FR-001-AC-1 is measured against that. Dropping the `lexicon` to satisfy
-  the stale copy is refused.
 - Resolving a reference-form `data_schema` into a stored snapshot at
   activation: `agent-ix/filament-core-service#23`. Until it lands the service
   stores the reference verbatim, which is the reading FR-001-AC-4 and

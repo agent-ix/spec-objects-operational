@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/ScopeAssignment.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/ScopeAssignment.json",
   "type": "object",
   "properties": {
     "parameter": {
       "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/Identifier.json"
     },
     "scope": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/ConfigurationScope.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/ConfigurationScope.json"
     }
   },
   "required": [

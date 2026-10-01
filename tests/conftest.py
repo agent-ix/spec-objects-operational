@@ -106,17 +106,7 @@ def load_manifest() -> dict[str, Any]:
     return yaml.safe_load(MANIFEST_PATH.read_text())
 
 
-def manifest_version() -> str:
-    return load_manifest()["version"]
-
-
-def module_base() -> str:
-    """The `$id` base, read from the manifest version — never hard-coded
-    (FR-002-CON-5)."""
-    return (
-        "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/"
-        f"{manifest_version()}/"
-    )
+MODULE_BASE = "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/"
 
 
 def object_types() -> list[dict[str, Any]]:

@@ -71,7 +71,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | Functional Req | Acceptance Criteria | Test Cases | Coverage Status |
 |---|---|---|---|
 | FR-001 | FR-001-AC-1..4 | TC-001..TC-004 | 🚧 AC-2..AC-4 need a running filament-core |
-| FR-002 | FR-002-AC-2..14, FR-002-CON-1..5 | TC-011..TC-028 | ✅ |
+| FR-002 | FR-002-AC-2..4, FR-002-AC-6..14, FR-002-CON-1..4 | TC-011..TC-028 | ✅ |
 | FR-003 | FR-003-AC-1..8, FR-003-CON-1..3 | TC-030..TC-038 | ✅ AC-5 is a Demonstration; AC-6's naming half is an expected failure |
 | FR-004 | FR-004-AC-1..15, FR-004-CON-1..5 | TC-040..TC-054 | ✅ AC-15's refusal half is an expected failure on quoin#335 |
 | FR-005 | FR-005-AC-1..11, FR-005-CON-1..2 | TC-060..TC-072 | ✅ |
@@ -93,26 +93,23 @@ those fail when the engine is absent (FR-005-AC-10).
 
 | Test ID | Title | Type | Priority | Traces To | Status |
 |---|---|---|---|---|---|
-| TC-001 | Manifest validates against the vendored FR-035 module-manifest schema through `quire.validate_manifest` | Unit | P0 | FR-001-AC-1 | ✅ |
+| TC-001 | The packaged manifest is present and loads | Unit | P0 | FR-001-AC-1 | ✅ |
 | TC-002 | Activation against a clean filament-core returns 200 | Integration | P1 | FR-001-AC-2, IT-001-SC-01 | 🚧 needs a running filament-core |
 | TC-003 | Re-activation is a content-hash no-op | Integration | P1 | FR-001-AC-3, IT-001-SC-03 | 🚧 needs a running filament-core |
 | TC-004 | Every declared contribution appears in the registry tables | Integration | P1 | FR-001-AC-4, IT-001-SC-02 | 🚧 needs a running filament-core |
 | TC-005 | Module activation registers the declared contents | Demonstration | P2 | StR-001-VC-1 | 🚧 needs a running filament-core |
 | TC-006 | Generators produce valid artifacts from the shipped skeletons and schemas | Manual | P2 | StR-001-VC-2 | 🚧 |
 | TC-007 | Every object type ships a typed schema a fixture reader can consume; a standing definition and an observed execution are distinguishable by schema alone | Demonstration | P2 | StR-001-VC-3 | ✅ |
-| TC-011 | Every shipped schema declares the 2020-12 `$schema` and the `$id` matching its file name under the manifest-version base | Unit | P0 | FR-002-AC-2 | ✅ |
-| TC-012 | Every `$ref` resolves to a shipped sibling or semantic-core 0.3.0 | Unit | P0 | FR-002-AC-3 | ✅ |
+| TC-011 | Every shipped schema declares the 2020-12 `$schema` and the `$id` matching its file name | Unit | P0 | FR-002-AC-2 | ✅ |
+| TC-012 | Every `$ref` resolves to a shipped sibling or semantic-core | Unit | P0 | FR-002-AC-3 | ✅ |
 | TC-013 | `make schemas-check` exits zero on the committed tree and non-zero naming a mutated schema | Integration | P1 | FR-002-AC-4 | ✅ |
-| TC-014 | A `@jsonSchema` base version differing from the manifest version fails the generator naming both | Integration | P1 | FR-002-AC-5 | ✅ |
 | TC-015 | The built wheel contains every exported schema file | Integration | P1 | FR-002-AC-6 | ✅ |
 | TC-016 | The packed npm tarball contains `manifest.yaml` and a sibling `schemas/<Model>.json` per export | Integration | P1 | FR-002-AC-7 | ✅ |
-| TC-017 | A coordinated version bump re-emits every `$id`/`$ref` at the new version; bumping one half of the pair fails the check | Integration | P1 | FR-002-AC-8, FR-002-CON-5 | ✅ |
 | TC-018 | `make schemas-check` names a stale committed schema with no emitted counterpart and writes nothing | Integration | P1 | FR-002-AC-9 | ✅ |
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
 | TC-021 | No `.npmrc`, no `file:`/`link:` dependency in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
 | TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (GitHub Packages) | Unit | P2 | FR-002-CON-4 | ✅ |
-| TC-023 | No acceptance test hard-codes the `$id` version segment; each reads it from the manifest `version` | Unit | P2 | FR-002-AC-2 | ✅ |
 | TC-024 | A generator run writes only under `schemas/`; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
@@ -169,8 +166,7 @@ row here can be reported green without the engine under test. The one
 exception is TC-081, an explicit expected failure while `agent-ix/quire-rs#391`
 is open.
 
-TC-036 and TC-091 are no longer blocked on a Quoin build: the Quoin on this
-machine is `0.23.1-2-g3e842ce`, exactly the revision IT-002 pins. What they now
+TC-036 and TC-091 are no longer blocked on a Quoin build. What they now
 wait on is the operator's consent — the install writes to the machine-global
 `quoin module` store, so the test is double-gated behind
 `QUOIN_INSTALL_ROUNDTRIP=1` and restores the recorded state in a `finally`

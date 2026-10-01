@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Alert.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Alert.json",
   "type": "object",
   "properties": {
     "clauses": {
@@ -13,7 +13,7 @@
     "conditions": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/AlertCondition.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/AlertCondition.json"
       }
     },
     "escalatesTo": {

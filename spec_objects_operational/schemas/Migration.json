@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Migration.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Migration.json",
   "type": "object",
   "properties": {
     "fields": {
@@ -10,7 +10,7 @@
       },
       "minItems": 1,
       "contains": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/IdentityField.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/IdentityField.json"
       },
       "minContains": 0,
       "maxContains": 0
@@ -23,7 +23,7 @@
       "minItems": 1
     },
     "rollback": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackDecl.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RollbackDecl.json"
     },
     "migrates": {
       "type": "array",
@@ -57,7 +57,7 @@
       "properties": {
         "fields": {
           "contains": {
-            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/OccurrenceField.json"
           },
           "minContains": 0,
           "maxContains": 0

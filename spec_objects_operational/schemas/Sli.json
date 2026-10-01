@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Sli.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Sli.json",
   "type": "object",
   "properties": {
     "fields": {
@@ -10,7 +10,7 @@
       },
       "minItems": 1,
       "contains": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/MeasuredField.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/MeasuredField.json"
       }
     },
     "measures": {
@@ -38,7 +38,7 @@
       "properties": {
         "fields": {
           "contains": {
-            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/OccurrenceField.json"
           },
           "minContains": 0,
           "maxContains": 0

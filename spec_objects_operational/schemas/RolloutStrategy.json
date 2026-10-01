@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RolloutStrategy.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RolloutStrategy.json",
   "type": "string",
   "enum": [
     "recreate",

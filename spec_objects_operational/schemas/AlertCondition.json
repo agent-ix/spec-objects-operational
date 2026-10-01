@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/AlertCondition.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/AlertCondition.json",
   "type": "object",
   "properties": {
     "name": {
@@ -10,7 +10,7 @@
       "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/SemanticId.json"
     },
     "comparator": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Comparator.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Comparator.json"
     },
     "threshold": {
       "type": "number"
@@ -20,7 +20,7 @@
       "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
     },
     "severity": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/AlertSeverity.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/AlertSeverity.json"
     }
   },
   "required": [

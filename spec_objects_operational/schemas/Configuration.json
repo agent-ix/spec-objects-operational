@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Configuration.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Configuration.json",
   "type": "object",
   "properties": {
     "fields": {
@@ -10,7 +10,7 @@
       },
       "minItems": 1,
       "contains": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/IdentityField.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/IdentityField.json"
       },
       "minContains": 0,
       "maxContains": 0
@@ -18,7 +18,7 @@
     "scopes": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/ScopeAssignment.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/ScopeAssignment.json"
       }
     },
     "configures": {
@@ -52,7 +52,7 @@
       "properties": {
         "fields": {
           "contains": {
-            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/OccurrenceField.json"
           },
           "minContains": 0,
           "maxContains": 0

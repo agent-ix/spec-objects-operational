@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RolloutDecl.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RolloutDecl.json",
   "type": "object",
   "properties": {
     "strategy": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RolloutStrategy.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RolloutStrategy.json"
     },
     "rollback": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackDecl.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RollbackDecl.json"
     },
     "doc": {
       "type": "string"
