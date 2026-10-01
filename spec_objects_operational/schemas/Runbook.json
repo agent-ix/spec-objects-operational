@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Runbook.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Runbook.json",
   "type": "object",
   "properties": {
     "operations": {
@@ -13,7 +13,7 @@
     "steps": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RunbookStep.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RunbookStep.json"
       }
     },
     "remediates": {

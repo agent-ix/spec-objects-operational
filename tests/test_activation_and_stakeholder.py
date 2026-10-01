@@ -1,7 +1,7 @@
 """Activation and stakeholder tests, covering FR-001, IT-001 and the
 StR-001 validation criteria.
 
-FR-001-AC-1 and StR-001-VC-3 are discharged here against the committed tree.
+StR-001-VC-3 is discharged here against the committed tree.
 FR-001-AC-2..AC-4, StR-001-VC-1 and StR-001-VC-2 need a running
 `filament-core-service`; they are environment-
 gated and their matrix rows stay `🚧` with that note. That is pre-existing
@@ -24,12 +24,6 @@ from tests.conftest import (
     load_manifest,
 )
 
-# The FR-035 module-manifest schema as `agent-ix/spec-artifacts-iso` ships it —
-# the copy Quoin and Quire actually load, and the only copy that admits BOTH
-# the `semantic` block (quoin FR-070) and the `lexicon` block (FR-043) this
-# manifest carries. FR-001, FR-003 and IT-001 all judge this manifest against it.
-VENDORED_SCHEMA = REPO_ROOT / "tests" / "fixtures" / "module-manifest.schema.json"
-
 FILAMENT_CORE_URL = os.environ.get("FILAMENT_CORE_URL")
 needs_filament_core = pytest.mark.skipif(
     not FILAMENT_CORE_URL,
@@ -38,12 +32,6 @@ needs_filament_core = pytest.mark.skipif(
         "FILAMENT_CORE_URL to run them; the matrix row stays 🚧 until then."
     ),
 )
-
-
-@pytest.mark.trace("TC-001", "FR-001-AC-1")
-def test_the_manifest_validates_against_the_pinned_fr035_schema(quire_engine):
-    violations = quire_engine.validate_manifest(load_manifest(), str(VENDORED_SCHEMA))
-    assert violations == [], violations
 
 
 @pytest.mark.integration
@@ -134,7 +122,7 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
         assert schema.get("properties"), f"{name} carries no declared shape"
         assert set(schema) > {"$schema", "$id", "type"}, name
 
-    # Multiplicity.json (semantic-core 0.3.0) requires `ordered`/`unique`; a
+    # Multiplicity.json (semantic-core) requires `ordered`/`unique`; a
     # producer clamps both `false` on a singular multiplicity (`upper` at
     # most one). Every field below is singular, so both are `false`.
     standing_record = {

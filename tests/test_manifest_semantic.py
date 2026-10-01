@@ -130,7 +130,7 @@ def test_validate_document_reports_no_semantic_load_failure_for_any_skeleton(
     strict=True,
     reason=(
         "FR-003-AC-6 requires the refusal to NAME the offending key and schema "
-        "path. quire 0.47.1 empties the registry silently instead: no "
+        "path. quire empties the registry silently instead: no "
         "ArchetypeLoadFailure, no semantic.* code, nothing naming `foo` or the "
         "path. Blocked on agent-ix/quire-rs#221 (unknown key). "
         "The criterion stands; the schema is "

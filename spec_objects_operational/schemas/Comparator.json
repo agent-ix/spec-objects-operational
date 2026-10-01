@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Comparator.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Comparator.json",
   "type": "string",
   "enum": [
     "lt",

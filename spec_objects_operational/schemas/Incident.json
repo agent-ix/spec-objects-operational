@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/Incident.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/Incident.json",
   "type": "object",
   "properties": {
     "fields": {
@@ -10,13 +10,13 @@
       },
       "minItems": 1,
       "contains": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/IdentityField.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/IdentityField.json"
       }
     },
     "evidence": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/EvidenceRef.json"
+        "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/EvidenceRef.json"
       }
     },
     "correlates": {
@@ -62,7 +62,7 @@
       "properties": {
         "fields": {
           "contains": {
-            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/OccurrenceField.json"
+            "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/OccurrenceField.json"
           }
         }
       }

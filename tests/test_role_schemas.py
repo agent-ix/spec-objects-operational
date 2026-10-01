@@ -33,7 +33,7 @@ def field(
     identity: bool = False,
     unit: str | None = None,
 ) -> dict:
-    # Multiplicity.json (semantic-core 0.3.0) requires `ordered`/`unique`; a
+    # Multiplicity.json (semantic-core) requires `ordered`/`unique`; a
     # producer clamps both `false` on a singular multiplicity (`upper` at
     # most one). Every field this helper builds is singular.
     type_ref: dict = {

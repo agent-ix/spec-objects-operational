@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackDecl.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RollbackDecl.json",
   "type": "object",
   "properties": {
     "strategy": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/RollbackStrategy.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/RollbackStrategy.json"
     },
     "clause": {
       "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.0/ClauseRef.json"

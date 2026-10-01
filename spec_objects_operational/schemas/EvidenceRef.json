@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/EvidenceRef.json",
+  "$id": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/EvidenceRef.json",
   "type": "object",
   "properties": {
     "shape": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/EvidenceRecordShape.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/EvidenceRecordShape.json"
     },
     "record": {
-      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/0.3.0/EvidenceRecordId.json"
+      "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/EvidenceRecordId.json"
     },
     "doc": {
       "type": "string"
