@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 import pathlib
-import re
 import shutil
 import subprocess
 import tarfile
@@ -25,7 +24,6 @@ from tests.conftest import (
     REPO_ROOT,
     SCHEMAS_DIR,
     SEMANTIC_CORE_BASE,
-    SUPPORT_MODELS,
 )
 
 GENERATOR = REPO_ROOT / "scripts" / "generate-schemas.mjs"
