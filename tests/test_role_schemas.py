@@ -361,7 +361,7 @@ def test_no_module_schema_redeclares_a_semantic_core_model(schema_registry):
         "SemanticId",
         "UnitSymbol",
     }
-    shipped = {path.stem for path in SCHEMAS_DIR.glob("*.json")} - {"toolchain"}
+    shipped = {path.stem for path in SCHEMAS_DIR.glob("*.json")}
     assert shipped & grammar == set(), f"the module redeclares {shipped & grammar}"
     #: Keys whose items are `SemanticId[]` reference arrays; the emitter inlines
     #: the `$ref` on the item, so they are checked the same way.
