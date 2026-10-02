@@ -1,8 +1,5 @@
 """Emission tests for the schema set (FR-002), its `$id`/`$ref` shape, the drift gate,
-determinism, packaging, and the version-bump procedure.
-
-Every assertion reads the `$id` version segment from `manifest.yaml`
-(FR-002-CON-5); no test hard-codes it.
+determinism, and packaging.
 """
 
 from __future__ import annotations
