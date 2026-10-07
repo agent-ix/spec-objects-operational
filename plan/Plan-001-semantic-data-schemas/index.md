@@ -20,4 +20,3 @@ okf_version: "0.1"
 * [Task-009](./tasks/Task-009-quoin-install-roundtrip.md) - IT-002 Quoin install roundtrip with unconditional restore.
 * [Task-010](./tasks/Task-010-activation-reverification-and-tags.md) - FR-001/StR-001 activation re-verification and trace tags.
 * [Task-011](./tasks/Task-011-gate-three-types-end-to-end.md) - Gate: Migration, Sli and Incident end-to-end.
-* [Update Log](./log.md) - Chronological log of changes to this bundle.
