@@ -93,3 +93,5 @@ pip install --index-url http://pypi.ix/root/dev/+simple/ spec_objects_operationa
 ```
 
 CI requires the `GCP_SERVICE_ACCOUNT_KEY` secret and the `GCP_REGION`, `GCP_PROJECT_NAME`, and `GCP_PYPI` variables for Artifact Registry publishing. Versioning is dynamic from the Git tag.
+
+<!-- STD-30 language-boundary canary: inert README change. -->
