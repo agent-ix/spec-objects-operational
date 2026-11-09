@@ -40,13 +40,10 @@
       }
     }
   },
-  "required": [
-    "fields"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },
-  "description": "Seals the standing definitions against an occurrence row.\n\nThe seal (`...Record<never>`) refuses an *observation key*; it says nothing\nabout a `fields` row. Without this rule a `Migration` could declare\n`applied_at : Timestamp` and a `Deployment` a `deployed_at : Timestamp`, and\nthe type would be an observed execution wearing a standing definition's\nschema. `Incident` is the only model that admits an occurrence field, and it\nrequires one. JSON Schema admits one `contains` per array, so this second\npredicate rides an `allOf` clause; `minContains: 0` is required because the\nkeyword defaults to 1 and would otherwise contradict `maxContains: 0`.A configuration: the tunable parameters of a configurable object. A\nparameter set is keyed by the object it configures, not by itself, so it\ncarries no identity field. `relations` is forbidden by the seal.",
+  "description": "Seals the standing definitions against an occurrence row.\n\nThe seal (`...Record<never>`) refuses an *observation key*; it says nothing\nabout a `fields` row. Without this rule a `Migration` could declare\n`applied_at : Timestamp` and a `Deployment` a `deployed_at : Timestamp`, and\nthe type would be an observed execution wearing a standing definition's\nschema. `Incident` is the only model that admits an occurrence field, and it\ndemands one when `fields` is present. JSON Schema admits one `contains` per array, so this second\npredicate rides an `allOf` clause; `minContains: 0` is required because the\nkeyword defaults to 1 and would otherwise contradict `maxContains: 0`.A configuration: the tunable parameters of a configurable object. A\nparameter set is keyed by the object it configures, not by itself, so it\ncarries no identity field. `relations` is forbidden by the seal.",
   "allOf": [
     {
       "properties": {

@@ -36,14 +36,10 @@
       }
     }
   },
-  "required": [
-    "fields",
-    "clauses"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },
-  "description": "A service level objective: the promise made over an SLI.\n\n`clauses` is required because the objective is an invariant over the\nindicator, expressed as a clause; `objective` carries the same promise in\ntyped form once the extractor populates it. `operations` is forbidden by the\nseal, and so is every consumed-budget or sample key.",
+  "description": "A service level objective: the promise made over an SLI.\n\n`clauses` is optional; the objective is an invariant over the\nindicator, expressed as a clause when present; `objective` carries the same promise in\ntyped form once the extractor populates it. `operations` is forbidden by the\nseal, and so is every consumed-budget or sample key.",
   "allOf": [
     {
       "properties": {

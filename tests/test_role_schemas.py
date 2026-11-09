@@ -134,7 +134,8 @@ def test_configuration_requires_fields_and_refuses_an_identity_row(schema_regist
     assert not ok(
         configuration, {"fields": [field("config_id", "UUID", identity=True)]}
     )
-    assert not ok(configuration, {})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(configuration, {})
     assert not ok(configuration, {"fields": []})
 
 
@@ -149,7 +150,8 @@ def test_migration_requires_a_safety_clause_and_refuses_an_identity_row(
     assert ok(migration, record)
     assert ok(migration, {**record, "rollback": {"strategy": "reversible"}})
     assert not ok(migration, {**record, "rollback": {"strategy": "pray"}})
-    assert not ok(migration, {"fields": record["fields"]})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(migration, {"fields": record["fields"]})
     assert not ok(migration, {**record, "clauses": []})
     assert not ok(
         migration,
@@ -163,7 +165,8 @@ def test_sli_requires_a_measured_field_and_refuses_operations(schema_registry):
     assert ok(sli, {"fields": [MEASURED]})
     assert not ok(sli, {"fields": [field("latency", "Duration")]})
     assert not ok(sli, {"fields": [MEASURED], "operations": [OPERATION]})
-    assert not ok(sli, {})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(sli, {})
 
 
 @pytest.mark.trace("TC-044", "FR-004-AC-5")
@@ -182,7 +185,8 @@ def test_slo_requires_a_measured_field_and_a_clause_and_refuses_operations(
     assert ok(slo, record)
     assert ok(slo, {**record, "objective": objective})
     assert not ok(slo, {**record, "objective": {**objective, "window": "30 days"}})
-    assert not ok(slo, {"fields": [MEASURED]})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(slo, {"fields": [MEASURED]})
     assert not ok(slo, {"fields": [field("ratio", "Decimal")], "clauses": [CLAUSE]})
     assert not ok(slo, {**record, "operations": [OPERATION]})
 
@@ -207,7 +211,8 @@ def test_alert_requires_a_clause_and_refuses_fields(schema_registry):
     )
     assert not ok(alert, {"clauses": [CLAUSE], "fields": [field("burn_rate")]})
     assert not ok(alert, {"clauses": []})
-    assert not ok(alert, {})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(alert, {})
 
 
 @pytest.mark.trace("TC-046", "FR-004-AC-7")
@@ -223,7 +228,8 @@ def test_runbook_requires_operations_and_refuses_fields(schema_registry):
         runbook, {"operations": [OPERATION], "fields": [field("page_id", "UUID")]}
     )
     assert not ok(runbook, {"operations": []})
-    assert not ok(runbook, {})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(runbook, {})
 
 
 @pytest.mark.trace("TC-047", "FR-004-AC-8")
@@ -240,7 +246,8 @@ def test_incident_requires_an_occurrence_identity_and_admits_evidence(schema_reg
     assert ok(incident, {"fields": [identity, OCCURRENCE], "evidence": [evidence]})
     assert not ok(incident, {"fields": [identity]})
     assert not ok(incident, {"fields": [OCCURRENCE]})
-    assert not ok(incident, {})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(incident, {})
 
 
 @pytest.mark.trace("TC-048", "FR-004-AC-9")
@@ -257,21 +264,25 @@ def test_deployment_requires_a_release_identity_and_lifecycle_operations(
     assert ok(deployment, record)
     assert ok(deployment, {**record, "rollout": {"strategy": "canary"}})
     assert not ok(deployment, {**record, "rollout": {"strategy": "yolo"}})
-    assert not ok(deployment, {"fields": record["fields"]})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(deployment, {"fields": record["fields"]})
     assert not ok(deployment, {**record, "operations": []})
     assert not ok(
         deployment, {"fields": [field("release_id")], "operations": [OPERATION]}
     )
 
 
-@pytest.mark.trace("TC-049", "FR-004-AC-10", "FR-004-CON-2", "FR-004-CON-4")
-def test_the_empty_record_and_an_observation_key_fail_every_type(schema_registry):
+@pytest.mark.trace("TC-049", "FR-004-AC-10", "FR-004-CON-4")
+def test_an_observation_key_fails_every_type_and_the_empty_record_validates(
+    schema_registry,
+):
     """The `observations` half is seal evidence only: any unknown key fails a
     sealed schema. The type-specific purity evidence is the occurrence-row test below.
     """
     for name in OBJECT_TYPES:
         validator = schema_registry(MODEL_OF[name])
-        assert not ok(validator, {}), f"{name} accepted the empty record"
+        # FR-006: every record key is optional, so the empty record validates.
+        assert ok(validator, {}), f"{name} refused the empty record"
         polluted = dict(valid_record(name))
         polluted["observations"] = [{"at": "2026-06-02T09:12:00Z", "value": 0.974}]
         assert not ok(validator, polluted), f"{name} accepted an observations key"
@@ -472,3 +483,23 @@ def test_the_three_cross_key_reader_rules_are_refused(schema_registry):
             ],
         },
     )
+
+
+@pytest.mark.trace("TC-092", "FR-006-AC-1", "FR-006-AC-2")
+def test_a_record_lacking_an_optional_section_key_validates_and_the_key_stays_checked(
+    schema_registry,
+):
+    """Hand-built: the record a document without the optional section yields."""
+    for name in OBJECT_TYPES:
+        assert not schema_of(name).get("required"), name
+        assert ok(schema_registry(MODEL_OF[name]), {}), name
+    identity = field("incident_id", "UUID", identity=True)
+    assert not ok(schema_registry("Configuration"), {"fields": []})
+    assert not ok(schema_registry("Migration"), {"clauses": []})
+    assert not ok(schema_registry("Slo"), {"fields": [field("ratio", "Decimal")]})
+    assert not ok(schema_registry("Alert"), {"clauses": []})
+    assert not ok(schema_registry("Runbook"), {"operations": []})
+    # An identity field alone fails for the missing occurrence field.
+    assert not ok(schema_registry("Incident"), {"fields": [identity]})
+    assert ok(schema_registry("Incident"), {"fields": [identity, OCCURRENCE]})
+    assert not ok(schema_registry("Deployment"), {"operations": []})

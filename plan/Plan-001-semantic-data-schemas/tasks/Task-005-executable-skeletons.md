@@ -43,7 +43,7 @@ that pin what the schemas and the engine refuse.
 
 ## Subtasks
 
-- [x] **Typed `## Properties`.** The six types that require `fields` author one table with the header exactly `Field | Type | Multiplicity | Constraints`; `alert` and `runbook` carry no such section because their models forbid `fields`.
+- [x] **Typed `## Properties`.** The six types that declare `fields` author one table with the header exactly `Field | Type | Multiplicity | Constraints`; `alert` and `runbook` carry no such section because their models forbid `fields`.
 - [x] **The item rules, authored.** `sli` and `slo` each carry a `Type` cell with a trailing bracketed unit; `incident` carries one `identity` row and one `Timestamp` row; `configuration` and `migration` carry neither an identity nor a `Timestamp` row.
 - [x] **`## Invariants`.** Every skeleton, one `### <clauseId>` per clause, each owning exactly one ```ocl``` fence.
 - [x] **`## Operations`.** `runbook` and `deployment`, one `### <name>` per operation with an optional param table, a `Returns:` line and `Pre:`/`Post:` lines naming clauses declared in the same artifact.

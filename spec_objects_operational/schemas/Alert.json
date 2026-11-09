@@ -35,11 +35,8 @@
       }
     }
   },
-  "required": [
-    "clauses"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },
-  "description": "An alert: a firing condition over an indicator.\n\n`fields` is forbidden by the seal — an alert declares a condition, not data.\n`clauses` is required and carries the condition; `conditions` carries the\nsame condition in typed form once the extractor populates it."
+  "description": "An alert: a firing condition over an indicator.\n\n`fields` is forbidden by the seal — an alert declares a condition, not data.\n`clauses` is optional and carries the condition when present; `conditions` carries the\nsame condition in typed form once the extractor populates it."
 }
