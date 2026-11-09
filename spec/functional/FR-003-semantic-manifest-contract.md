@@ -35,7 +35,7 @@ lexicon entry keeps its meaning.
 
 ## Behavior
 
-- The manifest `semantic` block SHALL carry exactly these keys and values: `contract_version: 1.0.0`, `semantic_core` (the one semantic-core version the module declares it extends), `package: agent-ix/spec-objects-operational`, `exports` listing every object type that ships a schema, `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
+- The manifest `semantic` block SHALL carry exactly these keys and values: `contract_version: 1.0.0`, `package: agent-ix/spec-objects-operational`, `exports` listing every object type that ships a schema, `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
 - `semantic.exports` SHALL name all eight object types: `configuration`, `migration`, `sli`, `slo`, `alert`, `runbook`, `incident`, `deployment`.
 - No exported object type SHALL carry an inline `data_schema`.
 - The `configuration_table` locator (`table_row` under `Configuration`, asserting the columns `Name | Scope | Type | Default | Description`) SHALL stay in place, so the untyped configuration table continues to be yielded beside the semantic record.
@@ -58,7 +58,7 @@ lexicon entry keeps its meaning.
 
 | ID | Criteria | Verification |
 |----|----------|--------------|
-| FR-003-AC-1 | The loaded `semantic` block equals the nine admitted keys with the values above, and `exports` equals the eight object-type names. | Test |
+| FR-003-AC-1 | The loaded `semantic` block equals the eight admitted keys with the values above, and `exports` equals the eight object-type names. | Test |
 | FR-003-AC-3 | The `id`, `title` and `type` frontmatter locators and each object type's defining locators are `required: true`. | Test |
 | FR-003-AC-4 | `quire.Registry.load_from([module dir])` lists all eight archetypes and `validate_document` on each skeleton reports no `semantic.*` load failure. | Test |
 | FR-003-AC-5 | `quoin module install path:<module dir>` exits zero and `quoin module` lists `spec-objects-operational`; the previously installed entry is restored afterwards. | Demonstration |

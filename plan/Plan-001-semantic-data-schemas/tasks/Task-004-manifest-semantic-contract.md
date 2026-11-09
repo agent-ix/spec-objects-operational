@@ -38,7 +38,7 @@ lexicon definitions issue #5 records as truncated.
 
 ## Subtasks
 
-- [x] **`semantic` block.** Exactly the nine admitted keys: `contract_version: 1.0.0`, `semantic_core: 0.1.0`, `package: agent-ix/spec-objects-operational`, `exports` (the eight object-type names), `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
+- [x] **`semantic` block.** Exactly the eight admitted keys: `contract_version: 1.0.0`, `package: agent-ix/spec-objects-operational`, `exports` (the eight object-type names), `imports: {}`, `targets: [json-schema, markdown]`, `mappings: [typed-table, sysml-fence, ocl-clause]`, `compatibility_posture: additive`, `legacy_forms: warning`.
 - [x] **Reference-form `data_schema`.** `{ schema: schemas/<Model>.json, digest: sha256:<hex> }` on every exported type, the digest written by the generator over the shipped bytes. No inline `data_schema` survives.
 - [x] **Version.** `version: 0.3.0`, bumped together with the `@jsonSchema` base in one commit.
 - [x] **Locator and lint-rule preservation.** Every 0.2.0 locator keeps its `from`, heading, `language`, `required`, `multiple` and `assert` facets, compared structurally against the checked-in baseline from Task-007; the `configuration-scope` rule keeps its three allowed values and `warning` severity.
