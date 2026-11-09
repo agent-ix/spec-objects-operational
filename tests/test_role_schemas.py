@@ -492,10 +492,14 @@ def test_a_record_lacking_an_optional_section_key_validates_and_the_key_stays_ch
     """Hand-built: the record a document without the optional section yields."""
     for name in OBJECT_TYPES:
         assert not schema_of(name).get("required"), name
+        assert ok(schema_registry(MODEL_OF[name]), {}), name
+    identity = field("incident_id", "UUID", identity=True)
     assert not ok(schema_registry("Configuration"), {"fields": []})
     assert not ok(schema_registry("Migration"), {"clauses": []})
     assert not ok(schema_registry("Slo"), {"fields": [field("ratio", "Decimal")]})
     assert not ok(schema_registry("Alert"), {"clauses": []})
     assert not ok(schema_registry("Runbook"), {"operations": []})
-    assert not ok(schema_registry("Incident"), {"fields": [OCCURRENCE]})
+    # An identity field alone fails for the missing occurrence field.
+    assert not ok(schema_registry("Incident"), {"fields": [identity]})
+    assert ok(schema_registry("Incident"), {"fields": [identity, OCCURRENCE]})
     assert not ok(schema_registry("Deployment"), {"operations": []})

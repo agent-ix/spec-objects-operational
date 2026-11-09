@@ -46,7 +46,7 @@ refuse.
 
 ## Behavior
 
-- Each skeleton whose type requires `fields` (`configuration`, `migration`, `sli`, `slo`, `incident`, `deployment`) SHALL author `## Properties` as one table with the header exactly `Field | Type | Multiplicity | Constraints`.
+- Each skeleton whose type declares `fields` (`configuration`, `migration`, `sli`, `slo`, `incident`, `deployment`) SHALL author `## Properties` as one table with the header exactly `Field | Type | Multiplicity | Constraints`.
 - The `alert` and `runbook` skeletons SHALL carry no `## Properties` section, because `Alert` and `Runbook` forbid `fields`.
 - The `sli` and `slo` skeletons SHALL each carry at least one `## Properties` row whose `Type` cell has a trailing bracketed unit (for example `Decimal(5,4) [1]` or `Duration [ms]`), so the extracted record carries the measured field `Sli`/`Slo` require.
 - The `incident` skeleton SHALL carry one `identity` row and one `Timestamp` row, so the extracted record carries the identity and occurrence fields `Incident` requires.
@@ -88,7 +88,7 @@ refuse.
 | FR-005-AC-1 | Every skeleton file (eight types plus three alternates) passes `validate_document` against this module with `is_valid` true and no `semantic.record-invalid` error. | Test |
 | FR-005-AC-2 | For `configuration`, `sli`, and `deployment`, the table and `sysml` skeletons extract to identical normalized `fields` with `fieldsForm` `table` and `fence` respectively. | Test |
 | FR-005-AC-3 | Under a bundle index built from the skeleton frontmatter, every skeleton extracts with zero `error` diagnostics and zero `semantic.unresolved-type` findings, and every non-kernel `type.target` starts with `ix://agent-ix/spec-objects-operational/type/`. | Test |
-| FR-005-AC-4 | Each skeleton's `availability` states match its type: `fields` `available` for the six types that require `fields` and `not_applicable` for `alert` and `runbook`; `operations` `available` for `runbook` and `deployment`; `clauses` `available` for every skeleton. | Test |
+| FR-005-AC-4 | Each skeleton's `availability` states match its type: `fields` `available` for the six types that declare `fields` and `not_applicable` for `alert` and `runbook`; `operations` `available` for `runbook` and `deployment`; `clauses` `available` for every skeleton. | Test |
 | FR-005-AC-5 | Every negative fixture fails validation with an error message containing both its `expect:` code and its `detail:` substring, and at least the nine cases listed in Behavior are present. | Test |
 | FR-005-AC-6 | Every skeleton's H2 set equals a subset of the headings the manifest asserts for its type and includes every `required: true` heading. | Test |
 | FR-005-AC-7 | The skeleton for each of the eight types has no placeholder token and every asserted section body is non-empty. | Test |

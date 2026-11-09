@@ -9,16 +9,16 @@ using AgentIx.Semantic.Core;
  *
  * One model per operational object type this module contributes, each validating
  * that type's Quire declaration record (fields, relations, clauses,
- * operations; quire-rs FR-070..FR-072) with type-specific required keys,
- * forbidden keys, and item rules (FR-004). Every grammar item is a `$ref` to
+ * operations; quire-rs FR-070..FR-072) with type-specific forbidden keys and item
+ * rules, and no required key (FR-004, FR-006). Every grammar item is a `$ref` to
  * `@agent-ix/semantic-core` and is never redeclared here (FR-004-CON-1);
  * this namespace contributes archetype shapes only.
  *
  * The module's central distinction (FR-004): `Configuration`, `Migration`,
  * `Sli`, `Slo`, `Alert`, `Runbook`, and `Deployment` are *standing definitions*
  * — what a system is configured to do, promises, and how it is remediated.
- * `Incident` is the one *observed execution*, and the only model that requires
- * an occurrence identity or declares `evidence`. Every model is sealed
+ * `Incident` is the one *observed execution*, and the only model that
+ * demands an occurrence identity or declares `evidence`. Every model is sealed
  * (`...Record<never>`), so no type can carry an accumulated observation, a
  * measured sample, a consumed error budget, or an applied-migration timestamp;
  * those live in the `agent-ix/quoin#267` evidence record family, which
@@ -253,7 +253,7 @@ model EvidenceRef {
  * `applied_at : Timestamp` and a `Deployment` a `deployed_at : Timestamp`, and
  * the type would be an observed execution wearing a standing definition's
  * schema. `Incident` is the only model that admits an occurrence field, and it
- * requires one. JSON Schema admits one `contains` per array, so this second
+ * demands one when `fields` is present. JSON Schema admits one `contains` per array, so this second
  * predicate rides an `allOf` clause; `minContains: 0` is required because the
  * keyword defaults to 1 and would otherwise contradict `maxContains: 0`.
  */
@@ -288,8 +288,8 @@ model Configuration {
 /**
  * A migration: a versioned change and the safety condition it preserves.
  *
- * `clauses` is required because a migration that states no safety condition
- * states nothing a reviewer can check. The declaration carries rollback
+ * `clauses` is optional; a migration that states no safety condition
+ * states nothing a reviewer can check, so when present it needs one clause. The declaration carries rollback
  * *intent* (`rollback`) and never execution state: no applied-at timestamp, no
  * row count, no database status. A consumer needing execution state reads it
  * through `migrates` or through an `Incident` that references the migration.
@@ -349,8 +349,8 @@ model Sli {
 /**
  * A service level objective: the promise made over an SLI.
  *
- * `clauses` is required because the objective is an invariant over the
- * indicator, expressed as a clause; `objective` carries the same promise in
+ * `clauses` is optional; the objective is an invariant over the
+ * indicator, expressed as a clause when present; `objective` carries the same promise in
  * typed form once the extractor populates it. `operations` is forbidden by the
  * seal, and so is every consumed-budget or sample key.
  */
@@ -380,7 +380,7 @@ model Slo {
  * An alert: a firing condition over an indicator.
  *
  * `fields` is forbidden by the seal — an alert declares a condition, not data.
- * `clauses` is required and carries the condition; `conditions` carries the
+ * `clauses` is optional and carries the condition when present; `conditions` carries the
  * same condition in typed form once the extractor populates it.
  */
 model Alert {
@@ -398,7 +398,7 @@ model Alert {
  * A runbook: the operations an operator performs to remediate something.
  *
  * `fields` is forbidden by the seal — a runbook declares actions, not data.
- * `operations` is required; `steps` orders them once the extractor populates
+ * `operations` is optional; `steps` orders them once the extractor populates
  * it.
  */
 model Runbook {
@@ -452,7 +452,7 @@ model Deployment {
  * An incident: something that happened.
  *
  * This is the module's one observed-execution type and the only model that
- * requires an occurrence identity — at least one identity field (which
+ * demands an occurrence identity when `fields` is present — at least one identity field (which
  * incident it was) and at least one `Timestamp` field (when it was). The
  * second `contains` predicate is expressed through `allOf`, because JSON
  * Schema admits one `contains` per array.

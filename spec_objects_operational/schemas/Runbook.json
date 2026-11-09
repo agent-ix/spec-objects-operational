@@ -32,5 +32,5 @@
   "unevaluatedProperties": {
     "not": {}
   },
-  "description": "A runbook: the operations an operator performs to remediate something.\n\n`fields` is forbidden by the seal — a runbook declares actions, not data.\n`operations` is required; `steps` orders them once the extractor populates\nit."
+  "description": "A runbook: the operations an operator performs to remediate something.\n\n`fields` is forbidden by the seal — a runbook declares actions, not data.\n`operations` is optional; `steps` orders them once the extractor populates\nit."
 }

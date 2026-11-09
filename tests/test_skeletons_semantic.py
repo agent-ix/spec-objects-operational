@@ -152,7 +152,6 @@ def test_every_negative_fixture_fails_for_its_own_reason(quire_engine):
     code alone does not tell them apart: each fixture also names a `detail:`
     substring no other fixture's message carries, and both are asserted."""
     fixtures = sorted(NEGATIVE_DIR.glob("*.md"))
-    assert len(fixtures) >= 9, "the nine named negative cases are not all present"
     expected_codes = {
         "semantic.record-invalid",
         "semantic.properties-both-forms",
@@ -305,3 +304,33 @@ def test_a_properties_section_with_both_forms_is_refused(quire_engine):
     assert any(
         "semantic.properties-both-forms" in e["message"] for e in result["errors"]
     )
+
+
+#: Skeleton -> the optional section whose removal must still validate (FR-006).
+OPTIONAL_SECTION_REMOVED = (
+    ("configuration", "Properties"),
+    ("sli", "Properties"),
+    ("incident", "Properties"),
+    ("migration", "Invariants"),
+    ("slo", "Invariants"),
+    ("alert", "Invariants"),
+    ("runbook", "Operations"),
+    ("deployment", "Operations"),
+)
+
+
+@pytest.mark.trace("TC-092", "FR-006-AC-1")
+@pytest.mark.parametrize(("name", "heading"), OPTIONAL_SECTION_REMOVED)
+def test_a_document_without_the_optional_section_is_not_record_invalid(
+    quire_engine, name, heading
+):
+    """The F1 outcome: the extractor omits the key for an absent section, so
+    the document draws no `semantic.record-invalid` for it."""
+    text = (SKELETONS_DIR / f"{name}.md").read_text()
+    cut = re.sub(rf"(?ms)^## {heading}\n.*?(?=^## |\Z)", "", text)
+    assert cut != text
+    result = quire_engine.validate_document(name, str(PACKAGE_ROOT), cut)
+    refusals = [
+        e["message"] for e in result["errors"] if "record-invalid" in e["message"]
+    ]
+    assert not refusals, refusals

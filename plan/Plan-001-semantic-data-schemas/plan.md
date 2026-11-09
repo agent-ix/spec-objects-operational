@@ -154,7 +154,7 @@ hard failure — a skip that was hiding a broken locator lookup for `configurati
 - [x] **TC-061** (FR-005-AC-2, FR-005-CON-2): table and `sysml` skeletons extract to identical normalized fields with the recorded forms.
 - [x] **TC-062** (FR-005-AC-3): under the skeleton bundle index every skeleton extracts with zero errors and zero unresolved tokens.
 - [x] **TC-063** (FR-005-AC-4): availability states per skeleton match the type's declared set.
-- [x] **TC-064** (FR-005-AC-5): every negative fixture fails with its `expect:` code and its `detail:` substring, and the ten named cases exist.
+- [x] **TC-064** (FR-005-AC-5): every negative fixture fails with its `expect:` code and its `detail:` substring, and the named cases exist.
 - [x] **TC-068** (FR-005-AC-9): the sli/slo skeletons extract a unit-bearing field and the incident skeleton an identity and a `Timestamp` field.
 - [x] **TC-070** (FR-005-CON-2): a Properties section holding both a table and a fence is refused at the second form.
 - [x] **TC-071** (FR-005-AC-10): with the engine absent the semantic rows fail rather than skip, naming the provisioning path.

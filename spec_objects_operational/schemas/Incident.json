@@ -53,7 +53,7 @@
   "unevaluatedProperties": {
     "not": {}
   },
-  "description": "An incident: something that happened.\n\nThis is the module's one observed-execution type and the only model that\nrequires an occurrence identity — at least one identity field (which\nincident it was) and at least one `Timestamp` field (when it was). The\nsecond `contains` predicate is expressed through `allOf`, because JSON\nSchema admits one `contains` per array.\n\n`Incident` is also the only model that declares `evidence`, which is what\nmakes the `agent-ix/quoin#267` mapping canonical: exactly one key on exactly\none type, referencing that family's records by `SemanticId` and copying none\nof their fields.",
+  "description": "An incident: something that happened.\n\nThis is the module's one observed-execution type and the only model that\ndemands an occurrence identity when `fields` is present — at least one identity field (which\nincident it was) and at least one `Timestamp` field (when it was). The\nsecond `contains` predicate is expressed through `allOf`, because JSON\nSchema admits one `contains` per array.\n\n`Incident` is also the only model that declares `evidence`, which is what\nmakes the `agent-ix/quoin#267` mapping canonical: exactly one key on exactly\none type, referencing that family's records by `SemanticId` and copying none\nof their fields.",
   "allOf": [
     {
       "properties": {
