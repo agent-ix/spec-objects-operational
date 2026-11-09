@@ -128,7 +128,7 @@ through the maintainer's story of declaring those types against semantic-core
 (`usecase/`) to the functional requirements (`functional/`): FR-001 activates
 the manifest against `filament-core`; FR-002 emits the schemas; FR-003 declares
 the semantic contract in the manifest; FR-004 fixes each type's role-distinct
-schema; FR-005 makes the skeletons executable fixtures. Integration tests in `integration/` verify
+schema; FR-005 makes the skeletons executable fixtures; FR-006 keeps a declaration key optional where its source section is. Integration tests in `integration/` verify
 the activation and Quoin-install boundaries; the third external boundary, the
 Quire engine (loader, extraction, record surface), has no IT artifact of its
 own — the FR-003 and FR-005 test harness is this module's Quire contract test,

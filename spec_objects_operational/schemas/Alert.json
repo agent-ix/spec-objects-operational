@@ -35,9 +35,6 @@
       }
     }
   },
-  "required": [
-    "clauses"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },

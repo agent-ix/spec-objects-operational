@@ -14,7 +14,7 @@ relationships:
 
 The TypeSpec source SHALL declare one model per operational object type whose
 emitted schema validates that type's declaration record
-`{ fields?, clauses?, operations?, … }` with type-specific required keys,
+`{ fields?, clauses?, operations?, … }` with no required key ([FR-006](./FR-006-optional-sections-optional-keys.md)), type-specific
 forbidden keys, and item rules, so that no type is a placeholder, each
 operational role refuses the records that violate its own rules, a standing
 definition is refused where an observed execution is required and the reverse,
@@ -67,14 +67,14 @@ occurrence field at all.
 
 | Object type | Model | Required keys | Optional keys | Item rules |
 |---|---|---|---|---|
-| configuration | `Configuration` | `fields` | `scopes: ScopeAssignment[]`, `configures: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, 0 identity fields (a parameter set is keyed by the configured object, not by itself) and 0 occurrence fields; `relations` forbidden |
-| migration | `Migration` | `fields`, `clauses` | `rollback: RollbackDecl`, `migrates: SemanticId[]`, `dependsOn: SemanticId[]`, `operations` | `fields` has ≥ 1 item, 0 identity fields and 0 occurrence fields (an `applied_at` row is execution state); `clauses` has ≥ 1 item — a migration declares the safety condition it preserves; `relations` forbidden |
-| sli | `Sli` | `fields` | `measures: SemanticId[]`, `clauses` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `operations` forbidden — an SLI declares a measurement, not behaviour |
-| slo | `Slo` | `fields`, `clauses` | `objective: ObjectiveDecl`, `constrains: SemanticId[]`, `dependsOn: SemanticId[]` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `clauses` has ≥ 1 item — the objective is an invariant over the SLI; `operations` forbidden |
-| alert | `Alert` | `clauses` | `conditions: AlertCondition[]`, `escalatesTo: SemanticId[]`, `references: SemanticId[]`, `operations` | `clauses` has ≥ 1 item — an alert is a firing condition; `fields` forbidden |
-| runbook | `Runbook` | `operations` | `steps: RunbookStep[]`, `remediates: SemanticId[]`, `clauses` | `operations` has ≥ 1 item — a runbook declares the actions an operator performs; `fields` forbidden |
-| incident | `Incident` | `fields` | `evidence: EvidenceRef[]`, `correlates: SemanticId[]`, `breaches: SemanticId[]`, `triggers: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, ≥ 1 identity field, and ≥ 1 occurrence field — an incident is an observed occurrence and is the only type that is |
-| deployment | `Deployment` | `fields`, `operations` | `rollout: RolloutDecl`, `deploys: SemanticId[]`, `dependsOn: SemanticId[]`, `relations`, `clauses` | `fields` has ≥ 1 item, ≥ 1 identity field (the release identity) and 0 occurrence fields; `operations` has ≥ 1 item (the lifecycle actions) |
+| configuration | `Configuration` | none (FR-006) | `scopes: ScopeAssignment[]`, `configures: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, 0 identity fields (a parameter set is keyed by the configured object, not by itself) and 0 occurrence fields; `relations` forbidden |
+| migration | `Migration` | none (FR-006) | `rollback: RollbackDecl`, `migrates: SemanticId[]`, `dependsOn: SemanticId[]`, `operations` | `fields` has ≥ 1 item, 0 identity fields and 0 occurrence fields (an `applied_at` row is execution state); `clauses` has ≥ 1 item — a migration declares the safety condition it preserves; `relations` forbidden |
+| sli | `Sli` | none (FR-006) | `measures: SemanticId[]`, `clauses` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `operations` forbidden — an SLI declares a measurement, not behaviour |
+| slo | `Slo` | none (FR-006) | `objective: ObjectiveDecl`, `constrains: SemanticId[]`, `dependsOn: SemanticId[]` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `clauses` has ≥ 1 item — the objective is an invariant over the SLI; `operations` forbidden |
+| alert | `Alert` | none (FR-006) | `conditions: AlertCondition[]`, `escalatesTo: SemanticId[]`, `references: SemanticId[]`, `operations` | `clauses` has ≥ 1 item — an alert is a firing condition; `fields` forbidden |
+| runbook | `Runbook` | none (FR-006) | `steps: RunbookStep[]`, `remediates: SemanticId[]`, `clauses` | `operations` has ≥ 1 item — a runbook declares the actions an operator performs; `fields` forbidden |
+| incident | `Incident` | none (FR-006) | `evidence: EvidenceRef[]`, `correlates: SemanticId[]`, `breaches: SemanticId[]`, `triggers: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, ≥ 1 identity field, and ≥ 1 occurrence field — an incident is an observed occurrence and is the only type that is |
+| deployment | `Deployment` | none (FR-006) | `rollout: RolloutDecl`, `deploys: SemanticId[]`, `dependsOn: SemanticId[]`, `relations`, `clauses` | `fields` has ≥ 1 item, ≥ 1 identity field (the release identity) and 0 occurrence fields; `operations` has ≥ 1 item (the lifecycle actions) |
 
 - `ScopeAssignment` SHALL be `{ parameter: Identifier, scope: ConfigurationScope }` with `ConfigurationScope` the closed set `creation`, `runtime`, `session` — the same vocabulary the `configuration-scope` lint rule allows on the untyped `## Configuration` table.
 - `RollbackDecl` SHALL be `{ strategy: RollbackStrategy, clause?: ClauseRef, doc?: string }` with `RollbackStrategy` the closed set `reversible`, `forward_only`, `compensating`.
@@ -110,7 +110,6 @@ occurrence field at all.
 | ID | Constraint | Type | Validation |
 |----|------------|------|------------|
 | FR-004-CON-1 | No model SHALL redeclare a semantic-core model or scalar; the module namespace contributes archetype shapes only (semantic-core NFR-014 kernel discipline). | Architecture | Test |
-| FR-004-CON-2 | The empty record `{}` SHALL fail every one of the eight object-type schemas, because every type has a non-empty required set. | Integrity | Test |
 | FR-004-CON-3 | Exactly one model SHALL declare `evidence`. | Boundary | Test |
 | FR-004-CON-4 | No model SHALL declare a key holding an observation, sample, consumed budget, or execution timestamp. | Boundary | Test |
 | FR-004-CON-5 | No standing-definition model SHALL admit an occurrence field. | Boundary | Test |
@@ -120,15 +119,15 @@ occurrence field at all.
 | ID | Criteria | Verification |
 |----|----------|--------------|
 | FR-004-AC-1 | Each of the eight shipped object-type schemas differs from every other in at least one required, forbidden, or item rule listed in the table; a schema with only `type: object` is absent. | Test |
-| FR-004-AC-2 | A configuration record with one non-identity field validates against `Configuration.json`, with `scopes` accepted when present; the same record with an identity field fails; a record with no `fields` fails. | Test |
-| FR-004-AC-3 | A migration record with one non-identity field and one clause validates against `Migration.json`, with `rollback` accepted when present; the same record without `clauses` fails; a record with an identity field fails. | Test |
-| FR-004-AC-4 | An SLI record whose field carries a `type.unit` validates against `Sli.json`; the same record with the unit removed fails; a record carrying `operations` fails. | Test |
-| FR-004-AC-5 | An SLO record with a measured field and one clause validates against `Slo.json`, with `objective` accepted when present; the same record without `clauses` fails; a record carrying `operations` fails. | Test |
+| FR-004-AC-2 | A configuration record with one non-identity field validates against `Configuration.json`, with `scopes` accepted when present; the same record with an identity field fails; a record with an empty `fields` array fails. | Test |
+| FR-004-AC-3 | A migration record with one non-identity field and one clause validates against `Migration.json`, with `rollback` accepted when present; the same record without `clauses` validates ([FR-006](./FR-006-optional-sections-optional-keys.md)); a record with an identity field fails. | Test |
+| FR-004-AC-4 | An SLI record whose field carries a `type.unit` validates against `Sli.json`; the same record with the unit removed fails; a record without `fields` validates; a record carrying `operations` fails. | Test |
+| FR-004-AC-5 | An SLO record with a measured field and one clause validates against `Slo.json`, with `objective` accepted when present; the same record without `clauses` validates ([FR-006](./FR-006-optional-sections-optional-keys.md)); a record carrying `operations` fails. | Test |
 | FR-004-AC-6 | An alert record with one clause validates against `Alert.json`, with `conditions` accepted when present; a record carrying `fields` fails; a record with an empty `clauses` array fails. | Test |
 | FR-004-AC-7 | A runbook record with one operation validates against `Runbook.json`, with `steps` accepted when present; a record carrying `fields` fails; a record with an empty `operations` array fails. | Test |
 | FR-004-AC-8 | An incident record with an identity field and a `Timestamp` field validates against `Incident.json`, with `evidence` accepted when present; the same record without the `Timestamp` field fails; the same record without the identity field fails. | Test |
-| FR-004-AC-9 | A deployment record with an identity field and one operation validates against `Deployment.json`, with `rollout` accepted when present; the same record without `operations` fails; the same record with the identity flag removed fails. | Test |
-| FR-004-AC-10 | The empty record `{}` fails all eight object-type schemas, and a record carrying an `observations` key fails every one of them. The second half holds for any unknown key, so it is evidence of the seal only; the type-specific purity evidence is FR-004-AC-14. | Test |
+| FR-004-AC-9 | A deployment record with an identity field and one operation validates against `Deployment.json`, with `rollout` accepted when present; the same record without `operations` validates ([FR-006](./FR-006-optional-sections-optional-keys.md)); the same record with the identity flag removed fails. | Test |
+| FR-004-AC-10 | The empty record `{}` validates against all eight object-type schemas ([FR-006](./FR-006-optional-sections-optional-keys.md)), and a record carrying an `observations` key fails every one of them. The second half holds for any unknown key, so it is evidence of the seal only; the type-specific purity evidence is FR-004-AC-14. | Test |
 | FR-004-AC-11 | `evidence` is declared by `Incident.json` and by no other shipped schema; an `evidence` entry whose `record` falls outside quoin FR-059's `$defs/identity` pattern fails, one carrying an `ix://` identity (also a valid FR-059 `record_id`) validates, and one whose `shape` is outside `EvidenceRecordShape` fails. | Test |
 | FR-004-AC-12 | A `type.target` of `ix://agent-ix/spec-objects-operational/unresolved/Mystery` is accepted by the schema (it is a `SemanticId`) and reported by the extractor as `semantic.unresolved-type`; a bare `Mystery` string is rejected by the schema. | Test |
 | FR-004-AC-13 | No module schema redeclares a semantic-core model; every grammar item across the eight object-type schemas is a `$ref` to semantic-core. | Test |

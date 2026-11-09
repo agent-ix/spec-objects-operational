@@ -44,10 +44,6 @@
       }
     }
   },
-  "required": [
-    "fields",
-    "clauses"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },

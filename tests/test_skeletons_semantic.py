@@ -148,11 +148,11 @@ def test_availability_states_match_each_type(
 
 @pytest.mark.trace("TC-064", "FR-005-AC-5")
 def test_every_negative_fixture_fails_for_its_own_reason(quire_engine):
-    """Seven of the ten fixtures surface as `semantic.record-invalid`, so the
+    """Six of the nine fixtures surface as `semantic.record-invalid`, so the
     code alone does not tell them apart: each fixture also names a `detail:`
     substring no other fixture's message carries, and both are asserted."""
     fixtures = sorted(NEGATIVE_DIR.glob("*.md"))
-    assert len(fixtures) >= 10, "the ten named negative cases are not all present"
+    assert len(fixtures) >= 9, "the nine named negative cases are not all present"
     expected_codes = {
         "semantic.record-invalid",
         "semantic.properties-both-forms",

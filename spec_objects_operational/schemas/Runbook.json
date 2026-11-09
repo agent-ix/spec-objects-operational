@@ -29,9 +29,6 @@
       }
     }
   },
-  "required": [
-    "operations"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },

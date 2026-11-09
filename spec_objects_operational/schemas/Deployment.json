@@ -48,10 +48,6 @@
       }
     }
   },
-  "required": [
-    "fields",
-    "operations"
-  ],
   "unevaluatedProperties": {
     "not": {}
   },

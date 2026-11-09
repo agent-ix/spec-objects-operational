@@ -276,7 +276,7 @@ model Configuration {
   @contains(IdentityField)
   @minContains(0)
   @maxContains(0)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   scopes?: ScopeAssignment[];
   configures?: SemanticId[];
@@ -308,10 +308,10 @@ model Migration {
   @contains(IdentityField)
   @minContains(0)
   @maxContains(0)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   @minItems(1)
-  clauses: ClauseRef[];
+  clauses?: ClauseRef[];
 
   rollback?: RollbackDecl;
   migrates?: SemanticId[];
@@ -339,7 +339,7 @@ model Migration {
 model Sli {
   @minItems(1)
   @contains(MeasuredField)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   measures?: SemanticId[];
   clauses?: ClauseRef[];
@@ -365,10 +365,10 @@ model Sli {
 model Slo {
   @minItems(1)
   @contains(MeasuredField)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   @minItems(1)
-  clauses: ClauseRef[];
+  clauses?: ClauseRef[];
 
   objective?: ObjectiveDecl;
   constrains?: SemanticId[];
@@ -385,7 +385,7 @@ model Slo {
  */
 model Alert {
   @minItems(1)
-  clauses: ClauseRef[];
+  clauses?: ClauseRef[];
 
   conditions?: AlertCondition[];
   escalatesTo?: SemanticId[];
@@ -403,7 +403,7 @@ model Alert {
  */
 model Runbook {
   @minItems(1)
-  operations: OperationDecl[];
+  operations?: OperationDecl[];
 
   steps?: RunbookStep[];
   remediates?: SemanticId[];
@@ -431,10 +431,10 @@ model Runbook {
 model Deployment {
   @minItems(1)
   @contains(IdentityField)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   @minItems(1)
-  operations: OperationDecl[];
+  operations?: OperationDecl[];
 
   rollout?: RolloutDecl;
   deploys?: SemanticId[];
@@ -469,7 +469,7 @@ model Deployment {
 model Incident {
   @minItems(1)
   @contains(IdentityField)
-  fields: FieldDecl[];
+  fields?: FieldDecl[];
 
   evidence?: EvidenceRef[];
   correlates?: SemanticId[];
