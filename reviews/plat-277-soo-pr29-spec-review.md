@@ -45,3 +45,9 @@ Round 1, fix commit e2ca621.
 | FND-001 | still-open | FR-005 L49, FR-005-AC-4 and Task-005 L46 now say "declares `fields`", but FR-005 L61 still reads "Each skeleton whose type requires `operations` (`runbook`, `deployment`)", which is the empty set after FR-006. One-word fix: "declares `operations`". |
 | FND-002 | fixed | The Optional keys column now lists `fields` / `clauses` / `operations` for every admitting type. The Item rules header now states that each rule applies only when its key is present, and FR-004-AC-8 states that an Incident without `fields` validates. |
 | FND-003 | fixed | FR-004-AC-2, AC-6, AC-7 and AC-8 now state that an absent key validates, the TC-043 row gained "no `fields` validates", and plan.md drops "ten". |
+
+Round 2, head d74cd82.
+
+| FND | outcome | reason |
+|---|---|---|
+| FND-001 | fixed | FR-005 L61 now reads "Each skeleton whose type declares `operations`", and L52 now reads "`Incident` demands when `fields` is present". A scan of spec/, plan/ and typespec/ for "require(s) `fields`/`operations`/`clauses`", "types that require" and "whose type requires" finds nothing left. |
