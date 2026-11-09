@@ -122,7 +122,7 @@ hard failure — a skip that was hiding a broken locator lookup for `configurati
 - [x] **TC-022** (FR-002-CON-4): `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core`.
 - [x] **TC-023** (FR-002-AC-2): no test hard-codes the `$id` version segment.
 - [x] **TC-027** (FR-002-AC-13): `make install` provisions the TypeSpec toolchain.
-- [x] **TC-030** (FR-003-AC-1, FR-003-CON-1): the `semantic` block equals the nine admitted keys and `exports` equals the eight object-type names.
+- [x] **TC-030** (FR-003-AC-1, FR-003-CON-1): the `semantic` block equals the eight admitted keys and `exports` equals the eight object-type names.
 - [x] **TC-031** (FR-003-AC-2): every exported type's `data_schema` is the reference form and the referenced file hashes to the recorded digest.
 - [x] **TC-032** (FR-003-AC-3): every 0.2.0 locator is unchanged against the checked-in baseline.
 - [x] **TC-033** (FR-003-CON-2): every locator added after 0.2.0 is `required: false`.

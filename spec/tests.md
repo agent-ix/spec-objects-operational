@@ -107,7 +107,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
 | TC-027 | `make install` provisions the TypeSpec toolchain, so `make lint`'s drift gate fails for drift and not for a missing compiler | Unit | P1 | FR-002-AC-13 | ✅ |
 | TC-028 | `stage-npm.mjs --clean` removes every staged root path and leaves the inner package sources byte-identical | Integration | P1 | FR-002-AC-14 | ✅ |
-| TC-030 | The `semantic` block equals the nine admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
+| TC-030 | The `semantic` block equals the eight admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
 | TC-032 | The core frontmatter locators and each type's defining locators are required | Unit | P0 | FR-003-AC-3 | ✅ |
 | TC-034 | `quire.Registry.load_from` lists all eight archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
 | TC-035 | An unknown `semantic` key is refused by the loader; the refusal names the key or path | Integration | P1 | FR-003-AC-6 | ✅ the naming half is an expected failure on quire-rs#221 |
