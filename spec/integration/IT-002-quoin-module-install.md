@@ -59,7 +59,7 @@ Each step performs one discrete action and declares its success criterion.
 ## Expected Results
 
 The install succeeds with exit code 0, the module is listed, the derived
-package manifest names the eight exports, and the prior module state is
+package manifest names the nine exports, and the prior module state is
 restored. The test passes only when every per-step success criterion holds.
 
 ## Dependencies

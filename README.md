@@ -43,6 +43,7 @@ quire validate spec/**/*.md --module node_modules/@agent-ix/spec-objects-operati
 | SLI | `sli` | A service-level indicator defining what is measured (e.g. the success ratio) via a required `## Query` code block. |
 | SLO | `slo` | A service-level objective with frontmatter `target` and `window` fields, describing the reliability goal and its error budget. |
 | Alert | `alert` | A burn-rate/monitoring alert whose escalation logic is a required `## Flow` mermaid diagram. |
+| Maintenance plan | `maintenance_plan` | How feedback on released software is received, documented and evaluated and how a modification is made, with a required `## Procedure` section; it records who is accountable and assigns no score or acceptability. |
 | Runbook | `runbook` | An ordered, executable response procedure captured as a required `## Steps` list with the exact operator commands. |
 | Incident | `incident` | A post-incident record with a required `## Timeline` of timestamped (UTC), ordered, factual events. |
 | Deployment | `deployment` | A deployment topology rendered as a required `## Topology` mermaid diagram of replicas, services, and dependencies. |

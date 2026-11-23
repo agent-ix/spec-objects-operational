@@ -19,6 +19,18 @@
         "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/EvidenceRef.json"
       }
     },
+    "hazards": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/SemanticId.json"
+      }
+    },
+    "anomalies": {
+      "type": "array",
+      "items": {
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/SemanticId.json"
+      }
+    },
     "correlates": {
       "type": "array",
       "items": {

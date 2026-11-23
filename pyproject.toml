@@ -6,7 +6,7 @@ license = "AGPL-3.0-or-later"
 [tool.poetry]
 name = "spec_objects_operational"
 version = "0.1.0"  # Placeholder, dynamically replaced
-description = "Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)"
+description = "Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment, maintenance_plan)"
 authors = ["Agent IX <agents@agent-ix.dev>"]
 packages = [{ include = "spec_objects_operational" }]
 include = [

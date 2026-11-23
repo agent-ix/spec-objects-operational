@@ -52,6 +52,7 @@ OBJECT_TYPES = (
     "runbook",
     "incident",
     "deployment",
+    "maintenance_plan",
 )
 
 MODEL_OF = {
@@ -63,6 +64,7 @@ MODEL_OF = {
     "runbook": "Runbook",
     "incident": "Incident",
     "deployment": "Deployment",
+    "maintenance_plan": "MaintenancePlan",
 }
 
 #: The one observed-execution type. Every other export is a standing
@@ -89,6 +91,7 @@ SUPPORT_MODELS = (
     "AlertCondition",
     "RunbookStep",
     "EvidenceRef",
+    "FeedbackChannel",
     "ConfigurationScope",
     "RollbackStrategy",
     "RolloutStrategy",

@@ -76,6 +76,7 @@ def valid_record(name: str) -> dict:
         "slo": {"fields": [MEASURED], "clauses": [CLAUSE]},
         "alert": {"clauses": [CLAUSE]},
         "runbook": {"operations": [OPERATION]},
+        "maintenance_plan": {"operations": [OPERATION]},
         "incident": {
             "fields": [field("incident_id", "UUID", identity=True), OCCURRENCE]
         },
@@ -213,6 +214,65 @@ def test_alert_requires_a_clause_and_refuses_fields(schema_registry):
     assert not ok(alert, {"clauses": []})
     # FR-006: the key is optional, so its absence validates.
     assert ok(alert, {})
+
+
+@pytest.mark.trace("TC-093", "FR-004-AC-16")
+def test_incident_references_hazards_and_anomalies_and_no_other_type_does(
+    schema_registry,
+):
+    """`hazards` and `anomalies` are exercised against a hand-built record: the
+    extractor does not populate them (agent-ix/quoin#335)."""
+    incident = schema_registry("Incident")
+    ref = "ix://agent-ix/spec-objects-safety/HAZ-001"
+    base = valid_record("incident")
+    assert ok(incident, {**base, "hazards": [ref], "anomalies": [ref]})
+    assert ok(incident, {**base, "hazards": [], "anomalies": []})
+    assert ok(incident, base)
+    assert not ok(incident, {**base, "hazards": ["HAZ-001"]})
+    assert not ok(incident, {**base, "anomalies": ["ANOM-1"]})
+    for key in ("hazards", "anomalies"):
+        declaring = [
+            name for name in OBJECT_TYPES if key in schema_of(name)["properties"]
+        ]
+        assert declaring == ["incident"], key
+
+
+@pytest.mark.trace("TC-094", "FR-004-AC-17")
+def test_maintenance_plan_requires_operations_owned_channels_and_assigns_nothing(
+    schema_registry,
+):
+    """The channel, `maintains` and `responsible` keys are exercised against a
+    hand-built record: the extractor does not populate them."""
+    plan = schema_registry("MaintenancePlan")
+    owner = "ix://agent-ix/example/ROLE-001"
+    channel = {"name": "support_desk", "owner": owner}
+    base = {"operations": [OPERATION]}
+    assert ok(plan, base)
+    assert ok(
+        plan,
+        {
+            **base,
+            "maintains": [owner],
+            "responsible": [owner],
+            "feedback_channels": [channel, {**channel, "doc": "Support tickets."}],
+        },
+    )
+    assert not ok(plan, {**base, "feedback_channels": [{"name": "support_desk"}]})
+    assert not ok(plan, {**base, "fields": [field("report_id", "UUID")]})
+    assert not ok(plan, {**base, "severity": "high"})
+    assert not ok(plan, {**base, "acceptability": "acceptable"})
+    assert not ok(plan, {"operations": []})
+    # FR-006: the key is optional, so its absence validates.
+    assert ok(plan, {})
+
+
+@pytest.mark.trace("TC-095", "FR-004-AC-18")
+def test_no_judgment_key_is_declared_on_channel_plan_or_incident():
+    """The module records who is accountable, never a grade."""
+    judgments = {"severity", "class", "acceptability", "score"}
+    for name in ("FeedbackChannel", "MaintenancePlan", "Incident"):
+        schema = json.loads((SCHEMAS_DIR / f"{name}.json").read_text())
+        assert not judgments & set(schema["properties"]), name
 
 
 @pytest.mark.trace("TC-046", "FR-004-AC-7")

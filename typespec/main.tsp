@@ -208,6 +208,18 @@ model AlertCondition {
 }
 
 /**
+ * One channel through which feedback on released software reaches the
+ * maintainer. `owner` is the person or role accountable for reviewing what
+ * arrives; the channel carries no severity or acceptability.
+ */
+model FeedbackChannel {
+  name: Identifier;
+  owner: SemanticId;
+  doc?: string;
+  ...Record<never>;
+}
+
+/**
  * One ordered step of a runbook.
  *
  * Reader rule JSON Schema cannot express (FR-004): `operation` names an
@@ -412,6 +424,26 @@ model Runbook {
 }
 
 /**
+ * A maintenance plan: how feedback on released software is received,
+ * documented and evaluated, and how a modification is made.
+ *
+ * `fields` is forbidden by the seal — a plan declares procedures, not data.
+ * `operations` is optional and has at least one item when present. The plan
+ * records who is accountable (`responsible`, `FeedbackChannel.owner`) and
+ * assigns no score, class or acceptability.
+ */
+model MaintenancePlan {
+  @minItems(1)
+  operations?: OperationDecl[];
+
+  maintains?: SemanticId[];
+  responsible?: SemanticId[];
+  feedback_channels?: FeedbackChannel[];
+  clauses?: ClauseRef[];
+  ...Record<never>;
+}
+
+/**
  * A deployment: a released, running instance of a deployable and its lifecycle
  * operations.
  *
@@ -472,6 +504,8 @@ model Incident {
   fields?: FieldDecl[];
 
   evidence?: EvidenceRef[];
+  hazards?: SemanticId[];
+  anomalies?: SemanticId[];
   correlates?: SemanticId[];
   breaches?: SemanticId[];
   triggers?: SemanticId[];

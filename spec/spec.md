@@ -30,9 +30,9 @@ security_critical: false
 ## Purpose
 
 This document specifies the requirements for `spec-objects-operational`, a
-Filament Module that contributes eight tier-2 ObjectTypes for runtime
+Filament Module that contributes nine tier-2 ObjectTypes for runtime
 operational concerns (configuration, migration, SLI, SLO, alert, runbook,
-incident, deployment). Operational specs need extractable graph entities for
+incident, deployment, maintenance plan). Operational specs need extractable graph entities for
 what a system is configured to do, what it promises, how it is remediated, and
 what actually happened; this module ships those ObjectTypes (with their
 templates and schemas) so that authors, reviewers, and agent generators share
@@ -43,7 +43,7 @@ one authoritative definition of what the module activates against
 
 ### In Scope
 
-- The Module manifest (`spec_objects_operational/manifest.yaml`) and the eight
+- The Module manifest (`spec_objects_operational/manifest.yaml`) and the nine
   tier-2 operational ObjectTypes it contributes.
 - The functional requirement that the manifest activates idempotently against
   `filament-core-service`, and the integration test that verifies it.
@@ -109,7 +109,7 @@ one authoritative definition of what the module activates against
 ### System Description
 
 `spec-objects-operational` is a Python package that publishes a Filament Module
-manifest declaring eight tier-2 ObjectTypes for operational modelling. The
+manifest declaring nine tier-2 ObjectTypes for operational modelling. The
 manifest is activated against `filament-core-service` over its HTTP API, which
 registers the declared archetypes, object types, grammars, and artifact types.
 
