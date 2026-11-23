@@ -40,6 +40,7 @@ OBJECT_TYPE_NAMES = [
     "runbook",
     "incident",
     "deployment",
+    "maintenance_plan",
 ]
 
 _PLACEHOLDER_TOKENS = ("TODO", "TBD", "{{", "}}", "placeholder", "none specified")
@@ -153,6 +154,7 @@ _REQUIRED_DEFINING_FIELDS = {
     "runbook": ["steps"],
     "incident": ["timeline"],
     "deployment": ["topology"],
+    "maintenance_plan": ["procedure"],
 }
 
 

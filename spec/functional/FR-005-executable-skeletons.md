@@ -47,7 +47,7 @@ refuse.
 ## Behavior
 
 - Each skeleton whose type declares `fields` (`configuration`, `migration`, `sli`, `slo`, `incident`, `deployment`) SHALL author `## Properties` as one table with the header exactly `Field | Type | Multiplicity | Constraints`.
-- The `alert` and `runbook` skeletons SHALL carry no `## Properties` section, because `Alert` and `Runbook` forbid `fields`.
+- The `alert`, `runbook` and `maintenance_plan` skeletons SHALL carry no `## Properties` section, because `Alert`, `Runbook` and `MaintenancePlan` forbid `fields`.
 - The `sli` and `slo` skeletons SHALL each carry at least one `## Properties` row whose `Type` cell has a trailing bracketed unit (for example `Decimal(5,4) [1]` or `Duration [ms]`), so the extracted record carries the measured field `Sli`/`Slo` require.
 - The `incident` skeleton SHALL carry one `identity` row and one `Timestamp` row, so the extracted record carries the identity and occurrence fields `Incident` demands when `fields` is present.
 - The `configuration` and `migration` skeletons SHALL carry no `identity` row, because `Configuration` and `Migration` admit zero identity fields.
@@ -85,13 +85,13 @@ refuse.
 
 | ID | Criteria | Verification |
 |----|----------|--------------|
-| FR-005-AC-1 | Every skeleton file (eight types plus three alternates) passes `validate_document` against this module with `is_valid` true and no `semantic.record-invalid` error. | Test |
+| FR-005-AC-1 | Every skeleton file (nine types plus three alternates) passes `validate_document` against this module with `is_valid` true and no `semantic.record-invalid` error. | Test |
 | FR-005-AC-2 | For `configuration`, `sli`, and `deployment`, the table and `sysml` skeletons extract to identical normalized `fields` with `fieldsForm` `table` and `fence` respectively. | Test |
 | FR-005-AC-3 | Under a bundle index built from the skeleton frontmatter, every skeleton extracts with zero `error` diagnostics and zero `semantic.unresolved-type` findings, and every non-kernel `type.target` starts with `ix://agent-ix/spec-objects-operational/type/`. | Test |
 | FR-005-AC-4 | Each skeleton's `availability` states match its type: `fields` `available` for the six types that declare `fields` and `not_applicable` for `alert` and `runbook`; `operations` `available` for `runbook` and `deployment`; `clauses` `available` for every skeleton. | Test |
 | FR-005-AC-5 | Every negative fixture fails validation with an error message containing both its `expect:` code and its `detail:` substring, and at least the nine cases listed in Behavior are present. | Test |
 | FR-005-AC-6 | Every skeleton's H2 set equals a subset of the headings the manifest asserts for its type and includes every `required: true` heading. | Test |
-| FR-005-AC-7 | The skeleton for each of the eight types has no placeholder token and every asserted section body is non-empty. | Test |
+| FR-005-AC-7 | The skeleton for each of the nine types has no placeholder token and every asserted section body is non-empty. | Test |
 | FR-005-AC-8 | Every skeleton `title` matches the `Identifier` pattern, is unique across the skeletons, and is not a `KernelScalar` name; every skeleton frontmatter carries `object` equal to `type`. | Test |
 | FR-005-AC-9 | The `sli` and `slo` skeletons each extract at least one field carrying `type.unit`, and the `incident` skeleton extracts at least one `identity` field and one field whose `type.target` is `Timestamp`. | Test |
 | FR-005-AC-10 | With the Quire wheel absent from the environment, every semantic test fails — none is skipped or reported green — with a message naming `extract_semantic` and `poetry install`. | Test |

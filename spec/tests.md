@@ -107,14 +107,14 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
 | TC-027 | `make install` provisions the TypeSpec toolchain, so `make lint`'s drift gate fails for drift and not for a missing compiler | Unit | P1 | FR-002-AC-13 | ✅ |
 | TC-028 | `stage-npm.mjs --clean` removes every staged root path and leaves the inner package sources byte-identical | Integration | P1 | FR-002-AC-14 | ✅ |
-| TC-030 | The `semantic` block equals the eight admitted keys and `exports` equals the eight types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
+| TC-030 | The `semantic` block equals the eight admitted keys and `exports` equals the nine types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
 | TC-032 | The core frontmatter locators and each type's defining locators are required | Unit | P0 | FR-003-AC-3 | ✅ |
-| TC-034 | `quire.Registry.load_from` lists all eight archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
+| TC-034 | `quire.Registry.load_from` lists all nine archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
 | TC-035 | An unknown `semantic` key is refused by the loader; the refusal names the key or path | Integration | P1 | FR-003-AC-6 | ✅ the naming half is an expected failure on quire-rs#221 |
 | TC-036 | `quoin module install path:` succeeds, lists the module, and the prior entry is restored | Manual | P1 | FR-003-AC-5 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
 | TC-037 | Every lexicon definition is one whole scalar, and the three issue #5 definitions carry their restored wording | Unit | P1 | FR-003-AC-7, FR-003-CON-3 | ✅ |
 | TC-038 | The `configuration-scope` lint rule is present unchanged with its three allowed values at `warning` severity | Unit | P1 | FR-003-AC-8 | ✅ |
-| TC-040 | Each of the eight schemas differs from every other in a required, forbidden, or item rule; none is `type: object` only | Unit | P0 | FR-004-AC-1 | ✅ |
+| TC-040 | Each of the nine schemas differs from every other in a required, forbidden, or item rule; none is `type: object` only | Unit | P0 | FR-004-AC-1 | ✅ |
 | TC-041 | Configuration: non-identity record validates and accepts `scopes`; an identity field fails; no `fields` validates (FR-006); empty `fields` fails | Integration | P0 | FR-004-AC-2 | ✅ |
 | TC-042 | Migration: non-identity record with one clause validates and accepts `rollback`; no `clauses` validates (FR-006); an identity field fails | Integration | P0 | FR-004-AC-3 | ✅ |
 | TC-043 | SLI: a unit-bearing field validates; the unit removed fails; no `fields` validates (FR-006); `operations` fails | Integration | P0 | FR-004-AC-4 | ✅ |
@@ -123,13 +123,13 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-046 | Runbook: one operation validates and accepts `steps`; no `operations` validates (FR-006); `fields` fails; empty `operations` fails | Integration | P0 | FR-004-AC-7 | ✅ |
 | TC-047 | Incident: identity plus `Timestamp` validates and accepts `evidence`; either field removed fails; no `fields` validates (FR-006) | Integration | P0 | FR-004-AC-8 | ✅ |
 | TC-048 | Deployment: identity field plus one operation validates and accepts `rollout`; no `operations` validates (FR-006); no identity fails | Integration | P0 | FR-004-AC-9 | ✅ |
-| TC-049 | The empty record validates against all eight schemas (FR-006) and a record carrying `observations` fails every one | Integration | P0 | FR-004-AC-10, FR-004-CON-4 | ✅ |
+| TC-049 | The empty record validates against all nine schemas (FR-006) and a record carrying `observations` fails every one | Integration | P0 | FR-004-AC-10, FR-004-CON-4 | ✅ |
 | TC-050 | `evidence` is declared by `Incident.json` alone; a bare-token `record` and an out-of-set `kind` each fail | Integration | P0 | FR-004-AC-11, FR-004-CON-3 | ✅ |
 | TC-051 | Placeholder `unresolved` target is accepted by the schema and reported by the extractor; a bare token is refused | Integration | P1 | FR-004-AC-12 | ✅ |
 | TC-052 | No module schema redeclares a semantic-core model; every grammar item is a `$ref` to semantic-core | Unit | P1 | FR-004-AC-13, FR-004-CON-1 | ✅ |
 | TC-053 | Adding one `Timestamp` field to a valid configuration, migration, SLI, SLO or deployment record fails that type; added to a valid incident record it still validates | Integration | P0 | FR-004-AC-14, FR-004-CON-5 | ✅ |
 | TC-054 | The three cross-key reader rules are asserted by no shipped schema: a record violating each validates, and the test names `agent-ix/quoin#335` as the owner | Integration | P1 | FR-004-AC-15 | ✅ |
-| TC-060 | Every skeleton (eight plus three alternates) validates with no error | Integration | P0 | FR-005-AC-1 | ✅ |
+| TC-060 | Every skeleton (nine plus three alternates) validates with no error | Integration | P0 | FR-005-AC-1 | ✅ |
 | TC-061 | Table and `sysml` skeletons extract to identical normalized fields with the recorded forms | Integration | P0 | FR-005-AC-2 | ✅ |
 | TC-062 | Under the skeleton bundle index every skeleton extracts with zero errors and zero unresolved tokens | Integration | P0 | FR-005-AC-3 | ✅ |
 | TC-063 | Availability states per skeleton (fields, clauses, operations) match the type's declared set | Integration | P1 | FR-005-AC-4 | ✅ |
@@ -143,7 +143,9 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-071 | With the Quire wheel absent, every semantic test fails naming `extract_semantic` and `poetry install`; none skips | Integration | P0 | FR-005-AC-10 | ✅ |
 | TC-072 | `pyproject.toml` declares `quire` as a dev dependency pinned to the `internal-pypi` source | Unit | P1 | FR-005-AC-11 | ✅ |
 | TC-091 | Quoin install roundtrip: record, install, list, derive, restore | Manual | P1 | IT-002-SC-01, IT-002-SC-02, IT-002-SC-03, IT-002-SC-04, IT-002-SC-05, IT-002-SC-06 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
-| TC-092 | A record lacking the optional section key validates against all eight schemas; a present key is still checked by its item rules | Unit | P0 | FR-006-AC-1, FR-006-AC-2 | ✅ |
+| TC-092 | A record lacking the optional section key validates against all nine schemas; a present key is still checked by its item rules | Unit | P0 | FR-006-AC-1, FR-006-AC-2 | ✅ |
+| TC-093 | An incident's `hazards` and `anomalies` are `SemanticId` lists, declared by `Incident.json` alone; a bare token fails | Unit | P0 | FR-004-AC-16 | ✅ |
+| TC-094 | A maintenance plan requires an operation when `operations` is present, takes owned feedback channels, and refuses `fields`, `severity` and `acceptability` | Unit | P0 | FR-004-AC-17 | ✅ |
 
 ## Test Environment
 

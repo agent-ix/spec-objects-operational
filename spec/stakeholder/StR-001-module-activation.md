@@ -9,7 +9,7 @@ type: StR
 
 The Filament platform, spec authors, and agent CLI generators require that
 operational specs **shall** yield extractable graph entities for configurations,
-migrations, SLIs, SLOs, alerts, runbooks, incidents, and deployments — the eight
+migrations, SLIs, SLOs, alerts, runbooks, incidents, deployments, and maintenance plans — the nine
 types this module ships — so that runtime operational concerns are first-class,
 queryable objects rather than free prose, and so that a standing definition is
 distinguishable from an observed execution without reading the prose.

@@ -1,7 +1,7 @@
 manifest_version: 1.0.0
 name: spec-objects-operational
 version: 0.3.0
-description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment)'
+description: 'Filament Module: tier-2 operational ObjectTypes (configuration, migration, sli, slo, alert, runbook, incident, deployment, maintenance_plan)'
 semantic:
   contract_version: 1.0.0
   package: agent-ix/spec-objects-operational
@@ -14,6 +14,7 @@ semantic:
   - runbook
   - incident
   - deployment
+  - maintenance_plan
   imports: {}
   targets: [json-schema, markdown]
   mappings: [typed-table, sysml-fence, ocl-clause]
@@ -261,6 +262,8 @@ object_types:
 - name: incident
   allowed_links:
     correlates: [alert]
+    hazards: [hazard]
+    anomalies: [soup_record]
     breaches: [slo]
     triggers: [runbook]
     references: [deployment]
@@ -324,6 +327,33 @@ object_types:
           required: false
         # Issue #6, FR-005: one `### <name>` per
         # operation, with optional Param table and Pre:/Post: lines.
+        operations:
+          from: section_body
+          after_heading: Operations
+          required: false
+- name: maintenance_plan
+  allowed_links:
+    maintains: [deployable]
+    references: [runbook]
+  data_schema:
+    schema: schemas/MaintenancePlan.json
+  body_extraction:
+    yield_pattern:
+      match:
+        id: *id004
+        title: *id005
+        type: *id006
+        procedure:
+          from: section_body
+          after_heading: Procedure
+          required: true
+        # One `### <clauseId>` per clause, each owning one ```ocl``` fence.
+        invariants:
+          from: section_body
+          after_heading: Invariants
+          required: false
+        # One `### <name>` per operation, with optional Param table and
+        # Pre:/Post: lines.
         operations:
           from: section_body
           after_heading: Operations

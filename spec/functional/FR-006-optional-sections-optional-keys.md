@@ -21,7 +21,7 @@ so that a document satisfying every mandatory locator is not refused as
 
 ## Inputs
 
-- The manifest `properties`, `invariants` and `operations` locators of the eight
+- The manifest `properties`, `invariants` and `operations` locators of the nine
   object types, all `required: false`.
 - The declaration record Quire assembles per artifact, which omits a key whose
   section is absent ([FR-004](./FR-004-role-schemas.md) Inputs).

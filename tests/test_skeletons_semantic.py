@@ -44,10 +44,10 @@ IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 #: Every model admits `clauses`, and three require one, so every skeleton
 #: authors `## Invariants` (FR-005).
 INVARIANT_BEARING = set(OBJECT_TYPES)
-#: `Alert` and `Runbook` forbid `fields`; the other six require them.
-FIELD_BEARING = set(OBJECT_TYPES) - {"alert", "runbook"}
-#: `Runbook` and `Deployment` require at least one operation.
-OPERATION_BEARING = {"runbook", "deployment"}
+#: `Alert`, `Runbook` and `MaintenancePlan` forbid `fields`; the other six require them.
+FIELD_BEARING = set(OBJECT_TYPES) - {"alert", "runbook", "maintenance_plan"}
+#: `Runbook`, `Deployment` and `MaintenancePlan` require at least one operation.
+OPERATION_BEARING = {"runbook", "deployment", "maintenance_plan"}
 #: The types that ship a `sysml` alternate beside the typed table.
 ALTERNATES = {"configuration", "sli", "deployment"}
 
