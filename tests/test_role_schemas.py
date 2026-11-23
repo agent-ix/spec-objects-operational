@@ -266,7 +266,7 @@ def test_maintenance_plan_requires_operations_owned_channels_and_assigns_nothing
     assert ok(plan, {})
 
 
-@pytest.mark.trace("TC-094", "FR-004-AC-17")
+@pytest.mark.trace("TC-095", "FR-004-AC-18")
 def test_no_judgment_key_is_declared_on_channel_plan_or_incident():
     """The module records who is accountable, never a grade."""
     judgments = {"severity", "class", "acceptability", "score"}

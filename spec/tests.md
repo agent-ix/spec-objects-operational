@@ -146,6 +146,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-092 | A record lacking the optional section key validates against all nine schemas; a present key is still checked by its item rules | Unit | P0 | FR-006-AC-1, FR-006-AC-2 | ✅ |
 | TC-093 | An incident's `hazards` and `anomalies` are `SemanticId` lists, declared by `Incident.json` alone; a bare token fails | Unit | P0 | FR-004-AC-16 | ✅ |
 | TC-094 | A maintenance plan requires an operation when `operations` is present, takes owned feedback channels, and refuses `fields`, `severity` and `acceptability` | Unit | P0 | FR-004-AC-17 | ✅ |
+| TC-095 | No judgment key (`severity`, `class`, `acceptability`, `score`) is declared on `FeedbackChannel`, `MaintenancePlan` or `Incident` | Unit | P0 | FR-004-AC-18 | ✅ |
 
 ## Test Environment
 

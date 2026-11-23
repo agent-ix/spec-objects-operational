@@ -33,3 +33,7 @@ explicitly. No statement uses a weak modal.
 | FND-001 | low | "`Incident.hazards` SHALL name the hazards an incident bears on, so post-production information reaches the risk record…" — "bears on" is not defined, and two authors could disagree on whether a hazard the incident did not realise but made more likely belongs in the list. The schema checks only the `SemanticId` form, so the meaning rests on this sentence. State the relation plainly, for example "the hazards the incident realised or that its investigation found relevant", and move the purpose clause to the Description. | spec/functional/FR-004-role-schemas.md:88 | wrong-requirement |
 
 ## Dispositions
+
+| FND | Outcome | Reason |
+|---|---|---|
+| FND-001 | fixed | Round 1 (9b508b7): the statement now reads "`Incident.hazards` SHALL name the hazards that the incident's cause or consequence involves". |

@@ -87,7 +87,7 @@ occurrence field at all.
 - `FeedbackChannel`, `MaintenancePlan` and `Incident` SHALL declare no severity, class or acceptability key, because a person makes those judgments and the module records only who is accountable and what is referenced.
 - `Incident.hazards` SHALL name the hazards that the incident's cause or consequence involves, so post-production information reaches the risk record without a new key on `Hazard`.
 - `Incident.anomalies` SHALL name the `soup_record` artifacts whose `known_anomalies` record the anomalies an incident surfaced; an anomaly of the product's own software has no target here.
-- The manifest SHALL carry `hazards` and `anomalies` of `incident` as the registered link verb `references` (targets `hazard` and `soup_record`), and `maintains` of `maintenance_plan` as the registered link verb `manages` (target `deployable`), because the link verbs are owned by spec-artifacts-iso and this module mints none.
+- `hazards` and `anomalies` of `incident` and `maintains` of `maintenance_plan` SHALL be plain frontmatter `SemanticId` lists; no `## Relationships` extraction path populates them yet, and this module registers no link verb for them.
 - `hazards` and `anomalies` SHALL be optional `SemanticId` lists, where an absent list is not stated and an empty one states none.
 - `EvidenceRef` SHALL be `{ shape: EvidenceRecordShape, record: EvidenceRecordId, doc?: string }`.
 - `EvidenceRecordShape` SHALL be quoin FR-059's own `record_shape` enum — the closed set `standing_capability`, `exercise` — copied as a correspondence rather than invented here, because a reference whose vocabulary does not match the referenced family cannot name a real record. FR-059 owns the values; a change there is a breaking change to this module.
@@ -142,6 +142,7 @@ occurrence field at all.
 | FR-004-AC-15 | A record violating each of the three cross-key reader rules (`AlertCondition.sli`, `RunbookStep.operation`, `ScopeAssignment.parameter`) is refused. Blocked: JSON Schema cannot express any of the three and `agent-ix/quoin#335` owns the mapping that will, so the criterion is carried as an explicit expected failure — the test asserts the refusal and is marked strict-xfail, and it turns red the day the engine can enforce it. | Test |
 | FR-004-AC-16 | An incident record carrying `hazards` and `anomalies` as `SemanticId` lists validates, as do empty lists and a record with neither key; a bare token in either list fails; the keys are declared by `Incident.json` and by no other shipped schema. | Test |
 | FR-004-AC-17 | A maintenance-plan record with one operation validates against `MaintenancePlan.json`, with `maintains`, `responsible` and `feedback_channels` accepted when present; a feedback channel without `owner` fails; a record carrying `fields`, `severity` or `acceptability` fails; a record with an empty `operations` array fails; `{}` validates. | Test |
+| FR-004-AC-18 | None of `severity`, `class`, `acceptability` or `score` is a declared property of `FeedbackChannel.json`, `MaintenancePlan.json` or `Incident.json`. | Test |
 
 ## Dependencies
 

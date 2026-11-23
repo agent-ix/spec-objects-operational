@@ -47,4 +47,14 @@ backed.
 |---|---|---|---|---|
 | FND-001 | medium | FR-004 Behavior says `FeedbackChannel`, `MaintenancePlan` and `Incident` SHALL declare no severity, class or acceptability key, but only `MaintenancePlan` is checked, and only through its seal (TC-094 asserts `severity` and `acceptability` fail; `class` is never asserted). Adding `severity` to `FeedbackChannel` and `Incident` in TypeSpec and regenerating leaves all role-schema tests green. Assert over the three schemas' declared `properties` (and `FeedbackChannel`'s) that none of `severity`, `class`, `acceptability`, `score` is declared, and add that clause to FR-004-AC-16/17 or a new AC. | spec/functional/FR-004-role-schemas.md:87, tests/test_role_schemas.py:219-266 | correct-requirement-no-evidence |
 
+## New findings (disposition pass 1)
+
+| ID | Severity | Summary | Refs | Escape Cause |
+|---|---|---|---|---|
+| FND-002 | low | The new `test_no_judgment_key_is_declared_on_channel_plan_or_incident` is tagged TC-094 / FR-004-AC-17, but it asserts over `FeedbackChannel` and `Incident`, which neither FR-004-AC-17 (a maintenance-plan record carrying `severity` or `acceptability` fails) nor the TC-094 row states. The test exceeds its AC. Extend AC-17 and the TC-094 row to "`FeedbackChannel`, `MaintenancePlan` and `Incident` declare none of `severity`, `class`, `acceptability`, `score`", or add a new AC for the FR-004 Behavior bullet. | tests/test_role_schemas.py:269-275, spec/functional/FR-004-role-schemas.md:144, spec/tests.md:148 | wrong-requirement |
+
 ## Dispositions
+
+| FND | Outcome | Reason |
+|---|---|---|
+| FND-001 | fixed | Round 1 (9b508b7): `test_no_judgment_key_is_declared_on_channel_plan_or_incident` asserts that no `severity`, `class`, `acceptability` or `score` property is declared on the three schemas. Mutation re-run: adding `severity?: AlertSeverity` to FeedbackChannel, or `class?: string` to Incident, in TypeSpec and regenerating now fails that test. The AC text gap is new finding FND-002. |

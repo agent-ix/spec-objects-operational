@@ -35,3 +35,8 @@ that enumerate the types by name, without a count word, were not updated.
 | FND-002 | low | Other enumerations of the types or support models miss the new ones: FR-004:103 "the other seven refuse the key" (now eight); FR-004:106's standing-definition list omits `MaintenancePlan`; FR-006 Outputs line 31 (models listing no required key) omits `MaintenancePlan`; FR-004 Outputs' support-model list omits `FeedbackChannel` and still says "nineteen support models in all" (now twenty). Add the names, and drop the count words ("seven", "nineteen", "nine") rather than bump them. The lists already carry the information, and a count is one more thing to resync on the next type. | spec/functional/FR-004-role-schemas.md:40-46, spec/functional/FR-004-role-schemas.md:103, spec/functional/FR-004-role-schemas.md:106, spec/functional/FR-006-optional-sections-optional-keys.md:31 | wrong-requirement |
 
 ## Dispositions
+
+| FND | Outcome | Reason |
+|---|---|---|
+| FND-001 | still-open | Round 1 (9b508b7) fixed FR-005-AC-4 and the Behavior line 61 operations list, but the kernel-section bullet (FR-005 line 66) still lists no `## Procedure` for `maintenance_plan`, which the manifest asserts `required: true`. |
+| FND-002 | fixed | Round 1: FR-004 line 103 now reads "every other model refuses the key"; the standing-definition list and FR-006 Outputs name `MaintenancePlan`; the support-model list names `FeedbackChannel`; and "nineteen" is dropped. |
