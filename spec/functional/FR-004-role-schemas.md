@@ -41,9 +41,9 @@ type.
   `IdentityField`, `OccurrenceField`, `OccurrenceTypeRef`, `MeasuredField`,
   and `UnitTypeRef`; the declaration models `ScopeAssignment`, `RollbackDecl`,
   `RolloutDecl`, `ObjectiveDecl`, `AlertCondition`, `RunbookStep`, and
-  `EvidenceRef`; the scalar `EvidenceRecordId`; and the closed enums
+  `EvidenceRef`, and `FeedbackChannel`; the scalar `EvidenceRecordId`; and the closed enums
   `ConfigurationScope`, `RollbackStrategy`, `RolloutStrategy`, `Comparator`,
-  `AlertSeverity`, and `EvidenceRecordShape` — nineteen support models in all.
+  `AlertSeverity`, and `EvidenceRecordShape`.
 
 ## Behavior
 
@@ -85,8 +85,9 @@ occurrence field at all.
 - `RunbookStep` SHALL be `{ name: Identifier, order: int32 ≥ 1, doc: string, operation?: Identifier }`.
 - `FeedbackChannel` SHALL be `{ name: Identifier, owner: SemanticId, doc?: string }`, where `owner` names the person or role accountable for reviewing what arrives through that channel.
 - `FeedbackChannel`, `MaintenancePlan` and `Incident` SHALL declare no severity, class or acceptability key, because a person makes those judgments and the module records only who is accountable and what is referenced.
-- `Incident.hazards` SHALL name the hazards an incident bears on, so post-production information reaches the risk record without a new key on `Hazard`.
-- `Incident.anomalies` SHALL name the artifacts that record the anomalies an incident surfaced.
+- `Incident.hazards` SHALL name the hazards that the incident's cause or consequence involves, so post-production information reaches the risk record without a new key on `Hazard`.
+- `Incident.anomalies` SHALL name the `soup_record` artifacts whose `known_anomalies` record the anomalies an incident surfaced; an anomaly of the product's own software has no target here.
+- The manifest SHALL carry `hazards` and `anomalies` of `incident` as the registered link verb `references` (targets `hazard` and `soup_record`), and `maintains` of `maintenance_plan` as the registered link verb `manages` (target `deployable`), because the link verbs are owned by spec-artifacts-iso and this module mints none.
 - `hazards` and `anomalies` SHALL be optional `SemanticId` lists, where an absent list is not stated and an empty one states none.
 - `EvidenceRef` SHALL be `{ shape: EvidenceRecordShape, record: EvidenceRecordId, doc?: string }`.
 - `EvidenceRecordShape` SHALL be quoin FR-059's own `record_shape` enum — the closed set `standing_capability`, `exercise` — copied as a correspondence rather than invented here, because a reference whose vocabulary does not match the referenced family cannot name a real record. FR-059 owns the values; a change there is a breaking change to this module.
@@ -100,10 +101,10 @@ occurrence field at all.
 - This specification SHALL NOT claim that purity is enforced over field *names*. A row named `consumed_budget` typed `Decimal(5,4) [1]` is a well-formed measured field and no JSON Schema over `FieldDecl` can refuse it; the enforceable rules are the key seal and the occurrence-row ban above, and the remaining discipline is a review obligation, recorded here rather than asserted as a refusal.
 - Where a consumer needs a migration's execution state, that consumer SHALL read it through the `migrates` reference to the migrated schema or through an `Incident` that references the migration, never through a key on `Migration`.
 - Every `fields`, `params`, `clauses`, `operations`, and `relations` item SHALL be validated by `$ref` to the semantic-core model, never by a copied definition.
-- `Deployment` SHALL be the only model that declares `relations`; the other seven refuse the key through their seal. The table names the refusal only where the key would otherwise be expected.
+- `Deployment` SHALL be the only model that declares `relations`; every other model refuses the key through their seal. The table names the refusal only where the key would otherwise be expected.
 - The TypeSpec source SHALL express the item rules through the official emitter's decorators over open marker models: `@contains(IdentityField)` for "≥ 1 identity field", `@contains(IdentityField) @minContains(0) @maxContains(0)` for "0 identity fields", `@contains(MeasuredField)` for "≥ 1 measured field", and, because JSON Schema admits one `contains` per array, the incident occurrence rule as an `@extension("allOf", …)` clause whose `contains` references `OccurrenceField.json`; the generator normalizes that relative `$ref` per [FR-002](./FR-002-emitted-json-schemas.md).
 - Every cross-reference a declaration makes (`type.target`, `configures`, `measures`, `constrains`, `dependsOn`, `migrates`, `deploys`, `escalatesTo`, `references`, `correlates`, `breaches`, `triggers`, `hazards`, `anomalies`, `maintains`, `responsible`, `FeedbackChannel.owner`, `ObjectiveDecl.sli`, `AlertCondition.sli`) SHALL be a `SemanticId` or `KernelScalar` per semantic-core — `EvidenceRef.record` is the one deliberate exception, and carries the neighbour's own pattern for the reason above — so a bare token is rejected by the schema; resolution against the bundle, and the placeholder `ix://<org>/<repo>/unresolved/<Token>` with its `semantic.unresolved-type` finding, exist today for `type.target` only (quire-rs FR-070) and for the other keys once `agent-ix/quoin#335` publishes their mapping.
-- Each schema SHALL describe the declared shape only. `Configuration`, `Migration`, `Sli`, `Slo`, `Alert`, `Runbook`, and `Deployment` are standing definitions and carry no occurrence identity; `Incident` is the one observed execution and is the only model that requires one.
+- Each schema SHALL describe the declared shape only. `Configuration`, `Migration`, `Sli`, `Slo`, `Alert`, `Runbook`, `MaintenancePlan`, and `Deployment` are standing definitions and carry no occurrence identity; `Incident` is the one observed execution and is the only model that requires one.
 - Where a key is declared but the current extractor does not populate it (`scopes`, `configures`, `rollback`, `migrates`, `dependsOn`, `measures`, `objective`, `constrains`, `conditions`, `escalatesTo`, `references`, `steps`, `remediates`, `evidence`, `correlates`, `breaches`, `triggers`, `hazards`, `anomalies`, `maintains`, `responsible`, `feedback_channels`, `rollout`, `deploys`) — and likewise `relations` — the key SHALL be optional, so a record produced by today's extractor validates and a future extractor can fill it without a schema change.
 - The test suite SHALL verify every criterion over a key the extractor does not populate against a hand-built JSON record rather than an extracted one, naming that limitation in the test itself, so that no row claims extraction evidence it does not have; the extraction path for those keys is `agent-ix/quoin#335` (mapping) and its quire-rs successor.
 - An `AlertCondition.sli` SHALL name an `sli` artifact of the same bundle.

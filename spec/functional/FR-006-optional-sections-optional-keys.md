@@ -28,7 +28,7 @@ so that a document satisfying every mandatory locator is not refused as
 
 ## Outputs
 
-- `Configuration`, `Migration`, `Sli`, `Slo`, `Alert`, `Runbook`, `Incident` and
+- `Configuration`, `Migration`, `Sli`, `Slo`, `Alert`, `Runbook`, `MaintenancePlan`, `Incident` and
   `Deployment` list no required key.
 
 ## Behavior

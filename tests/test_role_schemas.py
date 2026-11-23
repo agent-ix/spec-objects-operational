@@ -266,6 +266,15 @@ def test_maintenance_plan_requires_operations_owned_channels_and_assigns_nothing
     assert ok(plan, {})
 
 
+@pytest.mark.trace("TC-094", "FR-004-AC-17")
+def test_no_judgment_key_is_declared_on_channel_plan_or_incident():
+    """The module records who is accountable, never a grade."""
+    judgments = {"severity", "class", "acceptability", "score"}
+    for name in ("FeedbackChannel", "MaintenancePlan", "Incident"):
+        schema = json.loads((SCHEMAS_DIR / f"{name}.json").read_text())
+        assert not judgments & set(schema["properties"]), name
+
+
 @pytest.mark.trace("TC-046", "FR-004-AC-7")
 def test_runbook_requires_operations_and_refuses_fields(schema_registry):
     """`steps` is exercised against a hand-built record: the extractor does not
