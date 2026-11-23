@@ -264,7 +264,7 @@ object_types:
     correlates: [alert]
     breaches: [slo]
     triggers: [runbook]
-    references: [deployment]
+    references: [deployment, hazard, soup_record]
   data_schema:
     schema: schemas/Incident.json
   body_extraction:
@@ -330,6 +330,9 @@ object_types:
           after_heading: Operations
           required: false
 - name: maintenance_plan
+  allowed_links:
+    manages: [deployable]
+    references: [runbook]
   data_schema:
     schema: schemas/MaintenancePlan.json
   body_extraction:

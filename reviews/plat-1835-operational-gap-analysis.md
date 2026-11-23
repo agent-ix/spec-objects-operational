@@ -58,3 +58,4 @@ backed.
 | FND | Outcome | Reason |
 |---|---|---|
 | FND-001 | fixed | Round 1 (9b508b7): `test_no_judgment_key_is_declared_on_channel_plan_or_incident` asserts that no `severity`, `class`, `acceptability` or `score` property is declared on the three schemas. Mutation re-run: adding `severity?: AlertSeverity` to FeedbackChannel, or `class?: string` to Incident, in TypeSpec and regenerating now fails that test. The AC text gap is new finding FND-002. |
+| FND-002 | fixed | Round 2 (8465742): new FR-004-AC-18 ("None of `severity`, `class`, `acceptability` or `score` is a declared property of `FeedbackChannel.json`, `MaintenancePlan.json` or `Incident.json`") and TC-095. The test is retagged TC-095 / FR-004-AC-18, and `quoin matrix` binds it there. AC-17/TC-094 are left scoped to plan structure. Mutation re-run: `severity` added to FeedbackChannel or to Incident in TypeSpec and regenerated fails the test. |

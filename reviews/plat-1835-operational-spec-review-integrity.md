@@ -40,3 +40,4 @@ that enumerate the types by name, without a count word, were not updated.
 |---|---|---|
 | FND-001 | still-open | Round 1 (9b508b7) fixed FR-005-AC-4 and the Behavior line 61 operations list, but the kernel-section bullet (FR-005 line 66) still lists no `## Procedure` for `maintenance_plan`, which the manifest asserts `required: true`. |
 | FND-002 | fixed | Round 1: FR-004 line 103 now reads "every other model refuses the key"; the standing-definition list and FR-006 Outputs name `MaintenancePlan`; the support-model list names `FeedbackChannel`; and "nineteen" is dropped. |
+| FND-001 | fixed | Round 2 (8465742): the FR-005 kernel-section bullet now lists "`## Procedure` for `maintenance_plan`". |
