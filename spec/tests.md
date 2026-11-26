@@ -110,7 +110,6 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-030 | The `semantic` block equals the eight admitted keys and `exports` equals the nine types | Unit | P0 | FR-003-AC-1, FR-003-CON-1 | ✅ |
 | TC-032 | The core frontmatter locators and each type's defining locators are required | Unit | P0 | FR-003-AC-3 | ✅ |
 | TC-034 | `quire.Registry.load_from` lists all nine archetypes and `validate_document` on every skeleton reports no `semantic.*` load failure | Integration | P0 | FR-003-AC-4 | ✅ |
-| TC-055 | `package-lock.json` pins semantic-core 0.4.4 with npmjs registry integrity | Unit | P2 | FR-002-CON-5 | ✅ |
 | TC-035 | An unknown `semantic` key is refused by the loader; the refusal names the key or path | Integration | P1 | FR-003-AC-6 | ✅ the naming half is an expected failure on quire-rs#221 |
 | TC-036 | `quoin module install path:` succeeds, lists the module, and the prior entry is restored | Manual | P1 | FR-003-AC-5 | 🚧 the Quoin build is now available; the row waits on the operator opt-in |
 | TC-037 | Every lexicon definition is one whole scalar, and the three issue #5 definitions carry their restored wording | Unit | P1 | FR-003-AC-7, FR-003-CON-3 | ✅ |
@@ -119,7 +118,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-041 | Configuration: non-identity record validates and accepts `scopes`; an identity field fails; no `fields` validates (FR-006); empty `fields` fails | Integration | P0 | FR-004-AC-2 | ✅ |
 | TC-042 | Migration: non-identity record with one clause validates and accepts `rollback`; no `clauses` validates (FR-006); an identity field fails | Integration | P0 | FR-004-AC-3 | ✅ |
 | TC-043 | SLI: a unit-bearing field validates; the unit removed fails; no `fields` validates (FR-006); `operations` fails | Integration | P0 | FR-004-AC-4 | ✅ |
-| TC-044 | SLO: a unit-bearing field with one clause validates; optional string `target`/`window` and typed `objective` are accepted; non-string kernel values, invalid objective windows, no clause, and `operations` are refused | Unit | P0 | FR-004-AC-5, FR-004-AC-19 | ✅ |
+| TC-044 | SLO: a unit-bearing field with one clause validates; optional string `target`/`window` and typed `objective` are accepted; non-string kernel values and invalid objective windows fail; no `clauses` validates (FR-006); `operations` fails | Unit | P0 | FR-004-AC-5, FR-004-AC-19 | ✅ |
 | TC-045 | Alert: one clause validates and accepts `conditions`; no `clauses` validates (FR-006); `fields` fails; empty `clauses` fails | Integration | P0 | FR-004-AC-6 | ✅ |
 | TC-046 | Runbook: one operation validates and accepts `steps`; no `operations` validates (FR-006); `fields` fails; empty `operations` fails | Integration | P0 | FR-004-AC-7 | ✅ |
 | TC-047 | Incident: identity plus `Timestamp` validates and accepts `evidence`; either field removed fails; no `fields` validates (FR-006) | Integration | P0 | FR-004-AC-8 | ✅ |
@@ -130,6 +129,8 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-052 | No module schema redeclares a semantic-core model; every grammar item is a `$ref` to semantic-core | Unit | P1 | FR-004-AC-13, FR-004-CON-1 | ✅ |
 | TC-053 | Adding one `Timestamp` field to a valid configuration, migration, SLI, SLO or deployment record fails that type; added to a valid incident record it still validates | Integration | P0 | FR-004-AC-14, FR-004-CON-5 | ✅ |
 | TC-054 | The three cross-key reader rules are asserted by no shipped schema: a record violating each validates, and the test names `agent-ix/quoin#335` as the owner | Integration | P1 | FR-004-AC-15 | ✅ |
+| TC-055 | `package-lock.json` pins `@agent-ix/semantic-core` to version 0.4.4 | Unit | P2 | FR-002-CON-5 | ✅ |
+| TC-056 | The semantic-core lock entry records a valid SHA-512 registry integrity digest | Unit | P2 | FR-002-CON-6 | ✅ |
 | TC-060 | Every skeleton (nine plus three alternates) validates with no error | Integration | P0 | FR-005-AC-1 | ✅ |
 | TC-061 | Table and `sysml` skeletons extract to identical normalized fields with the recorded forms | Integration | P0 | FR-005-AC-2 | ✅ |
 | TC-062 | Under the skeleton bundle index every skeleton extracts with zero errors and zero unresolved tokens | Integration | P0 | FR-005-AC-3 | ✅ |

@@ -72,7 +72,8 @@ fails the build.
 | FR-002-CON-2 | The repository SHALL carry no `.npmrc`, no `file:` or `link:` dependency, and no upper version bound on the TypeSpec toolchain beyond the exact pin. | Packaging | Test |
 | FR-002-CON-3 | Emission SHALL be deterministic: two runs over one source produce byte-identical files. | Integrity | Test |
 | FR-002-CON-4 | `package-lock.json` SHALL resolve every package from `registry.npmjs.org`. | Packaging | Test |
-| FR-002-CON-5 | `package-lock.json` SHALL pin `@agent-ix/semantic-core` to 0.4.4 and record its registry integrity. | Packaging | Test |
+| FR-002-CON-5 | `package-lock.json` SHALL pin `@agent-ix/semantic-core` to version 0.4.4. | Packaging | Test |
+| FR-002-CON-6 | `package-lock.json` SHALL record the npm registry integrity digest for `@agent-ix/semantic-core`. | Packaging | Test |
 
 ## Acceptance Criteria
 

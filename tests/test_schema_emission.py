@@ -4,6 +4,7 @@ determinism, and packaging.
 
 from __future__ import annotations
 
+import base64
 import json
 import pathlib
 import shutil
@@ -201,14 +202,19 @@ def test_the_lockfile_resolves_packages_from_npmjs():
 
 
 @pytest.mark.trace("TC-055", "FR-002-CON-5")
-def test_the_lockfile_pins_semantic_core_with_registry_integrity():
+def test_the_lockfile_pins_semantic_core_version():
     lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
     semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
     assert semantic_core["version"] == "0.4.4"
-    assert semantic_core["resolved"].startswith(
-        "https://registry.npmjs.org/@agent-ix/semantic-core/-/"
-    )
-    assert semantic_core["integrity"]
+
+
+@pytest.mark.trace("TC-056", "FR-002-CON-6")
+def test_the_lockfile_records_semantic_core_registry_integrity():
+    lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
+    semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
+    algorithm, encoded_digest = semantic_core["integrity"].split("-", maxsplit=1)
+    assert algorithm == "sha512"
+    assert len(base64.b64decode(encoded_digest, validate=True)) == 64
 
 
 @pytest.mark.trace("TC-016", "FR-002-AC-7")
