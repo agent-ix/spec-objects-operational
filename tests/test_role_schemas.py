@@ -429,17 +429,19 @@ def test_an_unresolved_placeholder_target_is_accepted_and_a_bare_token_is_refuse
 
 
 @pytest.mark.trace("TC-052", "FR-004-AC-13", "FR-004-CON-1")
-def test_no_module_schema_redeclares_a_semantic_core_model(schema_registry):
+def test_no_module_schema_redeclares_a_semantic_core_model():
     """FR-004-CON-1: the module namespace contributes archetype shapes only."""
     grammar = {
         "FieldDecl",
         "TypeRef",
+        "TypeRefTarget",
         "Multiplicity",
         "ConstraintDecl",
         "RelationDecl",
         "OperationDecl",
         "ClauseRef",
         "EnumValue",
+        "EnumValueName",
         "DefaultDecl",
         "SourceLocus",
         "KernelScalar",

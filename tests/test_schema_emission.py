@@ -190,17 +190,25 @@ def test_no_npmrc_and_no_local_dependency():
 
 
 @pytest.mark.trace("TC-022", "FR-002-CON-4")
-def test_the_lockfile_resolves_public_packages_from_npmjs():
+def test_the_lockfile_resolves_packages_from_npmjs():
     lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
-    semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
-    assert semantic_core["version"] == "0.4.4"
-    assert semantic_core["integrity"]
     for path, entry in lock["packages"].items():
         resolved = entry.get("resolved")
         if resolved:
             assert resolved.startswith(
                 "https://registry.npmjs.org/"
             ), f"{path} -> {resolved}"
+
+
+@pytest.mark.trace("TC-055", "FR-002-CON-5")
+def test_the_lockfile_pins_semantic_core_with_registry_integrity():
+    lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
+    semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
+    assert semantic_core["version"] == "0.4.4"
+    assert semantic_core["resolved"].startswith(
+        "https://registry.npmjs.org/@agent-ix/semantic-core/-/"
+    )
+    assert semantic_core["integrity"]
 
 
 @pytest.mark.trace("TC-016", "FR-002-AC-7")

@@ -71,7 +71,8 @@ fails the build.
 | FR-002-CON-1 | The build SHALL use the official `@typespec/json-schema` emitter only; no custom emitter and no hand-edited emitted file. | Architecture | Inspection |
 | FR-002-CON-2 | The repository SHALL carry no `.npmrc`, no `file:` or `link:` dependency, and no upper version bound on the TypeSpec toolchain beyond the exact pin. | Packaging | Test |
 | FR-002-CON-3 | Emission SHALL be deterministic: two runs over one source produce byte-identical files. | Integrity | Test |
-| FR-002-CON-4 | `package-lock.json` SHALL resolve every package from `registry.npmjs.org`; `@agent-ix/semantic-core` SHALL be pinned to 0.4.4 with its registry integrity recorded. | Packaging | Inspection |
+| FR-002-CON-4 | `package-lock.json` SHALL resolve every package from `registry.npmjs.org`. | Packaging | Test |
+| FR-002-CON-5 | `package-lock.json` SHALL pin `@agent-ix/semantic-core` to 0.4.4 and record its registry integrity. | Packaging | Test |
 
 ## Acceptance Criteria
 
