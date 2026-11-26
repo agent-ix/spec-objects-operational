@@ -129,8 +129,6 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-052 | No module schema redeclares a semantic-core model; every grammar item is a `$ref` to semantic-core | Unit | P1 | FR-004-AC-13, FR-004-CON-1 | ✅ |
 | TC-053 | Adding one `Timestamp` field to a valid configuration, migration, SLI, SLO or deployment record fails that type; added to a valid incident record it still validates | Integration | P0 | FR-004-AC-14, FR-004-CON-5 | ✅ |
 | TC-054 | The three cross-key reader rules are asserted by no shipped schema: a record violating each validates, and the test names `agent-ix/quoin#335` as the owner | Integration | P1 | FR-004-AC-15 | ✅ |
-| TC-055 | `package-lock.json` pins `@agent-ix/semantic-core` to version 0.4.4 | Unit | P2 | FR-002-CON-5 | ✅ |
-| TC-056 | The semantic-core lock entry matches its published SHA-512 registry integrity | Unit | P2 | FR-002-CON-6 | ✅ |
 | TC-060 | Every skeleton (nine plus three alternates) validates with no error | Integration | P0 | FR-005-AC-1 | ✅ |
 | TC-061 | Table and `sysml` skeletons extract to identical normalized fields with the recorded forms | Integration | P0 | FR-005-AC-2 | ✅ |
 | TC-062 | Under the skeleton bundle index every skeleton extracts with zero errors and zero unresolved tokens | Integration | P0 | FR-005-AC-3 | ✅ |

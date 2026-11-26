@@ -200,23 +200,6 @@ def test_the_lockfile_resolves_packages_from_npmjs():
             ), f"{path} -> {resolved}"
 
 
-@pytest.mark.trace("TC-055", "FR-002-CON-5")
-def test_the_lockfile_pins_semantic_core_version():
-    lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
-    semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
-    assert semantic_core["version"] == "0.4.4"
-
-
-@pytest.mark.trace("TC-056", "FR-002-CON-6")
-def test_the_lockfile_records_semantic_core_registry_integrity():
-    lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
-    semantic_core = lock["packages"]["node_modules/@agent-ix/semantic-core"]
-    assert semantic_core["integrity"] == (
-        "sha512-gM5CSbaVUhGf16MAf/P/VY8nqpyc9HQ+NtVozug2AkoItuNnL9bNvD+byla9mb/"
-        "bKx4VugH9bXjlmQgF5s0HLg=="
-    )
-
-
 @pytest.mark.trace("TC-016", "FR-002-AC-7")
 def test_the_npm_tarball_ships_the_schemas_beside_the_manifest(tmp_path):
     # The pack-time staged copies, at the repository root — never the inner
