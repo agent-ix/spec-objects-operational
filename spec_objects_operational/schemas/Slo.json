@@ -6,7 +6,7 @@
     "fields": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/FieldDecl.json"
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/FieldDecl.json"
       },
       "minItems": 1,
       "contains": {
@@ -16,9 +16,16 @@
     "clauses": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/ClauseRef.json"
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/ClauseRef.json"
       },
       "minItems": 1
+    },
+    "target": {
+      "type": "string",
+      "description": "Kernel frontmatter form retained until Quire maps it into `objective`."
+    },
+    "window": {
+      "type": "string"
     },
     "objective": {
       "$ref": "https://schemas.agent-ix.org/agent-ix/spec-objects-operational/ObjectiveDecl.json"
@@ -26,13 +33,13 @@
     "constrains": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/SemanticId.json"
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/SemanticId.json"
       }
     },
     "dependsOn": {
       "type": "array",
       "items": {
-        "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/SemanticId.json"
+        "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/SemanticId.json"
       }
     }
   },

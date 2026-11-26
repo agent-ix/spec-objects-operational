@@ -101,7 +101,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
 | TC-021 | No `.npmrc`, no `file:`/`link:` dependency in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
-| TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (GitHub Packages) | Unit | P2 | FR-002-CON-4 | ✅ |
+| TC-022 | `package-lock.json` resolves every package from npmjs | Unit | P2 | FR-002-CON-4 | ✅ |
 | TC-024 | A generator run writes only under `schemas/`; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |
@@ -118,7 +118,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-041 | Configuration: non-identity record validates and accepts `scopes`; an identity field fails; no `fields` validates (FR-006); empty `fields` fails | Integration | P0 | FR-004-AC-2 | ✅ |
 | TC-042 | Migration: non-identity record with one clause validates and accepts `rollback`; no `clauses` validates (FR-006); an identity field fails | Integration | P0 | FR-004-AC-3 | ✅ |
 | TC-043 | SLI: a unit-bearing field validates; the unit removed fails; no `fields` validates (FR-006); `operations` fails | Integration | P0 | FR-004-AC-4 | ✅ |
-| TC-044 | SLO: a unit-bearing field with one clause validates and accepts `objective`; no `clauses` validates (FR-006); `operations` fails | Integration | P0 | FR-004-AC-5 | ✅ |
+| TC-044 | SLO: a unit-bearing field with one clause validates; optional string `target`/`window` and typed `objective` are accepted; non-string kernel values and invalid objective windows fail; no `clauses` validates (FR-006); `operations` fails | Unit | P0 | FR-004-AC-5, FR-004-AC-19 | ✅ |
 | TC-045 | Alert: one clause validates and accepts `conditions`; no `clauses` validates (FR-006); `fields` fails; empty `clauses` fails | Integration | P0 | FR-004-AC-6 | ✅ |
 | TC-046 | Runbook: one operation validates and accepts `steps`; no `operations` validates (FR-006); `fields` fails; empty `operations` fails | Integration | P0 | FR-004-AC-7 | ✅ |
 | TC-047 | Incident: identity plus `Timestamp` validates and accepts `evidence`; either field removed fails; no `fields` validates (FR-006) | Integration | P0 | FR-004-AC-8 | ✅ |

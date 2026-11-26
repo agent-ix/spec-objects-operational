@@ -36,8 +36,13 @@ def field(
     # Multiplicity.json (semantic-core) requires `ordered`/`unique`; a
     # producer clamps both `false` on a singular multiplicity (`upper` at
     # most one). Every field this helper builds is singular.
+    target_ref = (
+        {"kind": "SemanticId", "value": target}
+        if target.startswith("ix://")
+        else {"kind": "KernelScalar", "value": target}
+    )
     type_ref: dict = {
-        "target": target,
+        "target": target_ref,
         "multiplicity": {"lower": 1, "upper": 1, "ordered": False, "unique": False},
     }
     if unit is not None:
@@ -124,6 +129,8 @@ def test_configuration_requires_fields_and_refuses_an_identity_row(schema_regist
     configuration = schema_registry("Configuration")
     record = {"fields": [field("storage_root")]}
     assert ok(configuration, record)
+    assert ok(configuration, {"fields": [field("f32_value", "Float32")]})
+    assert ok(configuration, {"fields": [field("f64_value", "Float64")]})
     assert ok(
         configuration,
         {**record, "scopes": [{"parameter": "storage_root", "scope": "creation"}]},
@@ -170,7 +177,7 @@ def test_sli_requires_a_measured_field_and_refuses_operations(schema_registry):
     assert ok(sli, {})
 
 
-@pytest.mark.trace("TC-044", "FR-004-AC-5")
+@pytest.mark.trace("TC-044", "FR-004-AC-5", "FR-004-AC-19")
 def test_slo_requires_a_measured_field_and_a_clause_and_refuses_operations(
     schema_registry,
 ):
@@ -183,6 +190,11 @@ def test_slo_requires_a_measured_field_and_a_clause_and_refuses_operations(
         "target": 0.999,
         "window": "P30D",
     }
+    # The manifest extracts the required kernel frontmatter pair verbatim;
+    # preserve it in the sealed record until the engine maps it to objective.
+    assert ok(slo, {**record, "target": "99.9%", "window": "30d"})
+    assert not ok(slo, {**record, "target": 0.999, "window": "30d"})
+    assert not ok(slo, {**record, "target": "99.9%", "window": 30})
     assert ok(slo, record)
     assert ok(slo, {**record, "objective": objective})
     assert not ok(slo, {**record, "objective": {**objective, "window": "30 days"}})
@@ -379,14 +391,17 @@ def test_an_unresolved_placeholder_target_is_accepted_and_a_bare_token_is_refuse
     placeholder = {
         "name": "mystery",
         "type": {
-            "target": "ix://agent-ix/spec-objects-operational/unresolved/Mystery",
+            "target": {
+                "kind": "SemanticId",
+                "value": "ix://agent-ix/spec-objects-operational/unresolved/Mystery",
+            },
             "multiplicity": {"lower": 1, "upper": 1, "ordered": False, "unique": False},
         },
     }
     identity = field("incident_id", "UUID", identity=True)
     assert ok(incident, {"fields": [identity, OCCURRENCE, placeholder]})
     bare = json.loads(json.dumps(placeholder))
-    bare["type"]["target"] = "Mystery"
+    bare["type"]["target"] = {"kind": "KernelScalar", "value": "Mystery"}
     assert not ok(incident, {"fields": [identity, OCCURRENCE, bare]})
 
     markdown = (
@@ -414,17 +429,19 @@ def test_an_unresolved_placeholder_target_is_accepted_and_a_bare_token_is_refuse
 
 
 @pytest.mark.trace("TC-052", "FR-004-AC-13", "FR-004-CON-1")
-def test_no_module_schema_redeclares_a_semantic_core_model(schema_registry):
+def test_no_module_schema_redeclares_a_semantic_core_model():
     """FR-004-CON-1: the module namespace contributes archetype shapes only."""
     grammar = {
         "FieldDecl",
         "TypeRef",
+        "TypeRefTarget",
         "Multiplicity",
         "ConstraintDecl",
         "RelationDecl",
         "OperationDecl",
         "ClauseRef",
         "EnumValue",
+        "EnumValueName",
         "DefaultDecl",
         "SourceLocus",
         "KernelScalar",
@@ -440,6 +457,20 @@ def test_no_module_schema_redeclares_a_semantic_core_model(schema_registry):
         schema = schema_of(name)
         for key, prop in schema["properties"].items():
             item = prop.get("items", prop)
+            if name == "slo" and key in {"target", "window"}:
+                assert prop["type"] == "string", f"slo.{key} is a string kernel field"
+                assert set(prop) <= {
+                    "type",
+                    "description",
+                }, f"unexpected slo.{key} shape"
+                if key == "target":
+                    assert prop.get("description") == (
+                        "Kernel frontmatter form retained until Quire maps it into "
+                        "`objective`."
+                    )
+                else:
+                    assert "description" not in prop
+                continue
             assert "$ref" in item, f"{name}.{key} is not validated by $ref"
 
 

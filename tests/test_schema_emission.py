@@ -190,22 +190,11 @@ def test_no_npmrc_and_no_local_dependency():
 
 
 @pytest.mark.trace("TC-022", "FR-002-CON-4")
-def test_the_lockfile_resolves_public_packages_from_npmjs():
-    # `@agent-ix/semantic-core` is published to GitHub Packages and is
-    # CI-reachable there; the lockfile SHALL resolve it
-    # from there directly, matching the scope routing CI's own
-    # `setup-npmrc` action configures, never from the private npm.ix
-    # dev-mirror.
+def test_the_lockfile_resolves_packages_from_npmjs():
     lock = json.loads((REPO_ROOT / "package-lock.json").read_text())
     for path, entry in lock["packages"].items():
         resolved = entry.get("resolved")
-        if not resolved:
-            continue
-        if path.endswith("@agent-ix/semantic-core"):
-            assert resolved.startswith(
-                "https://npm.pkg.github.com/"
-            ), f"{path} -> {resolved}"
-        else:
+        if resolved:
             assert resolved.startswith(
                 "https://registry.npmjs.org/"
             ), f"{path} -> {resolved}"

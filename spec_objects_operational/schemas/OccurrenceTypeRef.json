@@ -4,8 +4,21 @@
   "type": "object",
   "properties": {
     "target": {
-      "type": "string",
-      "const": "Timestamp"
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "KernelScalar"
+        },
+        "value": {
+          "type": "string",
+          "const": "Timestamp"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ]
     }
   },
   "required": [

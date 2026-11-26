@@ -130,7 +130,7 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
             {
                 "name": "storage_root",
                 "type": {
-                    "target": "String",
+                    "target": {"kind": "KernelScalar", "value": "String"},
                     "multiplicity": {
                         "lower": 1,
                         "upper": 1,
@@ -146,7 +146,7 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
             {
                 "name": "incident_id",
                 "type": {
-                    "target": "UUID",
+                    "target": {"kind": "KernelScalar", "value": "UUID"},
                     "multiplicity": {
                         "lower": 1,
                         "upper": 1,
@@ -159,7 +159,7 @@ def test_every_object_type_ships_a_typed_contract_a_fixture_reader_can_consume(
             {
                 "name": "detected_at",
                 "type": {
-                    "target": "Timestamp",
+                    "target": {"kind": "KernelScalar", "value": "Timestamp"},
                     "multiplicity": {
                         "lower": 1,
                         "upper": 1,
