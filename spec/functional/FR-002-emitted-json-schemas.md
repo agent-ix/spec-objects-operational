@@ -25,7 +25,7 @@ fails the build.
 
 - `typespec/main.tsp`: namespace `AgentIx.SpecObjects.Operational`, decorated
   `@jsonSchema("https://schemas.agent-ix.org/agent-ix/spec-objects-operational/")`.
-- `@agent-ix/semantic-core` 0.4.4 from the public npm registry (`FieldDecl`, `TypeRef`,
+- `@agent-ix/semantic-core` from the public npm registry (`FieldDecl`, `TypeRef`,
   `TypeRefTarget`, `Multiplicity`, `ConstraintDecl`, `RelationDecl`,
   `OperationDecl`, `ClauseRef`, `EnumValue`, `EnumValueName`, `DefaultDecl`,
   `KernelScalar`, `Identifier`, `SemanticId`, `UnitSymbol`).
