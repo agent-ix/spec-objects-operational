@@ -4,13 +4,13 @@
   "type": "object",
   "properties": {
     "sli": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/SemanticId.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/SemanticId.json"
     },
     "target": {
       "type": "number"
     },
     "unit": {
-      "$ref": "https://schemas.agent-ix.org/semantic-core/0.3.2/UnitSymbol.json"
+      "$ref": "https://schemas.agent-ix.org/semantic-core/0.4.4/UnitSymbol.json"
     },
     "window": {
       "type": "string",

@@ -101,7 +101,7 @@ those fail when the engine is absent (FR-005-AC-10).
 | TC-019 | Two generator runs over one source are byte-identical | Integration | P1 | FR-002-CON-3 | ✅ |
 | TC-020 | The build uses the official `@typespec/json-schema` emitter only and no emitted file is hand-edited | Inspection | P2 | FR-002-CON-1 | ✅ |
 | TC-021 | No `.npmrc`, no `file:`/`link:` dependency in `package.json` | Unit | P2 | FR-002-CON-2 | ✅ |
-| TC-022 | `package-lock.json` resolves every package from npmjs except `@agent-ix/semantic-core` (GitHub Packages) | Unit | P2 | FR-002-CON-4 | ✅ |
+| TC-022 | `package-lock.json` resolves every package, including pinned semantic-core 0.4.4 with integrity, from npmjs | Unit | P2 | FR-002-CON-4 | ✅ |
 | TC-024 | A generator run writes only under `schemas/`; every other tracked file is unchanged | Integration | P1 | FR-002-AC-10 | ✅ |
 | TC-025 | `make lint` fails naming a mutated shipped schema, so a `typespec/` edit that was never regenerated fails before push | Integration | P1 | FR-002-AC-11 | ✅ |
 | TC-026 | `.gitattributes` marks `*.json`, `*.tsp`, `*.yaml` and `*.md` `eol=lf` | Unit | P2 | FR-002-AC-12 | ✅ |

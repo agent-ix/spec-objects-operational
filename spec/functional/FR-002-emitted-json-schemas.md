@@ -25,10 +25,10 @@ fails the build.
 
 - `typespec/main.tsp`: namespace `AgentIx.SpecObjects.Operational`, decorated
   `@jsonSchema("https://schemas.agent-ix.org/agent-ix/spec-objects-operational/")`.
-- `@agent-ix/semantic-core` from GitHub Packages (`FieldDecl`, `TypeRef`,
-  `Multiplicity`, `ConstraintDecl`, `RelationDecl`, `OperationDecl`,
-  `ClauseRef`, `EnumValue`, `DefaultDecl`, `KernelScalar`, `Identifier`,
-  `SemanticId`, `UnitSymbol`).
+- `@agent-ix/semantic-core` 0.4.4 from the public npm registry (`FieldDecl`, `TypeRef`,
+  `TypeRefTarget`, `Multiplicity`, `ConstraintDecl`, `RelationDecl`,
+  `OperationDecl`, `ClauseRef`, `EnumValue`, `EnumValueName`, `DefaultDecl`,
+  `KernelScalar`, `Identifier`, `SemanticId`, `UnitSymbol`).
 - `@typespec/compiler`, `@typespec/json-schema` and `@agent-ix/semantic-core`
   as `devDependencies` in `package.json`: all three are build inputs of the
   emission step, and the published artifact is Markdown and JSON, so none is a
@@ -71,7 +71,7 @@ fails the build.
 | FR-002-CON-1 | The build SHALL use the official `@typespec/json-schema` emitter only; no custom emitter and no hand-edited emitted file. | Architecture | Inspection |
 | FR-002-CON-2 | The repository SHALL carry no `.npmrc`, no `file:` or `link:` dependency, and no upper version bound on the TypeSpec toolchain beyond the exact pin. | Packaging | Test |
 | FR-002-CON-3 | Emission SHALL be deterministic: two runs over one source produce byte-identical files. | Integrity | Test |
-| FR-002-CON-4 | `package-lock.json` SHALL resolve every public package from `registry.npmjs.org`; `@agent-ix/semantic-core` SHALL resolve from GitHub Packages (`npm.pkg.github.com`), the real, CI-reachable registry it is published to, matching the scope routing `agent-ix/nodejs-actions/setup-npmrc` configures in CI. | Packaging | Inspection |
+| FR-002-CON-4 | `package-lock.json` SHALL resolve every package from `registry.npmjs.org`; `@agent-ix/semantic-core` SHALL be pinned to 0.4.4 with its registry integrity recorded. | Packaging | Inspection |
 
 ## Acceptance Criteria
 

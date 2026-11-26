@@ -31,6 +31,8 @@ KERNEL_SCALARS = {
     "UUID",
     "Boolean",
     "Integer",
+    "Float32",
+    "Float64",
     "Decimal",
     "String",
     "Timestamp",
@@ -121,9 +123,11 @@ def test_under_the_bundle_index_every_skeleton_extracts_clean(
         ], (path.name, diagnostics)
         for decl in record.get("fields") or []:
             target = decl["type"]["target"]
-            if target in KERNEL_SCALARS:
+            if target["kind"] == "KernelScalar":
+                assert target["value"] in KERNEL_SCALARS, (path.name, target)
                 continue
-            assert target.startswith(TYPE_TARGET_PREFIX), (path.name, target)
+            assert target["kind"] == "SemanticId", (path.name, target)
+            assert target["value"].startswith(TYPE_TARGET_PREFIX), (path.name, target)
 
 
 @pytest.mark.trace("TC-063", "FR-005-AC-4")
@@ -257,7 +261,11 @@ def test_the_measurement_and_occurrence_rows_are_actually_extracted(
         quire_engine, semantic_module, bundle_index, SKELETONS_DIR / "incident.md"
     )
     assert [f for f in record["fields"] if f.get("identity")]
-    assert [f for f in record["fields"] if f["type"]["target"] == "Timestamp"]
+    assert [
+        f
+        for f in record["fields"]
+        if f["type"]["target"] == {"kind": "KernelScalar", "value": "Timestamp"}
+    ]
 
 
 #: Path shapes FR-005-CON-1 forbids: a corpus repository checkout, a vendored

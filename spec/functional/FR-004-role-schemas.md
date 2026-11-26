@@ -70,7 +70,7 @@ occurrence field at all.
 | configuration | `Configuration` | none (FR-006) | `fields`, `scopes: ScopeAssignment[]`, `configures: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, 0 identity fields (a parameter set is keyed by the configured object, not by itself) and 0 occurrence fields; `relations` forbidden |
 | migration | `Migration` | none (FR-006) | `fields`, `clauses`, `rollback: RollbackDecl`, `migrates: SemanticId[]`, `dependsOn: SemanticId[]`, `operations` | `fields` has ≥ 1 item, 0 identity fields and 0 occurrence fields (an `applied_at` row is execution state); `clauses` has ≥ 1 item — a migration declares the safety condition it preserves; `relations` forbidden |
 | sli | `Sli` | none (FR-006) | `fields`, `measures: SemanticId[]`, `clauses` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `operations` forbidden — an SLI declares a measurement, not behaviour |
-| slo | `Slo` | none (FR-006) | `fields`, `clauses`, `objective: ObjectiveDecl`, `constrains: SemanticId[]`, `dependsOn: SemanticId[]` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `clauses` has ≥ 1 item — the objective is an invariant over the SLI; `operations` forbidden |
+| slo | `Slo` | none (FR-006) | `fields`, `clauses`, kernel frontmatter `target: string` and `window: string`, `objective: ObjectiveDecl`, `constrains: SemanticId[]`, `dependsOn: SemanticId[]` | `fields` has ≥ 1 item, ≥ 1 measured field and 0 occurrence fields; `clauses` has ≥ 1 item — the objective is an invariant over the SLI; `operations` forbidden |
 | alert | `Alert` | none (FR-006) | `clauses`, `conditions: AlertCondition[]`, `escalatesTo: SemanticId[]`, `references: SemanticId[]`, `operations` | `clauses` has ≥ 1 item — an alert is a firing condition; `fields` forbidden |
 | runbook | `Runbook` | none (FR-006) | `operations`, `steps: RunbookStep[]`, `remediates: SemanticId[]`, `clauses` | `operations` has ≥ 1 item — a runbook declares the actions an operator performs; `fields` forbidden |
 | incident | `Incident` | none (FR-006) | `fields`, `evidence: EvidenceRef[]`, `hazards: SemanticId[]`, `anomalies: SemanticId[]`, `correlates: SemanticId[]`, `breaches: SemanticId[]`, `triggers: SemanticId[]`, `clauses`, `operations` | `fields` has ≥ 1 item, ≥ 1 identity field, and ≥ 1 occurrence field — an incident is an observed occurrence and is the only type that is |
@@ -81,6 +81,7 @@ occurrence field at all.
 - `RollbackDecl` SHALL be `{ strategy: RollbackStrategy, clause?: ClauseRef, doc?: string }` with `RollbackStrategy` the closed set `reversible`, `forward_only`, `compensating`.
 - `RolloutDecl` SHALL be `{ strategy: RolloutStrategy, rollback?: RollbackDecl, doc?: string }` with `RolloutStrategy` the closed set `recreate`, `rolling`, `blue_green`, `canary`.
 - `ObjectiveDecl` SHALL be `{ sli: SemanticId, target: float64, unit?: UnitSymbol, window: string matching the ISO 8601 duration form }`.
+- `Slo.target` and `Slo.window` SHALL accept optional strings because Quire extracts the required frontmatter kernel pair verbatim; they remain distinct from the optional typed `objective` until the Quoin mapping populates it. Non-string values SHALL fail.
 - `AlertCondition` SHALL be `{ name: Identifier, sli: SemanticId, comparator: Comparator, threshold: float64, window: string matching the ISO 8601 duration form, severity: AlertSeverity }` with `Comparator` the closed set `lt`, `lte`, `gt`, `gte` and `AlertSeverity` the closed set `page`, `ticket`, `info`.
 - `RunbookStep` SHALL be `{ name: Identifier, order: int32 ≥ 1, doc: string, operation?: Identifier }`.
 - `FeedbackChannel` SHALL be `{ name: Identifier, owner: SemanticId, doc?: string }`, where `owner` names the person or role accountable for reviewing what arrives through that channel.
@@ -143,6 +144,7 @@ occurrence field at all.
 | FR-004-AC-16 | An incident record carrying `hazards` and `anomalies` as `SemanticId` lists validates, as do empty lists and a record with neither key; a bare token in either list fails; the keys are declared by `Incident.json` and by no other shipped schema. | Test |
 | FR-004-AC-17 | A maintenance-plan record with one operation validates against `MaintenancePlan.json`, with `maintains`, `responsible` and `feedback_channels` accepted when present; a feedback channel without `owner` fails; a record carrying `fields`, `severity` or `acceptability` fails; a record with an empty `operations` array fails; `{}` validates. | Test |
 | FR-004-AC-18 | None of `severity`, `class`, `acceptability` or `score` is a declared property of `FeedbackChannel.json`, `MaintenancePlan.json` or `Incident.json`. | Test |
+| FR-004-AC-19 | An SLO declaration accepts optional string `target` and `window` kernel values alongside its fields and clauses, rejects non-string values for either key, and continues to accept an optional typed `objective`. | Test |
 
 ## Dependencies
 

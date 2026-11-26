@@ -77,7 +77,7 @@ functional and non-functional requirements.
 
 ## Dependencies (Contextual)
 
-Upstream: semantic-core on GitHub Packages, the module-manifest schema
+Upstream: semantic-core 0.4.4 on the public npm registry, the module-manifest schema
 with the `semantic` block, Quire with `extract_semantic`, and the
 `agent-ix/quoin#267` evidence-record family this module maps to. Downstream:
 the frontends that read this module's skeletons as fixtures.

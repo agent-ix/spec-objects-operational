@@ -111,8 +111,7 @@ SEMANTIC_CORE_VERSION = json.loads((REPO_ROOT / "package.json").read_text())[
     "devDependencies"
 ]["@agent-ix/semantic-core"]
 SEMANTIC_CORE_BASE = (
-    "https://schemas.agent-ix.org/semantic-core/"
-    f"{SEMANTIC_CORE_VERSION}/"
+    "https://schemas.agent-ix.org/semantic-core/" f"{SEMANTIC_CORE_VERSION}/"
 )
 
 
@@ -214,8 +213,7 @@ def schema_registry():
         pytest.fail(
             "@agent-ix/semantic-core is not installed, so `$ref`s to the grammar "
             "cannot resolve. Run `make semantic-install` (FR-002-CON-4: "
-            "`@agent-ix/semantic-core` resolves from GitHub Packages, the real "
-            "CI-reachable registry)."
+            "`@agent-ix/semantic-core` resolves from the public npm registry."
         )
     resources = []
     for path in sorted(SCHEMAS_DIR.glob("*.json")):

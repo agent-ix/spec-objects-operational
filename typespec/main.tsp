@@ -42,7 +42,10 @@ model IdentityField {
 
 /** Open marker: a `TypeRef` whose target is the kernel `Timestamp` scalar. */
 model OccurrenceTypeRef {
-  target: KernelScalar.Timestamp;
+  target: {
+    kind: "KernelScalar";
+    value: KernelScalar.Timestamp;
+  };
 }
 
 /**
@@ -382,6 +385,9 @@ model Slo {
   @minItems(1)
   clauses?: ClauseRef[];
 
+  /** Kernel frontmatter form retained until Quire maps it into `objective`. */
+  target?: string;
+  window?: string;
   objective?: ObjectiveDecl;
   constrains?: SemanticId[];
   dependsOn?: SemanticId[];
